@@ -1,109 +1,202 @@
 "use client";
 
 import {
+  Plus,
   MessageSquare,
-  FileText,
+  History,
   Search,
+  FolderKanban,
+  GraduationCap,
   Monitor,
   Settings,
-  Plus,
-  Bot,
+  PanelLeftClose,
+  PanelLeftOpen,
 } from "lucide-react";
 
 interface SidebarProps {
-  activePage: string;
-  onNavigate: (page: string) => void;
+  isOpen: boolean;
+  onToggle: () => void;
 }
 
 const menuItems = [
   {
-    id: "chat",
+    label: "Nova conversa",
+    icon: Plus,
+  },
+  {
     label: "Chat",
     icon: MessageSquare,
   },
   {
-    id: "cv",
-    label: "Currículo",
-    icon: FileText,
+    label: "Histórico",
+    icon: History,
   },
   {
-    id: "search",
-    label: "Pesquisa",
+    label: "Pesquisar",
     icon: Search,
   },
   {
-    id: "pc",
+    label: "Projetos",
+    icon: FolderKanban,
+  },
+  {
+    label: "Aprender",
+    icon: GraduationCap,
+  },
+  {
     label: "Meu PC",
     icon: Monitor,
   },
 ];
 
-export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
+export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
   return (
-    <aside className="flex w-[250px] shrink-0 flex-col border-r border-white/[0.06] bg-[#0c0d12]">
-      {/* Logo */}
-      <div className="flex h-[72px] items-center gap-3 border-b border-white/[0.06] px-5">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-black">
-          <Bot size={22} />
-        </div>
-
-        <div>
-          <h1 className="text-sm font-semibold">AI Agent</h1>
-
-          <p className="text-[11px] text-zinc-500">Personal Assistant</p>
-        </div>
-      </div>
-
-      {/* Nova conversa */}
-      <div className="p-4">
-        <button
-          onClick={() => onNavigate("chat")}
-          className="flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-medium transition hover:bg-white/[0.08]"
+    <aside
+      className={`
+        relative flex h-screen shrink-0 flex-col
+        border-r
+        border-[var(--sidebar-border)]
+        bg-[var(--sidebar-background)]
+        transition-all duration-300 ease-in-out
+        ${isOpen ? "w-64" : "w-[72px]"}
+      `}
+    >
+      {/* HEADER */}
+      <div
+        className={`
+          flex h-20 items-center
+          border-b
+          border-[var(--sidebar-border)]
+          px-4
+          ${isOpen ? "justify-between" : "justify-center"}
+        `}
+      >
+        {/* LOGO */}
+        <div
+          className={`
+            flex items-center gap-3
+            overflow-hidden
+            transition-all duration-300
+            ${isOpen ? "w-auto opacity-100" : "w-0 opacity-0"}
+          `}
         >
-          <Plus size={17} />
-          Nova conversa
+          <img
+            src="/assets/LOGO.png"
+            alt="SAITE"
+            className="h-9 w-auto object-contain"
+          />
+        </div>
+
+        {/* TOGGLE */}
+        <button
+          onClick={onToggle}
+          aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
+          className="
+            flex h-9 w-9 shrink-0 items-center
+            justify-center rounded-lg
+            text-[var(--foreground-secondary)]
+            transition
+            hover:bg-[var(--sidebar-hover)]
+            hover:text-[var(--foreground)]
+          "
+        >
+          {isOpen ? <PanelLeftClose size={19} /> : <PanelLeftOpen size={19} />}
         </button>
       </div>
 
-      {/* Navegação */}
-      <nav className="flex-1 space-y-1 px-3">
+      {/* MENU */}
+      <nav
+        className="
+          flex flex-1 flex-col
+          gap-1
+          overflow-hidden
+          px-3 py-5
+        "
+      >
         {menuItems.map((item) => {
           const Icon = item.icon;
-          const isActive = activePage === item.id;
 
           return (
             <button
-              key={item.id}
-              onClick={() => onNavigate(item.id)}
-              className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-sm transition ${
-                isActive
-                  ? "bg-white text-black"
-                  : "text-zinc-400 hover:bg-white/[0.05] hover:text-white"
-              }`}
+              key={item.label}
+              className={`
+                group flex h-11 items-center
+                rounded-xl
+                text-sm
+                text-[var(--foreground-secondary)]
+                transition-all duration-200
+                hover:bg-[var(--sidebar-hover)]
+                hover:text-[var(--foreground)]
+                ${isOpen ? "gap-3 px-3" : "justify-center px-0"}
+              `}
             >
-              <Icon size={18} />
-              {item.label}
+              <Icon
+                size={19}
+                strokeWidth={1.8}
+                className="
+                  shrink-0
+                  transition-transform
+                  duration-200
+                  group-hover:scale-105
+                "
+              />
+
+              <span
+                className={`
+                  whitespace-nowrap
+                  overflow-hidden
+                  transition-all duration-200
+                  ${isOpen ? "w-auto opacity-100" : "w-0 opacity-0"}
+                `}
+              >
+                {item.label}
+              </span>
             </button>
           );
         })}
       </nav>
 
-      {/* Perfil */}
-      <div className="border-t border-white/[0.06] p-3">
+      {/* FOOTER */}
+      <div
+        className="
+          border-t
+          border-[var(--sidebar-border)]
+          p-3
+        "
+      >
         <button
-          onClick={() => onNavigate("settings")}
-          className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-sm transition ${
-            activePage === "settings"
-              ? "bg-white text-black"
-              : "text-zinc-400 hover:bg-white/[0.05] hover:text-white"
-          }`}
+          className={`
+            group flex h-11 w-full
+            items-center rounded-xl
+            text-sm
+            text-[var(--foreground-secondary)]
+            transition
+            hover:bg-[var(--sidebar-hover)]
+            hover:text-[var(--foreground)]
+            ${isOpen ? "gap-3 px-3" : "justify-center px-0"}
+          `}
         >
-          <Settings size={18} />
+          <Settings
+            size={19}
+            strokeWidth={1.8}
+            className="
+              shrink-0
+              transition-transform
+              duration-300
+              group-hover:rotate-45
+            "
+          />
 
-          <div className="text-left">
-            <p className="font-medium">Configurações</p>
-            <p className="text-[10px] opacity-60">Personalizar agente</p>
-          </div>
+          <span
+            className={`
+              whitespace-nowrap
+              overflow-hidden
+              transition-all duration-200
+              ${isOpen ? "w-auto opacity-100" : "w-0 opacity-0"}
+            `}
+          >
+            Configurações
+          </span>
         </button>
       </div>
     </aside>

@@ -6,7 +6,7 @@ import ChatInput from "./ChatInput";
 import { sendMessage } from "@/services/api";
 
 interface Message {
-  id: number;
+  id: string;
   role: "user" | "assistant";
   content: string;
 }
@@ -26,7 +26,7 @@ export default function Chat() {
     setError(null);
 
     const userMessage: Message = {
-      id: Date.now(),
+      id: crypto.randomUUID(),
       role: "user",
       content: message,
     };
@@ -39,7 +39,7 @@ export default function Chat() {
       const response = await sendMessage(message);
 
       const assistantMessage: Message = {
-        id: Date.now() + 1,
+        id: crypto.randomUUID(),
         role: "assistant",
         content: response,
       };
@@ -55,31 +55,80 @@ export default function Chat() {
   }
 
   return (
-    <div className="flex h-full flex-col">
+    <main
+      className="
+        flex h-screen min-w-0 flex-1
+        flex-col
+        bg-[var(--background)]
+        transition-colors duration-200
+      "
+    >
+      {/* CHAT CONTENT */}
       <div className="flex-1 overflow-y-auto">
         {messages.length === 0 ? (
-          <div className="flex h-full flex-col items-center justify-center px-6">
+          <div
+            className="
+              flex h-full flex-col
+              items-center justify-center
+              px-6
+            "
+          >
             <AIAvatar size="lg" />
 
-            <h1 className="mt-6 text-2xl font-semibold">Como posso ajudar?</h1>
+            <h1
+              className="
+                mt-6
+                text-3xl
+                font-semibold
+                tracking-tight
+                text-[var(--foreground)]
+              "
+            >
+              Como posso ajudar?
+            </h1>
 
-            <p className="mt-2 max-w-md text-center text-sm leading-6 text-zinc-500">
-              Converse comigo, analise seu currículo, pesquise informações ou
-              consulte seu computador.
+            <p
+              className="
+                mt-3 max-w-md
+                text-center
+                text-sm leading-6
+                text-[var(--foreground-secondary)]
+              "
+            >
+              Converse comigo, pesquise informações, analise documentos ou
+              explore seus projetos.
             </p>
 
-            <div className="mt-8 grid max-w-xl grid-cols-2 gap-3">
+            <div
+              className="
+                mt-8 grid w-full
+                max-w-xl grid-cols-2 gap-3
+              "
+            >
               {[
                 "Analise meu currículo",
-                "Como está meu PC?",
                 "Pesquise sobre IA",
                 "Me ajude a programar",
+                "Quero aprender algo",
               ].map((suggestion) => (
                 <button
                   key={suggestion}
                   onClick={() => handleSendMessage(suggestion)}
                   disabled={isLoading}
-                  className="rounded-xl border border-white/[0.08] bg-white/[0.025] px-4 py-3 text-left text-xs text-zinc-400 transition hover:border-white/15 hover:bg-white/[0.05] hover:text-white disabled:opacity-50"
+                  className="
+                    rounded-xl
+                    border
+                    border-[var(--border)]
+                    bg-[var(--background-secondary)]
+                    px-4 py-3
+                    text-left text-xs
+                    text-[var(--foreground-secondary)]
+                    transition
+                    hover:border-[var(--border-hover)]
+                    hover:bg-[var(--background-tertiary)]
+                    hover:text-[var(--foreground)]
+                    disabled:opacity-50
+                  "
                 >
                   {suggestion}
                 </button>
@@ -87,22 +136,35 @@ export default function Chat() {
             </div>
           </div>
         ) : (
-          <div className="mx-auto max-w-3xl space-y-6 px-6 py-8">
+          <div
+            className="
+              mx-auto max-w-3xl
+              space-y-6
+              px-6 py-8
+            "
+          >
             {messages.map((message) => (
               <div
                 key={message.id}
-                className={`flex gap-3 ${
-                  message.role === "user" ? "justify-end" : "justify-start"
-                }`}
+                className={`
+                  flex gap-3
+                  ${message.role === "user" ? "justify-end" : "justify-start"}
+                `}
               >
                 {message.role === "assistant" && <AIAvatar size="sm" />}
 
                 <div
-                  className={`max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-6 ${
-                    message.role === "user"
-                      ? "bg-white text-black"
-                      : "border border-white/[0.08] bg-white/[0.03] text-zinc-300"
-                  }`}
+                  className={`
+                    max-w-[75%]
+                    rounded-2xl
+                    px-4 py-3
+                    text-sm leading-6
+                    ${
+                      message.role === "user"
+                        ? "bg-[var(--chat-user-background)] text-[var(--chat-user-foreground)]"
+                        : "border border-[var(--border)] bg-[var(--chat-ai-background)] text-[var(--chat-ai-foreground)]"
+                    }
+                  `}
                 >
                   {message.content}
                 </div>
@@ -110,21 +172,42 @@ export default function Chat() {
             ))}
 
             {isLoading && (
-              <div className="flex items-center gap-3">
+              <div
+                className="
+                  flex items-center gap-3
+                "
+              >
                 <AIAvatar size="sm" />
 
-                <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] px-4 py-3">
+                <div
+                  className="
+                    rounded-2xl
+                    border
+                    border-[var(--border)]
+                    bg-[var(--chat-ai-background)]
+                    px-4 py-3
+                  "
+                >
                   <div className="flex gap-1">
-                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-zinc-500" />
-                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-zinc-500 [animation-delay:150ms]" />
-                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-zinc-500 [animation-delay:300ms]" />
+                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--foreground-muted)]" />
+                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--foreground-muted)] [animation-delay:150ms]" />
+                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--foreground-muted)] [animation-delay:300ms]" />
                   </div>
                 </div>
               </div>
             )}
 
             {error && (
-              <div className="rounded-xl border border-red-500/20 bg-red-500/5 px-4 py-3 text-xs text-red-400">
+              <div
+                className="
+                  rounded-xl
+                  border border-[var(--danger)]/20
+                  bg-[var(--danger)]/5
+                  px-4 py-3
+                  text-xs
+                  text-[var(--danger)]
+                "
+              >
                 {error}
               </div>
             )}
@@ -132,7 +215,8 @@ export default function Chat() {
         )}
       </div>
 
+      {/* INPUT */}
       <ChatInput onSend={handleSendMessage} />
-    </div>
+    </main>
   );
 }
