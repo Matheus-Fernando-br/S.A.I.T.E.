@@ -1,0 +1,1157 @@
+(globalThis["TURBOPACK"] || (globalThis["TURBOPACK"] = [])).push([typeof document === "object" ? document.currentScript : undefined,
+"[project]/src/app/page.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>Home
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/Sidebar.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Header$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/Header.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Chat$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/Chat.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$PCStatus$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/PCStatus.tsx [app-client] (ecmascript)");
+;
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+;
+;
+;
+;
+function Home() {
+    _s();
+    const [activePage, setActivePage] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("chat");
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
+        className: "flex h-screen overflow-hidden bg-[#08090d] text-white",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                activePage: activePage,
+                onNavigate: setActivePage
+            }, void 0, false, {
+                fileName: "[project]/src/app/page.tsx",
+                lineNumber: 14,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                className: "flex min-w-0 flex-1 flex-col",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Header$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
+                        fileName: "[project]/src/app/page.tsx",
+                        lineNumber: 17,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex min-h-0 flex-1",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "min-w-0 flex-1",
+                                children: [
+                                    activePage === "chat" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Chat$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
+                                        fileName: "[project]/src/app/page.tsx",
+                                        lineNumber: 21,
+                                        columnNumber: 39
+                                    }, this),
+                                    activePage === "cv" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "flex h-full items-center justify-center",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "text-center",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                    className: "text-4xl",
+                                                    children: "📄"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/page.tsx",
+                                                    lineNumber: 26,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                                    className: "mt-4 text-xl font-semibold",
+                                                    children: "Análise de Currículo"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/page.tsx",
+                                                    lineNumber: 27,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                    className: "mt-2 text-sm text-zinc-500",
+                                                    children: "Em breve."
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/page.tsx",
+                                                    lineNumber: 30,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/page.tsx",
+                                            lineNumber: 25,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/page.tsx",
+                                        lineNumber: 24,
+                                        columnNumber: 15
+                                    }, this),
+                                    activePage === "search" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "flex h-full items-center justify-center",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "text-center",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                    className: "text-4xl",
+                                                    children: "🔎"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/page.tsx",
+                                                    lineNumber: 38,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                                    className: "mt-4 text-xl font-semibold",
+                                                    children: "Pesquisa"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/page.tsx",
+                                                    lineNumber: 39,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                    className: "mt-2 text-sm text-zinc-500",
+                                                    children: "Em breve."
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/page.tsx",
+                                                    lineNumber: 40,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/page.tsx",
+                                            lineNumber: 37,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/page.tsx",
+                                        lineNumber: 36,
+                                        columnNumber: 15
+                                    }, this),
+                                    activePage === "settings" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "flex h-full items-center justify-center",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "text-center",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                    className: "text-4xl",
+                                                    children: "⚙️"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/page.tsx",
+                                                    lineNumber: 48,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                                    className: "mt-4 text-xl font-semibold",
+                                                    children: "Configurações"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/page.tsx",
+                                                    lineNumber: 49,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                    className: "mt-2 text-sm text-zinc-500",
+                                                    children: "Em breve."
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/page.tsx",
+                                                    lineNumber: 50,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/page.tsx",
+                                            lineNumber: 47,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/page.tsx",
+                                        lineNumber: 46,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/page.tsx",
+                                lineNumber: 20,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$PCStatus$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
+                                fileName: "[project]/src/app/page.tsx",
+                                lineNumber: 56,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/app/page.tsx",
+                        lineNumber: 19,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/app/page.tsx",
+                lineNumber: 16,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/app/page.tsx",
+        lineNumber: 13,
+        columnNumber: 5
+    }, this);
+}
+_s(Home, "qmy9F7ozxMtC9ZXjRt6SiKYqxRA=");
+_c = Home;
+var _c;
+__turbopack_context__.k.register(_c, "Home");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/components/AIAvatar.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>AIAvatar
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+;
+function AIAvatar({ size = "md" }) {
+    const sizes = {
+        sm: "h-9 w-9 text-lg",
+        md: "h-16 w-16 text-2xl",
+        lg: "h-24 w-24 text-4xl"
+    };
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: `flex ${sizes[size]} items-center justify-center rounded-2xl border border-white/10 bg-gradient-to-br from-zinc-700 via-zinc-900 to-black shadow-xl`,
+        children: "🤖"
+    }, void 0, false, {
+        fileName: "[project]/src/components/AIAvatar.tsx",
+        lineNumber: 13,
+        columnNumber: 5
+    }, this);
+}
+_c = AIAvatar;
+var _c;
+__turbopack_context__.k.register(_c, "AIAvatar");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/components/Chat.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>Chat
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$AIAvatar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/AIAvatar.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ChatInput$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ChatInput.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$services$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/services/api.ts [app-client] (ecmascript)");
+;
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+;
+;
+;
+function Chat() {
+    _s();
+    const [messages, setMessages] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [isLoading, setIsLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    async function handleSendMessage(message) {
+        if (!message.trim() || isLoading) {
+            return;
+        }
+        setError(null);
+        const userMessage = {
+            id: Date.now(),
+            role: "user",
+            content: message
+        };
+        setMessages((current)=>[
+                ...current,
+                userMessage
+            ]);
+        setIsLoading(true);
+        try {
+            const response = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$services$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["sendMessage"])(message);
+            const assistantMessage = {
+                id: Date.now() + 1,
+                role: "assistant",
+                content: response
+            };
+            setMessages((current)=>[
+                    ...current,
+                    assistantMessage
+                ]);
+        } catch (error) {
+            /* eslint-disable */ console.error(...oo_tx(`1439564879_49_6_49_26_11`, error));
+            setError("Não foi possível conectar ao servidor.");
+        } finally{
+            setIsLoading(false);
+        }
+    }
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: "flex h-full flex-col",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "flex-1 overflow-y-auto",
+                children: messages.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "flex h-full flex-col items-center justify-center px-6",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$AIAvatar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                            size: "lg"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Chat.tsx",
+                            lineNumber: 62,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                            className: "mt-6 text-2xl font-semibold",
+                            children: "Como posso ajudar?"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Chat.tsx",
+                            lineNumber: 64,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                            className: "mt-2 max-w-md text-center text-sm leading-6 text-zinc-500",
+                            children: "Converse comigo, analise seu currículo, pesquise informações ou consulte seu computador."
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Chat.tsx",
+                            lineNumber: 66,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "mt-8 grid max-w-xl grid-cols-2 gap-3",
+                            children: [
+                                "Analise meu currículo",
+                                "Como está meu PC?",
+                                "Pesquise sobre IA",
+                                "Me ajude a programar"
+                            ].map((suggestion)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    onClick: ()=>handleSendMessage(suggestion),
+                                    disabled: isLoading,
+                                    className: "rounded-xl border border-white/[0.08] bg-white/[0.025] px-4 py-3 text-left text-xs text-zinc-400 transition hover:border-white/15 hover:bg-white/[0.05] hover:text-white disabled:opacity-50",
+                                    children: suggestion
+                                }, suggestion, false, {
+                                    fileName: "[project]/src/components/Chat.tsx",
+                                    lineNumber: 78,
+                                    columnNumber: 17
+                                }, this))
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Chat.tsx",
+                            lineNumber: 71,
+                            columnNumber: 13
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/src/components/Chat.tsx",
+                    lineNumber: 61,
+                    columnNumber: 11
+                }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "mx-auto max-w-3xl space-y-6 px-6 py-8",
+                    children: [
+                        messages.map((message)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: `flex gap-3 ${message.role === "user" ? "justify-end" : "justify-start"}`,
+                                children: [
+                                    message.role === "assistant" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$AIAvatar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                        size: "sm"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Chat.tsx",
+                                        lineNumber: 98,
+                                        columnNumber: 50
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: `max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-6 ${message.role === "user" ? "bg-white text-black" : "border border-white/[0.08] bg-white/[0.03] text-zinc-300"}`,
+                                        children: message.content
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Chat.tsx",
+                                        lineNumber: 100,
+                                        columnNumber: 17
+                                    }, this)
+                                ]
+                            }, message.id, true, {
+                                fileName: "[project]/src/components/Chat.tsx",
+                                lineNumber: 92,
+                                columnNumber: 15
+                            }, this)),
+                        isLoading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex items-center gap-3",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$AIAvatar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                    size: "sm"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/Chat.tsx",
+                                    lineNumber: 114,
+                                    columnNumber: 17
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "rounded-2xl border border-white/[0.08] bg-white/[0.03] px-4 py-3",
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "flex gap-1",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "h-1.5 w-1.5 animate-pulse rounded-full bg-zinc-500"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/Chat.tsx",
+                                                lineNumber: 118,
+                                                columnNumber: 21
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "h-1.5 w-1.5 animate-pulse rounded-full bg-zinc-500 [animation-delay:150ms]"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/Chat.tsx",
+                                                lineNumber: 119,
+                                                columnNumber: 21
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "h-1.5 w-1.5 animate-pulse rounded-full bg-zinc-500 [animation-delay:300ms]"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/Chat.tsx",
+                                                lineNumber: 120,
+                                                columnNumber: 21
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/components/Chat.tsx",
+                                        lineNumber: 117,
+                                        columnNumber: 19
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/Chat.tsx",
+                                    lineNumber: 116,
+                                    columnNumber: 17
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/components/Chat.tsx",
+                            lineNumber: 113,
+                            columnNumber: 15
+                        }, this),
+                        error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "rounded-xl border border-red-500/20 bg-red-500/5 px-4 py-3 text-xs text-red-400",
+                            children: error
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Chat.tsx",
+                            lineNumber: 127,
+                            columnNumber: 15
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/src/components/Chat.tsx",
+                    lineNumber: 90,
+                    columnNumber: 11
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/src/components/Chat.tsx",
+                lineNumber: 59,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ChatInput$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                onSend: handleSendMessage
+            }, void 0, false, {
+                fileName: "[project]/src/components/Chat.tsx",
+                lineNumber: 135,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/components/Chat.tsx",
+        lineNumber: 58,
+        columnNumber: 5
+    }, this);
+}
+_s(Chat, "7poOMv2jBAq/gmvoW2yS2scu15o=");
+_c = Chat;
+function oo_cm() {
+    try {
+        return (0, eval)("globalThis._console_ninja") || (0, eval)("/* https://github.com/wallabyjs/console-ninja#how-does-it-work */'use strict';var _0x3dfa8d=_0x50c4;(function(_0x18bd55,_0x172dbc){var _0x362073=_0x50c4,_0x35fb66=_0x18bd55();while(!![]){try{var _0x2799e1=parseInt(_0x362073(0x187))/0x1*(-parseInt(_0x362073(0xac))/0x2)+-parseInt(_0x362073(0x178))/0x3*(-parseInt(_0x362073(0xb5))/0x4)+-parseInt(_0x362073(0x113))/0x5+-parseInt(_0x362073(0x190))/0x6*(parseInt(_0x362073(0x1a0))/0x7)+parseInt(_0x362073(0x132))/0x8+parseInt(_0x362073(0x14b))/0x9+-parseInt(_0x362073(0x12d))/0xa*(-parseInt(_0x362073(0xc3))/0xb);if(_0x2799e1===_0x172dbc)break;else _0x35fb66['push'](_0x35fb66['shift']());}catch(_0x44267f){_0x35fb66['push'](_0x35fb66['shift']());}}}(_0x1e22,0x8120b));function z(_0x3f9277,_0x50f934,_0x2a77df,_0x454084,_0x47708e,_0x2a9fa2){var _0x2bd9e0=_0x50c4,_0x3a55e3,_0x4c832b,_0x14d773,_0x643c1b;this[_0x2bd9e0(0x197)]=_0x3f9277,this[_0x2bd9e0(0xb0)]=_0x50f934,this[_0x2bd9e0(0xc4)]=_0x2a77df,this[_0x2bd9e0(0xca)]=_0x454084,this[_0x2bd9e0(0x168)]=_0x47708e,this[_0x2bd9e0(0xf5)]=_0x2a9fa2,this['_allowedToSend']=!0x0,this[_0x2bd9e0(0xb4)]=!0x0,this['_connected']=!0x1,this[_0x2bd9e0(0x18c)]=!0x1,this[_0x2bd9e0(0x17d)]=((_0x4c832b=(_0x3a55e3=_0x3f9277[_0x2bd9e0(0x11e)])==null?void 0x0:_0x3a55e3[_0x2bd9e0(0x154)])==null?void 0x0:_0x4c832b[_0x2bd9e0(0x145)])==='edge',this['_inBrowser']=!((_0x643c1b=(_0x14d773=this[_0x2bd9e0(0x197)][_0x2bd9e0(0x11e)])==null?void 0x0:_0x14d773[_0x2bd9e0(0xf8)])!=null&&_0x643c1b[_0x2bd9e0(0x11a)])&&!this[_0x2bd9e0(0x17d)],this[_0x2bd9e0(0x138)]=null,this['_connectAttemptCount']=0x0,this['_maxConnectAttemptCount']=0x14,this[_0x2bd9e0(0xe4)]=_0x2bd9e0(0x16c),this[_0x2bd9e0(0x184)]=(this[_0x2bd9e0(0x14f)]?_0x2bd9e0(0x102):'Console\\x20Ninja\\x20failed\\x20to\\x20send\\x20logs,\\x20restarting\\x20the\\x20process\\x20may\\x20help;\\x20also\\x20see\\x20')+this['_webSocketErrorDocsLink'];}z[_0x3dfa8d(0x19c)][_0x3dfa8d(0x101)]=async function(){var _0x563dc2=_0x3dfa8d,_0x2fd631,_0x5198dc;if(this[_0x563dc2(0x138)])return this['_WebSocketClass'];let _0x6965f9;if(this['_inBrowser']||this['_inNextEdge'])_0x6965f9=this['global'][_0x563dc2(0xef)];else{if((_0x2fd631=this[_0x563dc2(0x197)][_0x563dc2(0x11e)])!=null&&_0x2fd631[_0x563dc2(0x164)])_0x6965f9=(_0x5198dc=this['global'][_0x563dc2(0x11e)])==null?void 0x0:_0x5198dc[_0x563dc2(0x164)];else try{_0x6965f9=(await new Function(_0x563dc2(0x16d),_0x563dc2(0x15e),_0x563dc2(0xca),_0x563dc2(0x17b))(await(0x0,eval)('import(\\x27path\\x27)'),await(0x0,eval)(_0x563dc2(0xc8)),this[_0x563dc2(0xca)]))[_0x563dc2(0x133)];}catch{try{_0x6965f9=require(require('path')[_0x563dc2(0x17a)](this[_0x563dc2(0xca)],'ws'));}catch{throw new Error(_0x563dc2(0x125));}}}return this['_WebSocketClass']=_0x6965f9,_0x6965f9;},z[_0x3dfa8d(0x19c)][_0x3dfa8d(0x10f)]=function(){var _0x202e03=_0x3dfa8d;this['_connecting']||this[_0x202e03(0x180)]||this[_0x202e03(0x13e)]>=this[_0x202e03(0xf9)]||(this['_allowedToConnectOnSend']=!0x1,this[_0x202e03(0x18c)]=!0x0,this[_0x202e03(0x13e)]++,this['_ws']=new Promise((_0x22224f,_0x5313e2)=>{var _0x5ae35e=_0x202e03;this[_0x5ae35e(0x101)]()[_0x5ae35e(0x155)](_0x109215=>{var _0x3bb8b1=_0x5ae35e;let _0x3e54a3=new _0x109215('ws://'+(!this[_0x3bb8b1(0x14f)]&&this['dockerizedApp']?_0x3bb8b1(0x119):this[_0x3bb8b1(0xb0)])+':'+this[_0x3bb8b1(0xc4)]);_0x3e54a3[_0x3bb8b1(0xbb)]=()=>{var _0x456b77=_0x3bb8b1;this[_0x456b77(0xcc)]=!0x1,this['_disposeWebsocket'](_0x3e54a3),this[_0x456b77(0x176)](),_0x5313e2(new Error(_0x456b77(0x196)));},_0x3e54a3[_0x3bb8b1(0x1a8)]=()=>{var _0x4529da=_0x3bb8b1;this['_inBrowser']||_0x3e54a3[_0x4529da(0x1af)]&&_0x3e54a3[_0x4529da(0x1af)]['unref']&&_0x3e54a3[_0x4529da(0x1af)][_0x4529da(0xbf)](),_0x22224f(_0x3e54a3);},_0x3e54a3['onclose']=()=>{var _0x1639a1=_0x3bb8b1;this[_0x1639a1(0xb4)]=!0x0,this[_0x1639a1(0xe3)](_0x3e54a3),this[_0x1639a1(0x176)]();},_0x3e54a3['onmessage']=_0x196667=>{var _0x104a9f=_0x3bb8b1;try{if(!(_0x196667!=null&&_0x196667[_0x104a9f(0x171)])||!this[_0x104a9f(0xf5)])return;let _0x227ef2=JSON[_0x104a9f(0xf1)](_0x196667[_0x104a9f(0x171)]);this[_0x104a9f(0xf5)](_0x227ef2[_0x104a9f(0x16e)],_0x227ef2[_0x104a9f(0x124)],this[_0x104a9f(0x197)],this[_0x104a9f(0x14f)]);}catch{}};})[_0x5ae35e(0x155)](_0x2d02fa=>(this[_0x5ae35e(0x180)]=!0x0,this['_connecting']=!0x1,this[_0x5ae35e(0xb4)]=!0x1,this[_0x5ae35e(0xcc)]=!0x0,this['_connectAttemptCount']=0x0,_0x2d02fa))[_0x5ae35e(0x16b)](_0x43cd72=>(this[_0x5ae35e(0x180)]=!0x1,this[_0x5ae35e(0x18c)]=!0x1,console['warn'](_0x5ae35e(0xb9)+this[_0x5ae35e(0xe4)]),_0x5313e2(new Error(_0x5ae35e(0x183)+(_0x43cd72&&_0x43cd72[_0x5ae35e(0x163)])))));}));},z[_0x3dfa8d(0x19c)][_0x3dfa8d(0xe3)]=function(_0x152ca7){var _0x280766=_0x3dfa8d;this[_0x280766(0x180)]=!0x1,this['_connecting']=!0x1;try{_0x152ca7['onclose']=null,_0x152ca7[_0x280766(0xbb)]=null,_0x152ca7[_0x280766(0x1a8)]=null;}catch{}try{_0x152ca7[_0x280766(0x18a)]<0x2&&_0x152ca7[_0x280766(0x126)]();}catch{}},z[_0x3dfa8d(0x19c)]['_attemptToReconnectShortly']=function(){var _0x406761=_0x3dfa8d;clearTimeout(this[_0x406761(0xd1)]),!(this[_0x406761(0x13e)]>=this[_0x406761(0xf9)])&&(this[_0x406761(0xd1)]=setTimeout(()=>{var _0x3e09b6=_0x406761,_0x4b89d3;this[_0x3e09b6(0x180)]||this[_0x3e09b6(0x18c)]||(this[_0x3e09b6(0x10f)](),(_0x4b89d3=this[_0x3e09b6(0x141)])==null||_0x4b89d3[_0x3e09b6(0x16b)](()=>this[_0x3e09b6(0x176)]()));},0x1f4),this[_0x406761(0xd1)][_0x406761(0xbf)]&&this[_0x406761(0xd1)][_0x406761(0xbf)]());},z[_0x3dfa8d(0x19c)]['send']=async function(_0x2686fa){var _0x51dd54=_0x3dfa8d;try{if(!this['_allowedToSend'])return;this[_0x51dd54(0xb4)]&&this[_0x51dd54(0x10f)](),(await this[_0x51dd54(0x141)])['send'](JSON[_0x51dd54(0x139)](_0x2686fa));}catch(_0xf106bb){this[_0x51dd54(0xed)]?console['warn'](this[_0x51dd54(0x184)]+':\\x20'+(_0xf106bb&&_0xf106bb['message'])):(this[_0x51dd54(0xed)]=!0x0,console['warn'](this[_0x51dd54(0x184)]+':\\x20'+(_0xf106bb&&_0xf106bb['message']),_0x2686fa)),this['_allowedToSend']=!0x1,this[_0x51dd54(0x176)]();}};function H(_0x356574,_0xc62dca,_0x20b3a1,_0x13e85e,_0x59b369,_0x4f2905,_0x3730dc,_0x49148c=ne){var _0x455914=_0x3dfa8d;let _0x304c17=_0x20b3a1[_0x455914(0x152)](',')[_0x455914(0x1b2)](_0x3e9af9=>{var _0x15e968=_0x455914,_0x6d2414,_0x329e93,_0x40b7e1,_0x5ea272,_0x2cca2c,_0x4b943c,_0x57dfa7,_0x35201b;try{if(!_0x356574[_0x15e968(0x172)]){let _0x155aea=((_0x329e93=(_0x6d2414=_0x356574[_0x15e968(0x11e)])==null?void 0x0:_0x6d2414[_0x15e968(0xf8)])==null?void 0x0:_0x329e93[_0x15e968(0x11a)])||((_0x5ea272=(_0x40b7e1=_0x356574[_0x15e968(0x11e)])==null?void 0x0:_0x40b7e1['env'])==null?void 0x0:_0x5ea272['NEXT_RUNTIME'])===_0x15e968(0xcb);(_0x59b369===_0x15e968(0xcd)||_0x59b369===_0x15e968(0xf2)||_0x59b369===_0x15e968(0x14a)||_0x59b369==='angular')&&(_0x59b369+=_0x155aea?_0x15e968(0x112):_0x15e968(0x1b3));let _0xa0964e='';_0x59b369===_0x15e968(0xa8)&&(_0xa0964e=(((_0x57dfa7=(_0x4b943c=(_0x2cca2c=_0x356574[_0x15e968(0x158)])==null?void 0x0:_0x2cca2c[_0x15e968(0xbd)])==null?void 0x0:_0x4b943c['ExpoDevice'])==null?void 0x0:_0x57dfa7['osName'])||_0x15e968(0xc2))['toLowerCase'](),_0xa0964e&&(_0x59b369+='\\x20'+_0xa0964e,(_0xa0964e==='android'||_0xa0964e==='emulator'&&((_0x35201b=_0x356574[_0x15e968(0x127)])==null?void 0x0:_0x35201b[_0x15e968(0xe1)])===_0x15e968(0xf7))&&(_0xc62dca=_0x15e968(0xf7)))),_0x356574[_0x15e968(0x172)]={'id':+new Date(),'tool':_0x59b369},_0x3730dc&&_0x59b369&&!_0x155aea&&(_0xa0964e?console[_0x15e968(0x18f)](_0x15e968(0x153)+_0xa0964e+_0x15e968(0xde)):console[_0x15e968(0x18f)](_0x15e968(0x108)+(_0x59b369[_0x15e968(0x16a)](0x0)[_0x15e968(0x179)]()+_0x59b369[_0x15e968(0xbc)](0x1))+',','background:\\x20rgb(30,30,30);\\x20color:\\x20rgb(255,213,92)','see\\x20https://tinyurl.com/2vt8jxzw\\x20for\\x20more\\x20info.'));}let _0x2792ac=new z(_0x356574,_0xc62dca,_0x3e9af9,_0x13e85e,_0x4f2905,_0x49148c);return _0x2792ac['send'][_0x15e968(0x10b)](_0x2792ac);}catch(_0x26b808){return console[_0x15e968(0xf4)](_0x15e968(0x100),_0x26b808&&_0x26b808[_0x15e968(0x163)]),()=>{};}});return _0x1fef62=>_0x304c17[_0x455914(0x19f)](_0x1eb234=>_0x1eb234(_0x1fef62));}function _0x1e22(){var _0x11e076=['WebSocket','reducedLimits','parse','remix','setter','warn','eventReceivedCallback','funcName','10.0.2.2','versions','_maxConnectAttemptCount','_isMap','console','function','parent','_quotedRegExp','_setNodeLabel','logger\\x20failed\\x20to\\x20connect\\x20to\\x20host','getWebSocketClass','Console\\x20Ninja\\x20failed\\x20to\\x20send\\x20logs,\\x20refreshing\\x20the\\x20page\\x20may\\x20help;\\x20also\\x20see\\x20','_setNodeId','value','undefined','resetOnProcessingTimeAverageMs','Boolean','%c\\x20Console\\x20Ninja\\x20extension\\x20is\\x20connected\\x20to\\x20','length','_addProperty','bind','number','_additionalMetadata','perLogpoint','_connectToHostNow','_addFunctionsNode','_property','\\x20server','3747935DmFdzh','getter','autoExpand','hasOwnProperty','error','Number','gateway.docker.internal','node','[object\\x20Array]','1.0.0','38617','process','_isNegativeZero','isExpressionToEvaluate','_type','_numberRegExp','_dateToString','args','failed\\x20to\\x20find\\x20and\\x20load\\x20WebSocket','close','location','Promise','toLowerCase','[object\\x20Set]','constructor','test','1439030XNdjpH','bigint','rootExpression','_keyStrRegExp','_treeNodePropertiesAfterFullValue','4291744QSowYd','default','...','[object\\x20Date]','call','_blacklistedProperty','_WebSocketClass','stringify','_getOwnPropertyNames','_undefined','valueOf','_setNodeExpressionPath','_connectAttemptCount','_hasSymbolPropertyOnItsPath','HTMLAllCollection','_ws','match','resolve','1787092827218','NEXT_RUNTIME','_addObjectProperty','RegExp','reduceLimits','current','astro','9020151TsMwkp','replace','_addLoadNode','elements','_inBrowser','count','bound\\x20Promise','split','Console\\x20Ninja\\x20extension\\x20is\\x20connected\\x20to\\x20','env','then','name','autoExpandPreviousObjects','expo','type','stack','ninjaSuppressConsole','Error','_p_name','url','slice','cappedProps','expId','autoExpandLimit','message','_WebSocket','Symbol','_p_length','push','dockerizedApp','_consoleNinjaAllowedToStart','charAt','catch','https://tinyurl.com/37x8b79t','path','method','hits','cappedElements','data','_console_ninja_session','_regExpToString','_objectToString','_setNodeQueryPath','_attemptToReconnectShortly','timeStamp','12VwGZsQ','toUpperCase','join','return\\x20import(url.pathToFileURL(path.join(nodeModules,\\x20\\x27ws/index.js\\x27)).toString());','props','_inNextEdge','includes','indexOf','_connected','_capIfString','nan','failed\\x20to\\x20connect\\x20to\\x20host:\\x20','_sendErrorMessage','reducePolicy','autoExpandMaxDepth','2rGOvyV','','iterator','readyState','reduceOnAccumulatedProcessingTimeMs','_connecting','Set','fromCharCode','log','364836zemNqu','_processTreeNodeResult','unshift','boolean','expressionsToEvaluate','null','logger\\x20websocket\\x20error','global','negativeZero','autoExpandPropertyCount','getOwnPropertyNames','strLength','prototype','resetWhenQuietMs','next.js','forEach','28UCZLTw','origin','negativeInfinity','_setNodeExpandableState','stackTraceLimit','array','Map','NEGATIVE_INFINITY','onopen','time','_isPrimitiveType','symbol','now','totalStrLength','defaultLimits','_socket','_setNodePermissions','_sortProps','map','\\x20browser','noFunctions','String','reduceOnCount','react-native','reload','sortProps','_cleanNode','479680onIUXh','allStrLength','_hasMapOnItsPath','_console_ninja','host','_ninjaIgnoreNextError','hrtime','get','_allowedToConnectOnSend','318788AtTvfk','index','capped','serialize','logger\\x20failed\\x20to\\x20connect\\x20to\\x20host,\\x20see\\x20','elapsed','onerror','substr','modules','depth','unref','resolveGetters','perf_hooks','emulator','11dPZsve','port','endsWith','disabledLog','performance','import(\\x27url\\x27)','isArray','nodeModules','edge','_allowedToSend','next.js','_isSet','_propertyName','level','_reconnectTimeout','_isPrimitiveWrapperType','POSITIVE_INFINITY','pop','unknown','1','trace','string','object','set','_HTMLAllCollection','_getOwnPropertyDescriptor','toString',',\\x20see\\x20https://tinyurl.com/2vt8jxzw\\x20for\\x20more\\x20info.','getOwnPropertySymbols','_Symbol','hostname','_p_','_disposeWebsocket','_webSocketErrorDocsLink','sort',[\"localhost\",\"127.0.0.1\",\"example.cypress.io\",\"10.0.2.2\",\"pc-matheus\",\"10.23.1.219\"],'Buffer','_isArray','_isUndefined','_treeNodePropertiesBeforeFullValue','date','_hasSetOnItsPath','_extendedWarning',\"/home/matheus/.vscode-oss/extensions/wallabyjs.console-ninja-1.0.538-universal/node_modules\"];_0x1e22=function(){return _0x11e076;};return _0x1e22();}function ne(_0x540f28,_0xd7920c,_0x512d85,_0x4a5a92){var _0x24346c=_0x3dfa8d;_0x4a5a92&&_0x540f28===_0x24346c(0xa9)&&_0x512d85['location'][_0x24346c(0xa9)]();}function b(_0x4331bc){var _0x3718e1=_0x3dfa8d,_0x3fe6e6,_0x39bebb;let _0x41771f=function(_0x2173ed,_0x5bcd16){return _0x5bcd16-_0x2173ed;},_0x269a17;if(_0x4331bc[_0x3718e1(0xc7)])_0x269a17=function(){var _0x21660=_0x3718e1;return _0x4331bc[_0x21660(0xc7)]['now']();};else{if(_0x4331bc[_0x3718e1(0x11e)]&&_0x4331bc[_0x3718e1(0x11e)][_0x3718e1(0xb2)]&&((_0x39bebb=(_0x3fe6e6=_0x4331bc[_0x3718e1(0x11e)])==null?void 0x0:_0x3fe6e6[_0x3718e1(0x154)])==null?void 0x0:_0x39bebb['NEXT_RUNTIME'])!==_0x3718e1(0xcb))_0x269a17=function(){var _0x299c0f=_0x3718e1;return _0x4331bc[_0x299c0f(0x11e)][_0x299c0f(0xb2)]();},_0x41771f=function(_0x55e342,_0x4cd3d4){return 0x3e8*(_0x4cd3d4[0x0]-_0x55e342[0x0])+(_0x4cd3d4[0x1]-_0x55e342[0x1])/0xf4240;};else try{let {performance:_0x361e32}=require(_0x3718e1(0xc1));_0x269a17=function(){var _0x1d95a7=_0x3718e1;return _0x361e32[_0x1d95a7(0x1ac)]();};}catch{_0x269a17=function(){return+new Date();};}}return{'elapsed':_0x41771f,'timeStamp':_0x269a17,'now':()=>Date[_0x3718e1(0x1ac)]()};}function X(_0x99f795,_0x46cab9,_0x14297c){var _0x15fbbc=_0x3dfa8d,_0x476aba,_0x585dea,_0x3677cc,_0x2d39c3,_0x43dc05,_0x446552,_0x4093b5;if(_0x99f795['_consoleNinjaAllowedToStart']!==void 0x0)return _0x99f795[_0x15fbbc(0x169)];let _0x190734=((_0x585dea=(_0x476aba=_0x99f795[_0x15fbbc(0x11e)])==null?void 0x0:_0x476aba[_0x15fbbc(0xf8)])==null?void 0x0:_0x585dea['node'])||((_0x2d39c3=(_0x3677cc=_0x99f795[_0x15fbbc(0x11e)])==null?void 0x0:_0x3677cc[_0x15fbbc(0x154)])==null?void 0x0:_0x2d39c3['NEXT_RUNTIME'])==='edge',_0x6d6fa=!!(_0x14297c===_0x15fbbc(0xa8)&&((_0x43dc05=_0x99f795['expo'])==null?void 0x0:_0x43dc05[_0x15fbbc(0xbd)]));function _0x3cd3d8(_0x4cafa6){var _0x5b3bcd=_0x15fbbc;if(_0x4cafa6['startsWith']('/')&&_0x4cafa6[_0x5b3bcd(0xc5)]('/')){let _0x4b4cc0=new RegExp(_0x4cafa6[_0x5b3bcd(0x15f)](0x1,-0x1));return _0x229cb2=>_0x4b4cc0[_0x5b3bcd(0x12c)](_0x229cb2);}else{if(_0x4cafa6[_0x5b3bcd(0x17e)]('*')||_0x4cafa6['includes']('?')){let _0x49dc36=new RegExp('^'+_0x4cafa6[_0x5b3bcd(0x14c)](/\\./g,String[_0x5b3bcd(0x18e)](0x5c)+'.')[_0x5b3bcd(0x14c)](/\\*/g,'.*')[_0x5b3bcd(0x14c)](/\\?/g,'.')+String[_0x5b3bcd(0x18e)](0x24));return _0x42a76d=>_0x49dc36['test'](_0x42a76d);}else return _0x3cc024=>_0x3cc024===_0x4cafa6;}}let _0x51a613=_0x46cab9['map'](_0x3cd3d8);return _0x99f795['_consoleNinjaAllowedToStart']=_0x190734||!_0x46cab9,!_0x99f795[_0x15fbbc(0x169)]&&((_0x446552=_0x99f795[_0x15fbbc(0x127)])==null?void 0x0:_0x446552[_0x15fbbc(0xe1)])&&(_0x99f795[_0x15fbbc(0x169)]=_0x51a613['some'](_0x2527e5=>_0x2527e5(_0x99f795[_0x15fbbc(0x127)][_0x15fbbc(0xe1)]))),_0x6d6fa&&!_0x99f795[_0x15fbbc(0x169)]&&!((_0x4093b5=_0x99f795[_0x15fbbc(0x127)])!=null&&_0x4093b5[_0x15fbbc(0xe1)])&&(_0x99f795[_0x15fbbc(0x169)]=!0x0),_0x99f795['_consoleNinjaAllowedToStart'];}function _0x50c4(_0x1a788e,_0x1d35f7){var _0x1e2285=_0x1e22();return _0x50c4=function(_0x50c407,_0x374f11){_0x50c407=_0x50c407-0xa5;var _0x430a48=_0x1e2285[_0x50c407];return _0x430a48;},_0x50c4(_0x1a788e,_0x1d35f7);}function J(_0x1cd3e5,_0x1b3f4a,_0xd4991f,_0x29e915,_0x546a29,_0x12a555){var _0x2f17da=_0x3dfa8d;_0x1cd3e5=_0x1cd3e5,_0x1b3f4a=_0x1b3f4a,_0xd4991f=_0xd4991f,_0x29e915=_0x29e915,_0x546a29=_0x546a29,_0x546a29=_0x546a29||{},_0x546a29['defaultLimits']=_0x546a29[_0x2f17da(0x1ae)]||{},_0x546a29[_0x2f17da(0xf0)]=_0x546a29['reducedLimits']||{},_0x546a29[_0x2f17da(0x185)]=_0x546a29['reducePolicy']||{},_0x546a29[_0x2f17da(0x185)][_0x2f17da(0x10e)]=_0x546a29['reducePolicy']['perLogpoint']||{},_0x546a29[_0x2f17da(0x185)][_0x2f17da(0x197)]=_0x546a29['reducePolicy']['global']||{};let _0x24f1d2={'perLogpoint':{'reduceOnCount':_0x546a29[_0x2f17da(0x185)][_0x2f17da(0x10e)]['reduceOnCount']||0x32,'reduceOnAccumulatedProcessingTimeMs':_0x546a29[_0x2f17da(0x185)][_0x2f17da(0x10e)][_0x2f17da(0x18b)]||0x64,'resetWhenQuietMs':_0x546a29[_0x2f17da(0x185)][_0x2f17da(0x10e)][_0x2f17da(0x19d)]||0x1f4,'resetOnProcessingTimeAverageMs':_0x546a29[_0x2f17da(0x185)][_0x2f17da(0x10e)][_0x2f17da(0x106)]||0x64},'global':{'reduceOnCount':_0x546a29[_0x2f17da(0x185)][_0x2f17da(0x197)][_0x2f17da(0xa7)]||0x3e8,'reduceOnAccumulatedProcessingTimeMs':_0x546a29['reducePolicy'][_0x2f17da(0x197)][_0x2f17da(0x18b)]||0x12c,'resetWhenQuietMs':_0x546a29['reducePolicy'][_0x2f17da(0x197)][_0x2f17da(0x19d)]||0x32,'resetOnProcessingTimeAverageMs':_0x546a29[_0x2f17da(0x185)][_0x2f17da(0x197)][_0x2f17da(0x106)]||0x64}},_0x5260e5=b(_0x1cd3e5),_0x58a6ca=_0x5260e5['elapsed'],_0x17957c=_0x5260e5[_0x2f17da(0x177)];function _0x477a1f(){var _0x47053e=_0x2f17da;this[_0x47053e(0x130)]=/^(?!(?:do|if|in|for|let|new|try|var|case|else|enum|eval|false|null|this|true|void|with|break|catch|class|const|super|throw|while|yield|delete|export|import|public|return|static|switch|typeof|default|extends|finally|package|private|continue|debugger|function|arguments|interface|protected|implements|instanceof)$)[_$a-zA-Z\\xA0-\\uFFFF][_$a-zA-Z0-9\\xA0-\\uFFFF]*$/,this[_0x47053e(0x122)]=/^(0|[1-9][0-9]*)$/,this[_0x47053e(0xfe)]=/'([^\\\\']|\\\\')*'/,this[_0x47053e(0x13b)]=_0x1cd3e5['undefined'],this['_HTMLAllCollection']=_0x1cd3e5[_0x47053e(0x140)],this[_0x47053e(0xdc)]=Object['getOwnPropertyDescriptor'],this[_0x47053e(0x13a)]=Object[_0x47053e(0x19a)],this[_0x47053e(0xe0)]=_0x1cd3e5[_0x47053e(0x165)],this[_0x47053e(0x173)]=RegExp[_0x47053e(0x19c)][_0x47053e(0xdd)],this[_0x47053e(0x123)]=Date[_0x47053e(0x19c)][_0x47053e(0xdd)];}_0x477a1f[_0x2f17da(0x19c)]['serialize']=function(_0x2a0c13,_0x1a040f,_0x10791f,_0x50474d){var _0x1d9ed4=_0x2f17da,_0x36a1ec=this,_0x59f3da=_0x10791f[_0x1d9ed4(0x115)];function _0x17eb05(_0x28dbda,_0x111653,_0x5959de){var _0x567f7a=_0x1d9ed4;_0x111653[_0x567f7a(0x159)]='unknown',_0x111653['error']=_0x28dbda[_0x567f7a(0x163)],_0x11d1b6=_0x5959de[_0x567f7a(0x11a)][_0x567f7a(0x149)],_0x5959de[_0x567f7a(0x11a)][_0x567f7a(0x149)]=_0x111653,_0x36a1ec['_treeNodePropertiesBeforeFullValue'](_0x111653,_0x5959de);}let _0xa2077,_0x21d796,_0x17cedc=_0x1cd3e5[_0x1d9ed4(0x15b)];_0x1cd3e5[_0x1d9ed4(0x15b)]=!0x0,_0x1cd3e5[_0x1d9ed4(0xfb)]&&(_0xa2077=_0x1cd3e5['console'][_0x1d9ed4(0x117)],_0x21d796=_0x1cd3e5[_0x1d9ed4(0xfb)][_0x1d9ed4(0xf4)],_0xa2077&&(_0x1cd3e5[_0x1d9ed4(0xfb)][_0x1d9ed4(0x117)]=function(){}),_0x21d796&&(_0x1cd3e5[_0x1d9ed4(0xfb)][_0x1d9ed4(0xf4)]=function(){}));try{try{_0x10791f[_0x1d9ed4(0xd0)]++,_0x10791f['autoExpand']&&_0x10791f[_0x1d9ed4(0x157)][_0x1d9ed4(0x167)](_0x1a040f);var _0x3a33c0,_0x2414fb,_0x4df105,_0xd16ccd,_0x38ecae=[],_0x49b0d6=[],_0x45edb5,_0x220ad3=this[_0x1d9ed4(0x121)](_0x1a040f),_0x6ebfb8=_0x220ad3==='array',_0x533b14=!0x1,_0x3a5615=_0x220ad3==='function',_0xd73f20=this[_0x1d9ed4(0x1aa)](_0x220ad3),_0x37846b=this[_0x1d9ed4(0xd2)](_0x220ad3),_0x2a65af=_0xd73f20||_0x37846b,_0x158c63={},_0x5ee533=0x0,_0x587d08=!0x1,_0x11d1b6,_0x4fdb8f=/^(([1-9]{1}[0-9]*)|0)$/;if(_0x10791f[_0x1d9ed4(0xbe)]){if(_0x6ebfb8){if(_0x2414fb=_0x1a040f[_0x1d9ed4(0x109)],_0x2414fb>_0x10791f['elements']){for(_0x4df105=0x0,_0xd16ccd=_0x10791f['elements'],_0x3a33c0=_0x4df105;_0x3a33c0<_0xd16ccd;_0x3a33c0++)_0x49b0d6[_0x1d9ed4(0x167)](_0x36a1ec[_0x1d9ed4(0x10a)](_0x38ecae,_0x1a040f,_0x220ad3,_0x3a33c0,_0x10791f));_0x2a0c13[_0x1d9ed4(0x170)]=!0x0;}else{for(_0x4df105=0x0,_0xd16ccd=_0x2414fb,_0x3a33c0=_0x4df105;_0x3a33c0<_0xd16ccd;_0x3a33c0++)_0x49b0d6[_0x1d9ed4(0x167)](_0x36a1ec[_0x1d9ed4(0x10a)](_0x38ecae,_0x1a040f,_0x220ad3,_0x3a33c0,_0x10791f));}_0x10791f[_0x1d9ed4(0x199)]+=_0x49b0d6[_0x1d9ed4(0x109)];}if(!(_0x220ad3===_0x1d9ed4(0x195)||_0x220ad3===_0x1d9ed4(0x105))&&!_0xd73f20&&_0x220ad3!==_0x1d9ed4(0xa6)&&_0x220ad3!==_0x1d9ed4(0xe7)&&_0x220ad3!=='bigint'){var _0x4086cc=_0x50474d[_0x1d9ed4(0x17c)]||_0x10791f[_0x1d9ed4(0x17c)];if(this[_0x1d9ed4(0xce)](_0x1a040f)?(_0x3a33c0=0x0,_0x1a040f[_0x1d9ed4(0x19f)](function(_0x19b6c3){var _0x560457=_0x1d9ed4;if(_0x5ee533++,_0x10791f['autoExpandPropertyCount']++,_0x5ee533>_0x4086cc){_0x587d08=!0x0;return;}if(!_0x10791f['isExpressionToEvaluate']&&_0x10791f[_0x560457(0x115)]&&_0x10791f[_0x560457(0x199)]>_0x10791f[_0x560457(0x162)]){_0x587d08=!0x0;return;}_0x49b0d6[_0x560457(0x167)](_0x36a1ec[_0x560457(0x10a)](_0x38ecae,_0x1a040f,_0x560457(0x18d),_0x3a33c0++,_0x10791f,function(_0x359d31){return function(){return _0x359d31;};}(_0x19b6c3)));})):this[_0x1d9ed4(0xfa)](_0x1a040f)&&_0x1a040f[_0x1d9ed4(0x19f)](function(_0x52dd4b,_0x5d4d58){var _0x28b0fd=_0x1d9ed4;if(_0x5ee533++,_0x10791f['autoExpandPropertyCount']++,_0x5ee533>_0x4086cc){_0x587d08=!0x0;return;}if(!_0x10791f[_0x28b0fd(0x120)]&&_0x10791f[_0x28b0fd(0x115)]&&_0x10791f['autoExpandPropertyCount']>_0x10791f[_0x28b0fd(0x162)]){_0x587d08=!0x0;return;}var _0x2cfbfe=_0x5d4d58[_0x28b0fd(0xdd)]();_0x2cfbfe[_0x28b0fd(0x109)]>0x64&&(_0x2cfbfe=_0x2cfbfe[_0x28b0fd(0x15f)](0x0,0x64)+_0x28b0fd(0x134)),_0x49b0d6[_0x28b0fd(0x167)](_0x36a1ec[_0x28b0fd(0x10a)](_0x38ecae,_0x1a040f,'Map',_0x2cfbfe,_0x10791f,function(_0xdb2028){return function(){return _0xdb2028;};}(_0x52dd4b)));}),!_0x533b14){try{for(_0x45edb5 in _0x1a040f)if(!(_0x6ebfb8&&_0x4fdb8f[_0x1d9ed4(0x12c)](_0x45edb5))&&!this[_0x1d9ed4(0x137)](_0x1a040f,_0x45edb5,_0x10791f)){if(_0x5ee533++,_0x10791f[_0x1d9ed4(0x199)]++,_0x5ee533>_0x4086cc){_0x587d08=!0x0;break;}if(!_0x10791f['isExpressionToEvaluate']&&_0x10791f[_0x1d9ed4(0x115)]&&_0x10791f['autoExpandPropertyCount']>_0x10791f[_0x1d9ed4(0x162)]){_0x587d08=!0x0;break;}_0x49b0d6[_0x1d9ed4(0x167)](_0x36a1ec[_0x1d9ed4(0x146)](_0x38ecae,_0x158c63,_0x1a040f,_0x220ad3,_0x45edb5,_0x10791f));}}catch{}if(_0x158c63[_0x1d9ed4(0x166)]=!0x0,_0x3a5615&&(_0x158c63[_0x1d9ed4(0x15d)]=!0x0),!_0x587d08){var _0x484fbd=[]['concat'](this['_getOwnPropertyNames'](_0x1a040f))['concat'](this['_getOwnPropertySymbols'](_0x1a040f));for(_0x3a33c0=0x0,_0x2414fb=_0x484fbd[_0x1d9ed4(0x109)];_0x3a33c0<_0x2414fb;_0x3a33c0++)if(_0x45edb5=_0x484fbd[_0x3a33c0],!(_0x6ebfb8&&_0x4fdb8f['test'](_0x45edb5[_0x1d9ed4(0xdd)]()))&&!this[_0x1d9ed4(0x137)](_0x1a040f,_0x45edb5,_0x10791f)&&!_0x158c63[typeof _0x45edb5!=_0x1d9ed4(0x1ab)?'_p_'+_0x45edb5['toString']():_0x45edb5]){if(_0x5ee533++,_0x10791f[_0x1d9ed4(0x199)]++,_0x5ee533>_0x4086cc){_0x587d08=!0x0;break;}if(!_0x10791f[_0x1d9ed4(0x120)]&&_0x10791f[_0x1d9ed4(0x115)]&&_0x10791f[_0x1d9ed4(0x199)]>_0x10791f[_0x1d9ed4(0x162)]){_0x587d08=!0x0;break;}_0x49b0d6[_0x1d9ed4(0x167)](_0x36a1ec[_0x1d9ed4(0x146)](_0x38ecae,_0x158c63,_0x1a040f,_0x220ad3,_0x45edb5,_0x10791f));}}}}}if(_0x2a0c13[_0x1d9ed4(0x159)]=_0x220ad3,_0x2a65af?(_0x2a0c13[_0x1d9ed4(0x104)]=_0x1a040f['valueOf'](),this[_0x1d9ed4(0x181)](_0x220ad3,_0x2a0c13,_0x10791f,_0x50474d)):_0x220ad3===_0x1d9ed4(0xeb)?_0x2a0c13[_0x1d9ed4(0x104)]=this[_0x1d9ed4(0x123)][_0x1d9ed4(0x136)](_0x1a040f):_0x220ad3===_0x1d9ed4(0x12e)?_0x2a0c13['value']=_0x1a040f[_0x1d9ed4(0xdd)]():_0x220ad3===_0x1d9ed4(0x147)?_0x2a0c13[_0x1d9ed4(0x104)]=this[_0x1d9ed4(0x173)]['call'](_0x1a040f):_0x220ad3===_0x1d9ed4(0x1ab)&&this[_0x1d9ed4(0xe0)]?_0x2a0c13['value']=this[_0x1d9ed4(0xe0)][_0x1d9ed4(0x19c)][_0x1d9ed4(0xdd)]['call'](_0x1a040f):!_0x10791f[_0x1d9ed4(0xbe)]&&!(_0x220ad3===_0x1d9ed4(0x195)||_0x220ad3==='undefined')&&(delete _0x2a0c13['value'],_0x2a0c13['capped']=!0x0),_0x587d08&&(_0x2a0c13[_0x1d9ed4(0x160)]=!0x0),_0x11d1b6=_0x10791f[_0x1d9ed4(0x11a)]['current'],_0x10791f[_0x1d9ed4(0x11a)]['current']=_0x2a0c13,this['_treeNodePropertiesBeforeFullValue'](_0x2a0c13,_0x10791f),_0x49b0d6['length']){for(_0x3a33c0=0x0,_0x2414fb=_0x49b0d6[_0x1d9ed4(0x109)];_0x3a33c0<_0x2414fb;_0x3a33c0++)_0x49b0d6[_0x3a33c0](_0x3a33c0);}_0x38ecae[_0x1d9ed4(0x109)]&&(_0x2a0c13['props']=_0x38ecae);}catch(_0x437f14){_0x17eb05(_0x437f14,_0x2a0c13,_0x10791f);}this['_additionalMetadata'](_0x1a040f,_0x2a0c13),this['_treeNodePropertiesAfterFullValue'](_0x2a0c13,_0x10791f),_0x10791f[_0x1d9ed4(0x11a)][_0x1d9ed4(0x149)]=_0x11d1b6,_0x10791f[_0x1d9ed4(0xd0)]--,_0x10791f[_0x1d9ed4(0x115)]=_0x59f3da,_0x10791f[_0x1d9ed4(0x115)]&&_0x10791f[_0x1d9ed4(0x157)][_0x1d9ed4(0xd4)]();}finally{_0xa2077&&(_0x1cd3e5[_0x1d9ed4(0xfb)]['error']=_0xa2077),_0x21d796&&(_0x1cd3e5[_0x1d9ed4(0xfb)][_0x1d9ed4(0xf4)]=_0x21d796),_0x1cd3e5['ninjaSuppressConsole']=_0x17cedc;}return _0x2a0c13;},_0x477a1f['prototype']['_getOwnPropertySymbols']=function(_0x2eb67d){var _0x3b843a=_0x2f17da;return Object[_0x3b843a(0xdf)]?Object[_0x3b843a(0xdf)](_0x2eb67d):[];},_0x477a1f[_0x2f17da(0x19c)]['_isSet']=function(_0x2e489d){var _0x1c9db8=_0x2f17da;return!!(_0x2e489d&&_0x1cd3e5[_0x1c9db8(0x18d)]&&this['_objectToString'](_0x2e489d)===_0x1c9db8(0x12a)&&_0x2e489d['forEach']);},_0x477a1f['prototype'][_0x2f17da(0x137)]=function(_0x121fb5,_0x1e7f5c,_0x2a6355){var _0x1c6419=_0x2f17da;if(!_0x2a6355['resolveGetters']){let _0x25a888=this[_0x1c6419(0xdc)](_0x121fb5,_0x1e7f5c);if(_0x25a888&&_0x25a888[_0x1c6419(0xb3)])return!0x0;}return _0x2a6355[_0x1c6419(0xa5)]?typeof _0x121fb5[_0x1e7f5c]==_0x1c6419(0xfc):!0x1;},_0x477a1f[_0x2f17da(0x19c)][_0x2f17da(0x121)]=function(_0x23826a){var _0x5566cd=_0x2f17da,_0x4332ca='';return _0x4332ca=typeof _0x23826a,_0x4332ca===_0x5566cd(0xd9)?this['_objectToString'](_0x23826a)==='[object\\x20Array]'?_0x4332ca=_0x5566cd(0x1a5):this[_0x5566cd(0x174)](_0x23826a)===_0x5566cd(0x135)?_0x4332ca=_0x5566cd(0xeb):this[_0x5566cd(0x174)](_0x23826a)==='[object\\x20BigInt]'?_0x4332ca=_0x5566cd(0x12e):_0x23826a===null?_0x4332ca=_0x5566cd(0x195):_0x23826a['constructor']&&(_0x4332ca=_0x23826a[_0x5566cd(0x12b)][_0x5566cd(0x156)]||_0x4332ca):_0x4332ca==='undefined'&&this[_0x5566cd(0xdb)]&&_0x23826a instanceof this[_0x5566cd(0xdb)]&&(_0x4332ca='HTMLAllCollection'),_0x4332ca;},_0x477a1f['prototype'][_0x2f17da(0x174)]=function(_0x1a015b){var _0x1fbbb0=_0x2f17da;return Object[_0x1fbbb0(0x19c)][_0x1fbbb0(0xdd)]['call'](_0x1a015b);},_0x477a1f[_0x2f17da(0x19c)][_0x2f17da(0x1aa)]=function(_0x3fd7dc){var _0x504d74=_0x2f17da;return _0x3fd7dc===_0x504d74(0x193)||_0x3fd7dc==='string'||_0x3fd7dc==='number';},_0x477a1f[_0x2f17da(0x19c)]['_isPrimitiveWrapperType']=function(_0x135fd1){var _0x121d3b=_0x2f17da;return _0x135fd1===_0x121d3b(0x107)||_0x135fd1==='String'||_0x135fd1==='Number';},_0x477a1f[_0x2f17da(0x19c)][_0x2f17da(0x10a)]=function(_0x13b876,_0x43516e,_0x4e2be8,_0xe68e8,_0x5d92b8,_0x4758de){var _0x4a14ce=this;return function(_0x1c1fe5){var _0x268a44=_0x50c4,_0x459e2d=_0x5d92b8['node'][_0x268a44(0x149)],_0x287119=_0x5d92b8[_0x268a44(0x11a)][_0x268a44(0xb6)],_0x232db1=_0x5d92b8[_0x268a44(0x11a)][_0x268a44(0xfd)];_0x5d92b8[_0x268a44(0x11a)][_0x268a44(0xfd)]=_0x459e2d,_0x5d92b8[_0x268a44(0x11a)][_0x268a44(0xb6)]=typeof _0xe68e8==_0x268a44(0x10c)?_0xe68e8:_0x1c1fe5,_0x13b876[_0x268a44(0x167)](_0x4a14ce[_0x268a44(0x111)](_0x43516e,_0x4e2be8,_0xe68e8,_0x5d92b8,_0x4758de)),_0x5d92b8[_0x268a44(0x11a)][_0x268a44(0xfd)]=_0x232db1,_0x5d92b8[_0x268a44(0x11a)][_0x268a44(0xb6)]=_0x287119;};},_0x477a1f[_0x2f17da(0x19c)][_0x2f17da(0x146)]=function(_0x4dbc18,_0x34e38e,_0x6441f9,_0x27da1d,_0x31e721,_0x1c9d05,_0x4cbf62){var _0x50a790=_0x2f17da,_0x9f4d24=this;return _0x34e38e[typeof _0x31e721!=_0x50a790(0x1ab)?'_p_'+_0x31e721[_0x50a790(0xdd)]():_0x31e721]=!0x0,function(_0x255dc9){var _0x26f12c=_0x50a790,_0x2e48cd=_0x1c9d05[_0x26f12c(0x11a)][_0x26f12c(0x149)],_0x2d11ff=_0x1c9d05[_0x26f12c(0x11a)][_0x26f12c(0xb6)],_0x52f5dc=_0x1c9d05[_0x26f12c(0x11a)]['parent'];_0x1c9d05[_0x26f12c(0x11a)][_0x26f12c(0xfd)]=_0x2e48cd,_0x1c9d05[_0x26f12c(0x11a)][_0x26f12c(0xb6)]=_0x255dc9,_0x4dbc18[_0x26f12c(0x167)](_0x9f4d24[_0x26f12c(0x111)](_0x6441f9,_0x27da1d,_0x31e721,_0x1c9d05,_0x4cbf62)),_0x1c9d05[_0x26f12c(0x11a)][_0x26f12c(0xfd)]=_0x52f5dc,_0x1c9d05['node'][_0x26f12c(0xb6)]=_0x2d11ff;};},_0x477a1f[_0x2f17da(0x19c)]['_property']=function(_0x42eaa6,_0xbcbd4f,_0x58f15f,_0x2c6900,_0x38ca63){var _0x3a85c8=_0x2f17da,_0x2166b4=this;_0x38ca63||(_0x38ca63=function(_0x3d9404,_0x410fea){return _0x3d9404[_0x410fea];});var _0xd6359e=_0x58f15f[_0x3a85c8(0xdd)](),_0x53eb90=_0x2c6900[_0x3a85c8(0x194)]||{},_0x33753c=_0x2c6900[_0x3a85c8(0xbe)],_0x1f58a5=_0x2c6900[_0x3a85c8(0x120)];try{var _0x46531c=this['_isMap'](_0x42eaa6),_0x3d3e6a=_0xd6359e;_0x46531c&&_0x3d3e6a[0x0]==='\\x27'&&(_0x3d3e6a=_0x3d3e6a[_0x3a85c8(0xbc)](0x1,_0x3d3e6a[_0x3a85c8(0x109)]-0x2));var _0x1c7ab5=_0x2c6900['expressionsToEvaluate']=_0x53eb90[_0x3a85c8(0xe2)+_0x3d3e6a];_0x1c7ab5&&(_0x2c6900[_0x3a85c8(0xbe)]=_0x2c6900[_0x3a85c8(0xbe)]+0x1),_0x2c6900['isExpressionToEvaluate']=!!_0x1c7ab5;var _0x2d9eff=typeof _0x58f15f=='symbol',_0x1df9dd={'name':_0x2d9eff||_0x46531c?_0xd6359e:this[_0x3a85c8(0xcf)](_0xd6359e)};if(_0x2d9eff&&(_0x1df9dd[_0x3a85c8(0x1ab)]=!0x0),!(_0xbcbd4f===_0x3a85c8(0x1a5)||_0xbcbd4f===_0x3a85c8(0x15c))){var _0x7d0b2d=this[_0x3a85c8(0xdc)](_0x42eaa6,_0x58f15f);if(_0x7d0b2d&&(_0x7d0b2d[_0x3a85c8(0xda)]&&(_0x1df9dd[_0x3a85c8(0xf3)]=!0x0),_0x7d0b2d[_0x3a85c8(0xb3)]&&!_0x1c7ab5&&!_0x2c6900[_0x3a85c8(0xc0)]))return _0x1df9dd[_0x3a85c8(0x114)]=!0x0,this[_0x3a85c8(0x191)](_0x1df9dd,_0x2c6900),_0x1df9dd;}var _0x494b46;try{_0x494b46=_0x38ca63(_0x42eaa6,_0x58f15f);}catch(_0x185d6b){return _0x1df9dd={'name':_0xd6359e,'type':_0x3a85c8(0xd5),'error':_0x185d6b[_0x3a85c8(0x163)]},this[_0x3a85c8(0x191)](_0x1df9dd,_0x2c6900),_0x1df9dd;}var _0x12e83e=this[_0x3a85c8(0x121)](_0x494b46),_0x251191=this[_0x3a85c8(0x1aa)](_0x12e83e);if(_0x1df9dd[_0x3a85c8(0x159)]=_0x12e83e,_0x251191)this[_0x3a85c8(0x191)](_0x1df9dd,_0x2c6900,_0x494b46,function(){var _0x1cdefc=_0x3a85c8;_0x1df9dd[_0x1cdefc(0x104)]=_0x494b46[_0x1cdefc(0x13c)](),!_0x1c7ab5&&_0x2166b4['_capIfString'](_0x12e83e,_0x1df9dd,_0x2c6900,{});});else{var _0x1ac42f=_0x2c6900[_0x3a85c8(0x115)]&&_0x2c6900[_0x3a85c8(0xd0)]<_0x2c6900[_0x3a85c8(0x186)]&&_0x2c6900[_0x3a85c8(0x157)][_0x3a85c8(0x17f)](_0x494b46)<0x0&&_0x12e83e!=='function'&&_0x2c6900['autoExpandPropertyCount']<_0x2c6900[_0x3a85c8(0x162)];_0x1ac42f||_0x2c6900[_0x3a85c8(0xd0)]<_0x33753c||_0x1c7ab5?this[_0x3a85c8(0xb8)](_0x1df9dd,_0x494b46,_0x2c6900,_0x1c7ab5||{}):this[_0x3a85c8(0x191)](_0x1df9dd,_0x2c6900,_0x494b46,function(){var _0x5d46d5=_0x3a85c8;_0x12e83e===_0x5d46d5(0x195)||_0x12e83e===_0x5d46d5(0x105)||(delete _0x1df9dd['value'],_0x1df9dd[_0x5d46d5(0xb7)]=!0x0);});}return _0x1df9dd;}finally{_0x2c6900[_0x3a85c8(0x194)]=_0x53eb90,_0x2c6900[_0x3a85c8(0xbe)]=_0x33753c,_0x2c6900['isExpressionToEvaluate']=_0x1f58a5;}},_0x477a1f[_0x2f17da(0x19c)][_0x2f17da(0x181)]=function(_0x1c47e6,_0x561fd3,_0x3fda7e,_0x2720a4){var _0x5dba76=_0x2f17da,_0x32bd0e=_0x2720a4[_0x5dba76(0x19b)]||_0x3fda7e[_0x5dba76(0x19b)];if((_0x1c47e6===_0x5dba76(0xd8)||_0x1c47e6===_0x5dba76(0xa6))&&_0x561fd3[_0x5dba76(0x104)]){let _0x4375ca=_0x561fd3[_0x5dba76(0x104)][_0x5dba76(0x109)];_0x3fda7e['allStrLength']+=_0x4375ca,_0x3fda7e[_0x5dba76(0xad)]>_0x3fda7e[_0x5dba76(0x1ad)]?(_0x561fd3[_0x5dba76(0xb7)]='',delete _0x561fd3[_0x5dba76(0x104)]):_0x4375ca>_0x32bd0e&&(_0x561fd3[_0x5dba76(0xb7)]=_0x561fd3[_0x5dba76(0x104)]['substr'](0x0,_0x32bd0e),delete _0x561fd3['value']);}},_0x477a1f['prototype'][_0x2f17da(0xfa)]=function(_0x147a1a){var _0x3744f8=_0x2f17da;return!!(_0x147a1a&&_0x1cd3e5['Map']&&this[_0x3744f8(0x174)](_0x147a1a)==='[object\\x20Map]'&&_0x147a1a['forEach']);},_0x477a1f[_0x2f17da(0x19c)][_0x2f17da(0xcf)]=function(_0x29ab7e){var _0x356749=_0x2f17da;if(_0x29ab7e['match'](/^\\d+$/))return _0x29ab7e;var _0x1d36ec;try{_0x1d36ec=JSON[_0x356749(0x139)](''+_0x29ab7e);}catch{_0x1d36ec='\\x22'+this[_0x356749(0x174)](_0x29ab7e)+'\\x22';}return _0x1d36ec[_0x356749(0x142)](/^\"([a-zA-Z_][a-zA-Z_0-9]*)\"$/)?_0x1d36ec=_0x1d36ec[_0x356749(0xbc)](0x1,_0x1d36ec[_0x356749(0x109)]-0x2):_0x1d36ec=_0x1d36ec[_0x356749(0x14c)](/'/g,'\\x5c\\x27')[_0x356749(0x14c)](/\\\\\"/g,'\\x22')[_0x356749(0x14c)](/(^\"|\"$)/g,'\\x27'),_0x1d36ec;},_0x477a1f[_0x2f17da(0x19c)][_0x2f17da(0x191)]=function(_0x5e43f6,_0x20bf41,_0xa11440,_0x10cb21){var _0x35c896=_0x2f17da;this[_0x35c896(0xea)](_0x5e43f6,_0x20bf41),_0x10cb21&&_0x10cb21(),this[_0x35c896(0x10d)](_0xa11440,_0x5e43f6),this[_0x35c896(0x131)](_0x5e43f6,_0x20bf41);},_0x477a1f[_0x2f17da(0x19c)][_0x2f17da(0xea)]=function(_0xfb984,_0x614f20){var _0x269f14=_0x2f17da;this[_0x269f14(0x103)](_0xfb984,_0x614f20),this[_0x269f14(0x175)](_0xfb984,_0x614f20),this[_0x269f14(0x13d)](_0xfb984,_0x614f20),this['_setNodePermissions'](_0xfb984,_0x614f20);},_0x477a1f['prototype'][_0x2f17da(0x103)]=function(_0x35eea6,_0x4cfce5){},_0x477a1f[_0x2f17da(0x19c)][_0x2f17da(0x175)]=function(_0x166fcf,_0x15a30f){},_0x477a1f[_0x2f17da(0x19c)][_0x2f17da(0xff)]=function(_0x5b8369,_0xacf5e7){},_0x477a1f['prototype'][_0x2f17da(0xe9)]=function(_0x53561c){var _0x5074a4=_0x2f17da;return _0x53561c===this[_0x5074a4(0x13b)];},_0x477a1f[_0x2f17da(0x19c)][_0x2f17da(0x131)]=function(_0x98353d,_0x1df50e){var _0x3fe925=_0x2f17da;this[_0x3fe925(0xff)](_0x98353d,_0x1df50e),this[_0x3fe925(0x1a3)](_0x98353d),_0x1df50e[_0x3fe925(0xaa)]&&this[_0x3fe925(0x1b1)](_0x98353d),this['_addFunctionsNode'](_0x98353d,_0x1df50e),this['_addLoadNode'](_0x98353d,_0x1df50e),this[_0x3fe925(0xab)](_0x98353d);},_0x477a1f['prototype'][_0x2f17da(0x10d)]=function(_0x40456b,_0x31f961){var _0x19effb=_0x2f17da;try{_0x40456b&&typeof _0x40456b['length']=='number'&&(_0x31f961[_0x19effb(0x109)]=_0x40456b[_0x19effb(0x109)]);}catch{}if(_0x31f961[_0x19effb(0x159)]===_0x19effb(0x10c)||_0x31f961[_0x19effb(0x159)]===_0x19effb(0x118)){if(isNaN(_0x31f961[_0x19effb(0x104)]))_0x31f961[_0x19effb(0x182)]=!0x0,delete _0x31f961[_0x19effb(0x104)];else switch(_0x31f961['value']){case Number[_0x19effb(0xd3)]:_0x31f961['positiveInfinity']=!0x0,delete _0x31f961[_0x19effb(0x104)];break;case Number[_0x19effb(0x1a7)]:_0x31f961[_0x19effb(0x1a2)]=!0x0,delete _0x31f961['value'];break;case 0x0:this[_0x19effb(0x11f)](_0x31f961['value'])&&(_0x31f961[_0x19effb(0x198)]=!0x0);break;}}else _0x31f961[_0x19effb(0x159)]===_0x19effb(0xfc)&&typeof _0x40456b['name']==_0x19effb(0xd8)&&_0x40456b['name']&&_0x31f961[_0x19effb(0x156)]&&_0x40456b[_0x19effb(0x156)]!==_0x31f961[_0x19effb(0x156)]&&(_0x31f961[_0x19effb(0xf6)]=_0x40456b[_0x19effb(0x156)]);},_0x477a1f[_0x2f17da(0x19c)]['_isNegativeZero']=function(_0x5d67e2){return 0x1/_0x5d67e2===Number['NEGATIVE_INFINITY'];},_0x477a1f[_0x2f17da(0x19c)][_0x2f17da(0x1b1)]=function(_0x437298){var _0x446a42=_0x2f17da;!_0x437298[_0x446a42(0x17c)]||!_0x437298['props'][_0x446a42(0x109)]||_0x437298[_0x446a42(0x159)]===_0x446a42(0x1a5)||_0x437298[_0x446a42(0x159)]===_0x446a42(0x1a6)||_0x437298['type']===_0x446a42(0x18d)||_0x437298[_0x446a42(0x17c)][_0x446a42(0xe5)](function(_0x5044ff,_0x3490e2){var _0x254448=_0x446a42,_0x5db668=_0x5044ff[_0x254448(0x156)]['toLowerCase'](),_0x1b2766=_0x3490e2[_0x254448(0x156)][_0x254448(0x129)]();return _0x5db668<_0x1b2766?-0x1:_0x5db668>_0x1b2766?0x1:0x0;});},_0x477a1f[_0x2f17da(0x19c)][_0x2f17da(0x110)]=function(_0x197ac8,_0x19e10c){var _0x5295c8=_0x2f17da;if(!(_0x19e10c[_0x5295c8(0xa5)]||!_0x197ac8[_0x5295c8(0x17c)]||!_0x197ac8[_0x5295c8(0x17c)]['length'])){for(var _0x1b6a64=[],_0x3fc820=[],_0x2b1164=0x0,_0x1cef32=_0x197ac8['props'][_0x5295c8(0x109)];_0x2b1164<_0x1cef32;_0x2b1164++){var _0xf3e7c7=_0x197ac8['props'][_0x2b1164];_0xf3e7c7[_0x5295c8(0x159)]===_0x5295c8(0xfc)?_0x1b6a64[_0x5295c8(0x167)](_0xf3e7c7):_0x3fc820[_0x5295c8(0x167)](_0xf3e7c7);}if(!(!_0x3fc820['length']||_0x1b6a64[_0x5295c8(0x109)]<=0x1)){_0x197ac8[_0x5295c8(0x17c)]=_0x3fc820;var _0x1db905={'functionsNode':!0x0,'props':_0x1b6a64};this['_setNodeId'](_0x1db905,_0x19e10c),this['_setNodeLabel'](_0x1db905,_0x19e10c),this[_0x5295c8(0x1a3)](_0x1db905),this[_0x5295c8(0x1b0)](_0x1db905,_0x19e10c),_0x1db905['id']+='\\x20f',_0x197ac8[_0x5295c8(0x17c)][_0x5295c8(0x192)](_0x1db905);}}},_0x477a1f[_0x2f17da(0x19c)][_0x2f17da(0x14d)]=function(_0x23ce28,_0x290709){},_0x477a1f[_0x2f17da(0x19c)][_0x2f17da(0x1a3)]=function(_0x39e23a){},_0x477a1f[_0x2f17da(0x19c)][_0x2f17da(0xe8)]=function(_0x3d0fc3){var _0x3ce38e=_0x2f17da;return Array[_0x3ce38e(0xc9)](_0x3d0fc3)||typeof _0x3d0fc3=='object'&&this[_0x3ce38e(0x174)](_0x3d0fc3)===_0x3ce38e(0x11b);},_0x477a1f[_0x2f17da(0x19c)]['_setNodePermissions']=function(_0x31a7c2,_0x59135){},_0x477a1f[_0x2f17da(0x19c)]['_cleanNode']=function(_0x18e9b){var _0x10a976=_0x2f17da;delete _0x18e9b[_0x10a976(0x13f)],delete _0x18e9b[_0x10a976(0xec)],delete _0x18e9b[_0x10a976(0xae)];},_0x477a1f[_0x2f17da(0x19c)]['_setNodeExpressionPath']=function(_0x47ea8d,_0x45ed4a){};let _0x59d224=new _0x477a1f(),_0x409cdb={'props':_0x546a29[_0x2f17da(0x1ae)][_0x2f17da(0x17c)]||0x64,'elements':_0x546a29[_0x2f17da(0x1ae)][_0x2f17da(0x14e)]||0x64,'strLength':_0x546a29[_0x2f17da(0x1ae)][_0x2f17da(0x19b)]||0x400*0x32,'totalStrLength':_0x546a29[_0x2f17da(0x1ae)][_0x2f17da(0x1ad)]||0x400*0x32,'autoExpandLimit':_0x546a29['defaultLimits']['autoExpandLimit']||0x1388,'autoExpandMaxDepth':_0x546a29['defaultLimits'][_0x2f17da(0x186)]||0xa},_0x593125={'props':_0x546a29['reducedLimits']['props']||0x5,'elements':_0x546a29['reducedLimits'][_0x2f17da(0x14e)]||0x5,'strLength':_0x546a29[_0x2f17da(0xf0)]['strLength']||0x100,'totalStrLength':_0x546a29[_0x2f17da(0xf0)][_0x2f17da(0x1ad)]||0x100*0x3,'autoExpandLimit':_0x546a29[_0x2f17da(0xf0)][_0x2f17da(0x162)]||0x1e,'autoExpandMaxDepth':_0x546a29[_0x2f17da(0xf0)][_0x2f17da(0x186)]||0x2};if(_0x12a555){let _0x31799e=_0x59d224[_0x2f17da(0xb8)][_0x2f17da(0x10b)](_0x59d224);_0x59d224[_0x2f17da(0xb8)]=function(_0x5b7794,_0x13f5f9,_0x31df04,_0x1a2b80){return _0x31799e(_0x5b7794,_0x12a555(_0x13f5f9),_0x31df04,_0x1a2b80);};}function _0xcd4ef3(_0x3f7e92,_0x3b4900,_0x47d62e,_0x304dba,_0x24261c,_0x122b53){var _0x1794df=_0x2f17da;let _0x40e848,_0x2d7a07;try{_0x2d7a07=_0x17957c(),_0x40e848=_0xd4991f[_0x3b4900],!_0x40e848||_0x2d7a07-_0x40e848['ts']>_0x24f1d2['perLogpoint']['resetWhenQuietMs']&&_0x40e848[_0x1794df(0x150)]&&_0x40e848['time']/_0x40e848[_0x1794df(0x150)]<_0x24f1d2[_0x1794df(0x10e)][_0x1794df(0x106)]?(_0xd4991f[_0x3b4900]=_0x40e848={'count':0x0,'time':0x0,'ts':_0x2d7a07},_0xd4991f[_0x1794df(0x16f)]={}):_0x2d7a07-_0xd4991f['hits']['ts']>_0x24f1d2['global']['resetWhenQuietMs']&&_0xd4991f[_0x1794df(0x16f)]['count']&&_0xd4991f[_0x1794df(0x16f)][_0x1794df(0x1a9)]/_0xd4991f[_0x1794df(0x16f)][_0x1794df(0x150)]<_0x24f1d2[_0x1794df(0x197)][_0x1794df(0x106)]&&(_0xd4991f['hits']={});let _0x47d2fb=[],_0xf0dd0f=_0x40e848['reduceLimits']||_0xd4991f[_0x1794df(0x16f)][_0x1794df(0x148)]?_0x593125:_0x409cdb,_0xdf51ab=_0x3e49f9=>{var _0x7b787b=_0x1794df;let _0x46afdf={};return _0x46afdf[_0x7b787b(0x17c)]=_0x3e49f9[_0x7b787b(0x17c)],_0x46afdf['elements']=_0x3e49f9[_0x7b787b(0x14e)],_0x46afdf[_0x7b787b(0x19b)]=_0x3e49f9['strLength'],_0x46afdf['totalStrLength']=_0x3e49f9[_0x7b787b(0x1ad)],_0x46afdf[_0x7b787b(0x162)]=_0x3e49f9['autoExpandLimit'],_0x46afdf[_0x7b787b(0x186)]=_0x3e49f9[_0x7b787b(0x186)],_0x46afdf['sortProps']=!0x1,_0x46afdf[_0x7b787b(0xa5)]=!_0x1b3f4a,_0x46afdf['depth']=0x1,_0x46afdf['level']=0x0,_0x46afdf[_0x7b787b(0x161)]='root_exp_id',_0x46afdf[_0x7b787b(0x12f)]='root_exp',_0x46afdf[_0x7b787b(0x115)]=!0x0,_0x46afdf[_0x7b787b(0x157)]=[],_0x46afdf[_0x7b787b(0x199)]=0x0,_0x46afdf[_0x7b787b(0xc0)]=_0x546a29[_0x7b787b(0xc0)],_0x46afdf[_0x7b787b(0xad)]=0x0,_0x46afdf[_0x7b787b(0x11a)]={'current':void 0x0,'parent':void 0x0,'index':0x0},_0x46afdf;};for(var _0x58bafc=0x0;_0x58bafc<_0x24261c[_0x1794df(0x109)];_0x58bafc++)_0x47d2fb[_0x1794df(0x167)](_0x59d224[_0x1794df(0xb8)]({'timeNode':_0x3f7e92===_0x1794df(0x1a9)||void 0x0},_0x24261c[_0x58bafc],_0xdf51ab(_0xf0dd0f),{}));if(_0x3f7e92===_0x1794df(0xd7)||_0x3f7e92===_0x1794df(0x117)){let _0x37a77e=Error[_0x1794df(0x1a4)];try{Error[_0x1794df(0x1a4)]=0x1/0x0,_0x47d2fb[_0x1794df(0x167)](_0x59d224['serialize']({'stackNode':!0x0},new Error()[_0x1794df(0x15a)],_0xdf51ab(_0xf0dd0f),{'strLength':0x1/0x0}));}finally{Error[_0x1794df(0x1a4)]=_0x37a77e;}}return{'method':_0x1794df(0x18f),'version':_0x29e915,'args':[{'ts':_0x47d62e,'session':_0x304dba,'args':_0x47d2fb,'id':_0x3b4900,'context':_0x122b53}]};}catch(_0xc6b404){return{'method':_0x1794df(0x18f),'version':_0x29e915,'args':[{'ts':_0x47d62e,'session':_0x304dba,'args':[{'type':_0x1794df(0xd5),'error':_0xc6b404&&_0xc6b404[_0x1794df(0x163)]}],'id':_0x3b4900,'context':_0x122b53}]};}finally{try{if(_0x40e848&&_0x2d7a07){let _0x5c7a31=_0x17957c();_0x40e848['count']++,_0x40e848[_0x1794df(0x1a9)]+=_0x58a6ca(_0x2d7a07,_0x5c7a31),_0x40e848['ts']=_0x5c7a31,_0xd4991f[_0x1794df(0x16f)][_0x1794df(0x150)]++,_0xd4991f[_0x1794df(0x16f)][_0x1794df(0x1a9)]+=_0x58a6ca(_0x2d7a07,_0x5c7a31),_0xd4991f[_0x1794df(0x16f)]['ts']=_0x5c7a31,(_0x40e848[_0x1794df(0x150)]>_0x24f1d2[_0x1794df(0x10e)][_0x1794df(0xa7)]||_0x40e848[_0x1794df(0x1a9)]>_0x24f1d2[_0x1794df(0x10e)]['reduceOnAccumulatedProcessingTimeMs'])&&(_0x40e848['reduceLimits']=!0x0),(_0xd4991f[_0x1794df(0x16f)][_0x1794df(0x150)]>_0x24f1d2[_0x1794df(0x197)]['reduceOnCount']||_0xd4991f[_0x1794df(0x16f)][_0x1794df(0x1a9)]>_0x24f1d2['global']['reduceOnAccumulatedProcessingTimeMs'])&&(_0xd4991f[_0x1794df(0x16f)]['reduceLimits']=!0x0);}}catch{}}}return _0xcd4ef3;}function G(_0xfb4cef){var _0x25ff01=_0x3dfa8d;if(_0xfb4cef&&typeof _0xfb4cef==_0x25ff01(0xd9)&&_0xfb4cef[_0x25ff01(0x12b)])switch(_0xfb4cef[_0x25ff01(0x12b)][_0x25ff01(0x156)]){case _0x25ff01(0x128):return _0xfb4cef[_0x25ff01(0x116)](Symbol[_0x25ff01(0x189)])?Promise[_0x25ff01(0x143)]():_0xfb4cef;case _0x25ff01(0x151):return Promise['resolve']();}return _0xfb4cef;}((_0x449730,_0x4d92b8,_0x13e745,_0x1897e6,_0x2a8c0e,_0x2ae710,_0xec5887,_0x13b2a0,_0x3a8757,_0x19c342,_0x1b9264,_0x500880)=>{var _0x53d986=_0x3dfa8d;if(_0x449730['_console_ninja'])return _0x449730[_0x53d986(0xaf)];let _0x4670c1={'consoleLog':()=>{},'consoleTrace':()=>{},'consoleTime':()=>{},'consoleTimeEnd':()=>{},'autoLog':()=>{},'autoLogMany':()=>{},'autoTraceMany':()=>{},'coverage':()=>{},'autoTrace':()=>{},'autoTime':()=>{},'autoTimeEnd':()=>{}};if(!X(_0x449730,_0x13b2a0,_0x2a8c0e))return _0x449730[_0x53d986(0xaf)]=_0x4670c1,_0x449730['_console_ninja'];let _0x19377d=b(_0x449730),_0x43d37e=_0x19377d[_0x53d986(0xba)],_0x2d323c=_0x19377d['timeStamp'],_0x5e4cdd=_0x19377d[_0x53d986(0x1ac)],_0xfdcc3c={'hits':{},'ts':{}},_0x416d5b=J(_0x449730,_0x3a8757,_0xfdcc3c,_0x2ae710,_0x500880,_0x2a8c0e===_0x53d986(0xcd)?G:void 0x0),_0x184562=(_0xe677ba,_0x5112f9,_0x5d22b0,_0xb0682c,_0x563885,_0xb65f96)=>{var _0x259ffe=_0x53d986;let _0x158a51=_0x449730[_0x259ffe(0xaf)];try{return _0x449730[_0x259ffe(0xaf)]=_0x4670c1,_0x416d5b(_0xe677ba,_0x5112f9,_0x5d22b0,_0xb0682c,_0x563885,_0xb65f96);}finally{_0x449730['_console_ninja']=_0x158a51;}},_0xe69047=_0x535098=>{_0xfdcc3c['ts'][_0x535098]=_0x2d323c();},_0x36c251=(_0x512ffe,_0x19d618)=>{var _0x25977b=_0x53d986;let _0x210718=_0xfdcc3c['ts'][_0x19d618];if(delete _0xfdcc3c['ts'][_0x19d618],_0x210718){let _0xcf07f6=_0x43d37e(_0x210718,_0x2d323c());_0x4f8495(_0x184562(_0x25977b(0x1a9),_0x512ffe,_0x5e4cdd(),_0x4997ad,[_0xcf07f6],_0x19d618));}},_0x31a3fa=_0x2e3b96=>{var _0x15aaa6=_0x53d986,_0x1b7a37;return _0x2a8c0e===_0x15aaa6(0xcd)&&_0x449730[_0x15aaa6(0x1a1)]&&((_0x1b7a37=_0x2e3b96==null?void 0x0:_0x2e3b96[_0x15aaa6(0x124)])==null?void 0x0:_0x1b7a37[_0x15aaa6(0x109)])&&(_0x2e3b96[_0x15aaa6(0x124)][0x0][_0x15aaa6(0x1a1)]=_0x449730[_0x15aaa6(0x1a1)]),_0x2e3b96;};_0x449730[_0x53d986(0xaf)]={'consoleLog':(_0x2a1f85,_0x468d26)=>{var _0x1867ad=_0x53d986;_0x449730[_0x1867ad(0xfb)]['log'][_0x1867ad(0x156)]!==_0x1867ad(0xc6)&&_0x4f8495(_0x184562(_0x1867ad(0x18f),_0x2a1f85,_0x5e4cdd(),_0x4997ad,_0x468d26));},'consoleTrace':(_0x1a76c8,_0x12b403)=>{var _0x4ce780=_0x53d986,_0x17b6a2,_0x36accc;_0x449730[_0x4ce780(0xfb)][_0x4ce780(0x18f)][_0x4ce780(0x156)]!=='disabledTrace'&&((_0x36accc=(_0x17b6a2=_0x449730[_0x4ce780(0x11e)])==null?void 0x0:_0x17b6a2[_0x4ce780(0xf8)])!=null&&_0x36accc[_0x4ce780(0x11a)]&&(_0x449730[_0x4ce780(0xb1)]=!0x0),_0x4f8495(_0x31a3fa(_0x184562(_0x4ce780(0xd7),_0x1a76c8,_0x5e4cdd(),_0x4997ad,_0x12b403))));},'consoleError':(_0x39c2df,_0x1f8201)=>{var _0x323c58=_0x53d986;_0x449730[_0x323c58(0xb1)]=!0x0,_0x4f8495(_0x31a3fa(_0x184562('error',_0x39c2df,_0x5e4cdd(),_0x4997ad,_0x1f8201)));},'consoleTime':_0x41a2ab=>{_0xe69047(_0x41a2ab);},'consoleTimeEnd':(_0x190952,_0x4a6db1)=>{_0x36c251(_0x4a6db1,_0x190952);},'autoLog':(_0x4645af,_0x2a7d2e)=>{_0x4f8495(_0x184562('log',_0x2a7d2e,_0x5e4cdd(),_0x4997ad,[_0x4645af]));},'autoLogMany':(_0x57be47,_0x5005ed)=>{_0x4f8495(_0x184562('log',_0x57be47,_0x5e4cdd(),_0x4997ad,_0x5005ed));},'autoTrace':(_0x40d3d7,_0x277ce6)=>{var _0x567a69=_0x53d986;_0x4f8495(_0x31a3fa(_0x184562(_0x567a69(0xd7),_0x277ce6,_0x5e4cdd(),_0x4997ad,[_0x40d3d7])));},'autoTraceMany':(_0x36f206,_0x3f195a)=>{var _0x141b8b=_0x53d986;_0x4f8495(_0x31a3fa(_0x184562(_0x141b8b(0xd7),_0x36f206,_0x5e4cdd(),_0x4997ad,_0x3f195a)));},'autoTime':(_0xdbce43,_0x3d49c9,_0x437cbe)=>{_0xe69047(_0x437cbe);},'autoTimeEnd':(_0x398b43,_0x543091,_0x3701b1)=>{_0x36c251(_0x543091,_0x3701b1);},'coverage':_0x4d31f2=>{_0x4f8495({'method':'coverage','version':_0x2ae710,'args':[{'id':_0x4d31f2}]});}};let _0x4f8495=H(_0x449730,_0x4d92b8,_0x13e745,_0x1897e6,_0x2a8c0e,_0x19c342,_0x1b9264),_0x4997ad=_0x449730['_console_ninja_session'];return _0x449730[_0x53d986(0xaf)];})(globalThis,'127.0.0.1',_0x3dfa8d(0x11d),_0x3dfa8d(0xee),_0x3dfa8d(0x19e),_0x3dfa8d(0x11c),_0x3dfa8d(0x144),_0x3dfa8d(0xe6),_0x3dfa8d(0x188),'',_0x3dfa8d(0xd6),{\"resolveGetters\":false,\"defaultLimits\":{\"props\":100,\"elements\":100,\"strLength\":51200,\"totalStrLength\":51200,\"autoExpandLimit\":5000,\"autoExpandMaxDepth\":10},\"reducedLimits\":{\"props\":5,\"elements\":5,\"strLength\":256,\"totalStrLength\":768,\"autoExpandLimit\":30,\"autoExpandMaxDepth\":2},\"reducePolicy\":{\"perLogpoint\":{\"reduceOnCount\":50,\"reduceOnAccumulatedProcessingTimeMs\":100,\"resetWhenQuietMs\":500,\"resetOnProcessingTimeAverageMs\":100},\"global\":{\"reduceOnCount\":1000,\"reduceOnAccumulatedProcessingTimeMs\":300,\"resetWhenQuietMs\":50,\"resetOnProcessingTimeAverageMs\":100}}});");
+    } catch (e) {}
+}
+function oo_oo(i, ...v) {
+    try {
+        oo_cm().consoleLog(i, v);
+    } catch (e) {}
+    return v;
+}
+oo_oo; /* istanbul ignore next */ 
+function oo_tr(i, ...v) {
+    try {
+        oo_cm().consoleTrace(i, v);
+    } catch (e) {}
+    return v;
+}
+oo_tr; /* istanbul ignore next */ 
+function oo_tx(i, ...v) {
+    try {
+        oo_cm().consoleError(i, v);
+    } catch (e) {}
+    return v;
+}
+oo_tx; /* istanbul ignore next */ 
+function oo_ts(v) {
+    try {
+        oo_cm().consoleTime(v);
+    } catch (e) {}
+    return v;
+}
+oo_ts; /* istanbul ignore next */ 
+function oo_te(v, i) {
+    try {
+        oo_cm().consoleTimeEnd(v, i);
+    } catch (e) {}
+    return v;
+}
+oo_te; /*eslint unicorn/no-abusive-eslint-disable:,eslint-comments/disable-enable-pair:,eslint-comments/no-unlimited-disable:,eslint-comments/no-aggregating-enable:,eslint-comments/no-duplicate-disable:,eslint-comments/no-unused-disable:,eslint-comments/no-unused-enable:,*/ 
+var _c;
+__turbopack_context__.k.register(_c, "Chat");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/components/ChatInput.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>ChatInput
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mic$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Mic$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/mic.mjs [app-client] (ecmascript) <export default as Mic>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$send$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Send$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/send.mjs [app-client] (ecmascript) <export default as Send>");
+;
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+;
+function ChatInput({ onSend }) {
+    _s();
+    const [message, setMessage] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    function handleSubmit(event) {
+        event.preventDefault();
+        if (!message.trim()) return;
+        onSend(message);
+        setMessage("");
+    }
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: "border-t border-white/[0.06] p-5",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
+                onSubmit: handleSubmit,
+                className: "mx-auto flex max-w-3xl items-center gap-2 rounded-2xl border border-white/10 bg-[#111218] p-2 shadow-2xl",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                        value: message,
+                        onChange: (event)=>setMessage(event.target.value),
+                        placeholder: "Converse com Athena...",
+                        className: "min-w-0 flex-1 bg-transparent px-3 py-3 text-sm text-white outline-none placeholder:text-zinc-600"
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/ChatInput.tsx",
+                        lineNumber: 28,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        type: "button",
+                        className: "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-zinc-500 transition hover:bg-white/[0.06] hover:text-white",
+                        title: "Falar",
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mic$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Mic$3e$__["Mic"], {
+                            size: 19
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/ChatInput.tsx",
+                            lineNumber: 40,
+                            columnNumber: 11
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/ChatInput.tsx",
+                        lineNumber: 35,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        type: "submit",
+                        disabled: !message.trim(),
+                        className: "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-black transition hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-30",
+                        title: "Enviar",
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$send$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Send$3e$__["Send"], {
+                            size: 18
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/ChatInput.tsx",
+                            lineNumber: 49,
+                            columnNumber: 11
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/ChatInput.tsx",
+                        lineNumber: 43,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/components/ChatInput.tsx",
+                lineNumber: 24,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                className: "mt-3 text-center text-[10px] text-zinc-600",
+                children: "A IA pode cometer erros. Verifique informações importantes."
+            }, void 0, false, {
+                fileName: "[project]/src/components/ChatInput.tsx",
+                lineNumber: 53,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/components/ChatInput.tsx",
+        lineNumber: 23,
+        columnNumber: 5
+    }, this);
+}
+_s(ChatInput, "EiOGSxO4GWQlH0sM782nQ9JwuAs=");
+_c = ChatInput;
+var _c;
+__turbopack_context__.k.register(_c, "ChatInput");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/components/Header.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>Header
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$AIAvatar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/AIAvatar.tsx [app-client] (ecmascript)");
+;
+;
+function Header() {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
+        className: "flex h-[72px] shrink-0 items-center justify-between border-b border-white/[0.06] bg-[#0c0d12] px-6",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "flex items-center gap-3",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$AIAvatar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                        size: "sm"
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/Header.tsx",
+                        lineNumber: 7,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                className: "text-sm font-semibold",
+                                children: "Athena"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/Header.tsx",
+                                lineNumber: 10,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex items-center gap-2",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "h-1.5 w-1.5 rounded-full bg-emerald-400"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Header.tsx",
+                                        lineNumber: 13,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "text-[11px] text-zinc-500",
+                                        children: "Online"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Header.tsx",
+                                        lineNumber: 15,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/Header.tsx",
+                                lineNumber: 12,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/Header.tsx",
+                        lineNumber: 9,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/components/Header.tsx",
+                lineNumber: 6,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                className: "rounded-lg px-3 py-2 text-xs text-zinc-400 transition hover:bg-white/[0.05] hover:text-white",
+                children: "Athena"
+            }, void 0, false, {
+                fileName: "[project]/src/components/Header.tsx",
+                lineNumber: 20,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/components/Header.tsx",
+        lineNumber: 5,
+        columnNumber: 5
+    }, this);
+}
+_c = Header;
+var _c;
+__turbopack_context__.k.register(_c, "Header");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/components/PCStatus.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>PCStatus
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$cpu$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Cpu$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/cpu.mjs [app-client] (ecmascript) <export default as Cpu>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$memory$2d$stick$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MemoryStick$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/memory-stick.mjs [app-client] (ecmascript) <export default as MemoryStick>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$activity$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Activity$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/activity.mjs [app-client] (ecmascript) <export default as Activity>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$hard$2d$drive$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__HardDrive$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/hard-drive.mjs [app-client] (ecmascript) <export default as HardDrive>");
+;
+;
+const stats = [
+    {
+        label: "CPU",
+        value: "32%",
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$cpu$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Cpu$3e$__["Cpu"]
+    },
+    {
+        label: "RAM",
+        value: "54%",
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$memory$2d$stick$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MemoryStick$3e$__["MemoryStick"]
+    },
+    {
+        label: "Disco",
+        value: "18%",
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$hard$2d$drive$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__HardDrive$3e$__["HardDrive"]
+    }
+];
+function PCStatus() {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("aside", {
+        className: "hidden w-[280px] shrink-0 border-l border-white/[0.06] bg-[#0c0d12] xl:block",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "border-b border-white/[0.06] p-5",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex items-center gap-2",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$activity$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Activity$3e$__["Activity"], {
+                                size: 16
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/PCStatus.tsx",
+                                lineNumber: 26,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                className: "text-sm font-semibold",
+                                children: "Meu PC"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/PCStatus.tsx",
+                                lineNumber: 28,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/PCStatus.tsx",
+                        lineNumber: 25,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "mt-1 text-xs text-zinc-600",
+                        children: "Monitoramento do sistema"
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/PCStatus.tsx",
+                        lineNumber: 31,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/components/PCStatus.tsx",
+                lineNumber: 24,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "space-y-3 p-4",
+                children: stats.map((stat)=>{
+                    const Icon = stat.icon;
+                    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "rounded-xl border border-white/[0.06] bg-white/[0.02] p-4",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex items-center justify-between",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "flex items-center gap-2 text-zinc-500",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
+                                                size: 16
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/PCStatus.tsx",
+                                                lineNumber: 45,
+                                                columnNumber: 19
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "text-xs",
+                                                children: stat.label
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/PCStatus.tsx",
+                                                lineNumber: 47,
+                                                columnNumber: 19
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/components/PCStatus.tsx",
+                                        lineNumber: 44,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "text-sm font-semibold",
+                                        children: stat.value
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/PCStatus.tsx",
+                                        lineNumber: 50,
+                                        columnNumber: 17
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/PCStatus.tsx",
+                                lineNumber: 43,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "mt-3 h-1.5 overflow-hidden rounded-full bg-white/[0.06]",
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "h-full rounded-full bg-white",
+                                    style: {
+                                        width: stat.value
+                                    }
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/PCStatus.tsx",
+                                    lineNumber: 54,
+                                    columnNumber: 17
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/PCStatus.tsx",
+                                lineNumber: 53,
+                                columnNumber: 15
+                            }, this)
+                        ]
+                    }, stat.label, true, {
+                        fileName: "[project]/src/components/PCStatus.tsx",
+                        lineNumber: 39,
+                        columnNumber: 13
+                    }, this);
+                })
+            }, void 0, false, {
+                fileName: "[project]/src/components/PCStatus.tsx",
+                lineNumber: 34,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "mx-4 mt-2 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-[11px] text-zinc-600",
+                        children: "Sistema"
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/PCStatus.tsx",
+                        lineNumber: 67,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "mt-1 text-sm font-medium",
+                        children: "Aguardando conexão"
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/PCStatus.tsx",
+                        lineNumber: 69,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "mt-2 text-[10px] leading-5 text-zinc-600",
+                        children: "As informações reais do computador serão disponibilizadas posteriormente pelo agente local."
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/PCStatus.tsx",
+                        lineNumber: 71,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/components/PCStatus.tsx",
+                lineNumber: 66,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/components/PCStatus.tsx",
+        lineNumber: 23,
+        columnNumber: 5
+    }, this);
+}
+_c = PCStatus;
+var _c;
+__turbopack_context__.k.register(_c, "PCStatus");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/components/Sidebar.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>Sidebar
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$square$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageSquare$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/message-square.mjs [app-client] (ecmascript) <export default as MessageSquare>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/file-text.mjs [app-client] (ecmascript) <export default as FileText>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$search$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Search$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/search.mjs [app-client] (ecmascript) <export default as Search>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$monitor$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Monitor$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/monitor.mjs [app-client] (ecmascript) <export default as Monitor>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$settings$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Settings$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/settings.mjs [app-client] (ecmascript) <export default as Settings>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/plus.mjs [app-client] (ecmascript) <export default as Plus>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$bot$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Bot$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/bot.mjs [app-client] (ecmascript) <export default as Bot>");
+"use client";
+;
+;
+const menuItems = [
+    {
+        id: "chat",
+        label: "Chat",
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$square$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageSquare$3e$__["MessageSquare"]
+    },
+    {
+        id: "cv",
+        label: "Currículo",
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__["FileText"]
+    },
+    {
+        id: "search",
+        label: "Pesquisa",
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$search$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Search$3e$__["Search"]
+    },
+    {
+        id: "pc",
+        label: "Meu PC",
+        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$monitor$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Monitor$3e$__["Monitor"]
+    }
+];
+function Sidebar({ activePage, onNavigate }) {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("aside", {
+        className: "flex w-[250px] shrink-0 flex-col border-r border-white/[0.06] bg-[#0c0d12]",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "flex h-[72px] items-center gap-3 border-b border-white/[0.06] px-5",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex h-10 w-10 items-center justify-center rounded-xl bg-white text-black",
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$bot$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Bot$3e$__["Bot"], {
+                            size: 22
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Sidebar.tsx",
+                            lineNumber: 47,
+                            columnNumber: 11
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/Sidebar.tsx",
+                        lineNumber: 46,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                                className: "text-sm font-semibold",
+                                children: "AI Agent"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/Sidebar.tsx",
+                                lineNumber: 51,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "text-[11px] text-zinc-500",
+                                children: "Personal Assistant"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/Sidebar.tsx",
+                                lineNumber: 53,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/Sidebar.tsx",
+                        lineNumber: 50,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/components/Sidebar.tsx",
+                lineNumber: 45,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "p-4",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                    onClick: ()=>onNavigate("chat"),
+                    className: "flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-medium transition hover:bg-white/[0.08]",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__["Plus"], {
+                            size: 17
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Sidebar.tsx",
+                            lineNumber: 63,
+                            columnNumber: 11
+                        }, this),
+                        "Nova conversa"
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/src/components/Sidebar.tsx",
+                    lineNumber: 59,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/src/components/Sidebar.tsx",
+                lineNumber: 58,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
+                className: "flex-1 space-y-1 px-3",
+                children: menuItems.map((item)=>{
+                    const Icon = item.icon;
+                    const isActive = activePage === item.id;
+                    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        onClick: ()=>onNavigate(item.id),
+                        className: `flex w-full items-center gap-3 rounded-xl px-3 py-3 text-sm transition ${isActive ? "bg-white text-black" : "text-zinc-400 hover:bg-white/[0.05] hover:text-white"}`,
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
+                                size: 18
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/Sidebar.tsx",
+                                lineNumber: 84,
+                                columnNumber: 15
+                            }, this),
+                            item.label
+                        ]
+                    }, item.id, true, {
+                        fileName: "[project]/src/components/Sidebar.tsx",
+                        lineNumber: 75,
+                        columnNumber: 13
+                    }, this);
+                })
+            }, void 0, false, {
+                fileName: "[project]/src/components/Sidebar.tsx",
+                lineNumber: 69,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "border-t border-white/[0.06] p-3",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                    onClick: ()=>onNavigate("settings"),
+                    className: `flex w-full items-center gap-3 rounded-xl px-3 py-3 text-sm transition ${activePage === "settings" ? "bg-white text-black" : "text-zinc-400 hover:bg-white/[0.05] hover:text-white"}`,
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$settings$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Settings$3e$__["Settings"], {
+                            size: 18
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Sidebar.tsx",
+                            lineNumber: 101,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "text-left",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    className: "font-medium",
+                                    children: "Configurações"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/Sidebar.tsx",
+                                    lineNumber: 104,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    className: "text-[10px] opacity-60",
+                                    children: "Personalizar agente"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/Sidebar.tsx",
+                                    lineNumber: 105,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/components/Sidebar.tsx",
+                            lineNumber: 103,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/src/components/Sidebar.tsx",
+                    lineNumber: 93,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/src/components/Sidebar.tsx",
+                lineNumber: 92,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/components/Sidebar.tsx",
+        lineNumber: 43,
+        columnNumber: 5
+    }, this);
+}
+_c = Sidebar;
+var _c;
+__turbopack_context__.k.register(_c, "Sidebar");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/services/api.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "sendMessage",
+    ()=>sendMessage
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
+const API_URL = ("TURBOPACK compile-time value", "http://localhost:8000") || "http://localhost:8000";
+async function sendMessage(message) {
+    const response = await fetch(`${API_URL}/api/chat`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            message
+        })
+    });
+    if (!response.ok) {
+        throw new Error(`Erro na API: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.response;
+}
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+]);
+
+//# sourceMappingURL=src_1podqfx._.js.map
