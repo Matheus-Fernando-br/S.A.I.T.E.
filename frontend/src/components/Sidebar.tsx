@@ -3,15 +3,23 @@
 import {
   Plus,
   MessageSquare,
-  History,
   Search,
   FolderKanban,
   GraduationCap,
   Monitor,
-  Settings,
   PanelLeftClose,
   PanelLeftOpen,
+  Sun,
+  Moon,
+  Cpu,
+  HardDrive,
+  MemoryStick,
+  Bot,
+  MessageCircle,
 } from "lucide-react";
+import Image from "next/image";
+
+import { useTheme } from "./ThemeProvider";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -20,16 +28,12 @@ interface SidebarProps {
 
 const menuItems = [
   {
-    label: "Nova conversa",
-    icon: Plus,
-  },
-  {
     label: "Chat",
     icon: MessageSquare,
   },
   {
-    label: "Histórico",
-    icon: History,
+    label: "API",
+    icon: Bot,
   },
   {
     label: "Pesquisar",
@@ -43,13 +47,22 @@ const menuItems = [
     label: "Aprender",
     icon: GraduationCap,
   },
-  {
-    label: "Meu PC",
-    icon: Monitor,
-  },
+];
+
+// HISTÓRICO FAKE (Substitua pelos dados reais da sua API depois)
+const fakeHistory = [
+  { id: "1", label: "Análise do currículo CEFET-MG" },
+  { id: "2", label: "Diagnóstico Peugeot 307" },
+  { id: "3", label: "Configuração Docker no Ubuntu" },
+  { id: "4", label: "Planejamento Kanban Projeto" },
+  { id: "5", label: "Regras de média Unileste" },
 ];
 
 export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
+  const { theme, toggleTheme } = useTheme();
+
+  const isDark = theme === "dark";
+
   return (
     <aside
       className={`
@@ -61,7 +74,10 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
         ${isOpen ? "w-64" : "w-[72px]"}
       `}
     >
-      {/* HEADER */}
+      {/* =====================================================
+          HEADER
+      ====================================================== */}
+
       <div
         className={`
           flex h-20 items-center
@@ -72,47 +88,102 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
         `}
       >
         {/* LOGO */}
+
         <div
           className={`
-            flex items-center gap-3
+            flex items-center gap-2
             overflow-hidden
             transition-all duration-300
             ${isOpen ? "w-auto opacity-100" : "w-0 opacity-0"}
           `}
         >
-          <img
-            src="/assets/LOGO.png"
+          <Image
+            src="/assets/TITULO.png"
             alt="SAITE"
-            className="h-9 w-auto object-contain"
+            width={120}
+            height={40}
+            className="h-30 w-auto object-contain"
           />
         </div>
 
-        {/* TOGGLE */}
+        {/* SIDEBAR TOGGLE */}
+
         <button
           onClick={onToggle}
           aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
           className="
-            flex h-9 w-9 shrink-0 items-center
-            justify-center rounded-lg
+            flex h-9 w-9 shrink-0
+            items-center justify-center
+            rounded-lg
             text-[var(--foreground-secondary)]
-            transition
+            transition-all duration-200
             hover:bg-[var(--sidebar-hover)]
             hover:text-[var(--foreground)]
           "
         >
-          {isOpen ? <PanelLeftClose size={19} /> : <PanelLeftOpen size={19} />}
+          {isOpen ? (
+            <PanelLeftClose size={19} strokeWidth={1.8} />
+          ) : (
+            <PanelLeftOpen size={19} strokeWidth={1.8} />
+          )}
         </button>
       </div>
 
-      {/* MENU */}
+      {/* =====================================================
+          MENU E HISTÓRICO
+      ====================================================== */}
+
       <nav
         className="
           flex flex-1 flex-col
           gap-1
-          overflow-hidden
-          px-3 py-5
+          overflow-y-auto
+          px-3 py-4
         "
       >
+        {/* BOTÃO "NOVA CONVERSA" DESTAQUE */}
+        <button
+          className={`
+            group
+            mb-3
+            flex h-11
+            items-center
+            rounded-xl
+            border border-white/10
+            bg-white/[0.04]
+            text-sm
+            font-medium
+            text-[var(--foreground)]
+            transition-all duration-200
+            hover:bg-white/[0.08]
+            hover:border-white/20
+            ${isOpen ? "gap-3 px-3" : "justify-center px-0"}
+          `}
+        >
+          <Plus
+            size={19}
+            strokeWidth={2}
+            className="
+              shrink-0
+              transition-transform
+              duration-200
+              group-hover:scale-110
+            "
+          />
+
+          <span
+            className={`
+              overflow-hidden
+              whitespace-nowrap
+              transition-all duration-200
+              ${isOpen ? "w-auto opacity-100" : "w-0 opacity-0"}
+            `}
+          >
+            Nova conversa
+          </span>
+        </button>
+
+        {/* DEMAIS ITENS DO MENU */}
         {menuItems.map((item) => {
           const Icon = item.icon;
 
@@ -120,7 +191,9 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
             <button
               key={item.label}
               className={`
-                group flex h-11 items-center
+                group
+                flex h-11
+                items-center
                 rounded-xl
                 text-sm
                 text-[var(--foreground-secondary)]
@@ -143,8 +216,8 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
 
               <span
                 className={`
-                  whitespace-nowrap
                   overflow-hidden
+                  whitespace-nowrap
                   transition-all duration-200
                   ${isOpen ? "w-auto opacity-100" : "w-0 opacity-0"}
                 `}
@@ -154,9 +227,116 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
             </button>
           );
         })}
+
+        {/* SEÇÃO DE HISTÓRICO FAKE COM LINHA SEPARADORA */}
+        {isOpen && (
+          <div className="mt-4 flex flex-col gap-1">
+            <div className="my-2 border-t border-[var(--sidebar-border)]" />
+            <span className="px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-[var(--foreground-muted)]">
+              Recentes
+            </span>
+            {fakeHistory.map((chat) => (
+              <button
+                key={chat.id}
+                className="
+                  group
+                  flex h-10 w-full
+                  items-center gap-3
+                  rounded-xl
+                  px-3
+                  text-left text-xs
+                  text-[var(--foreground-secondary)]
+                  transition-all duration-200
+                  hover:bg-[var(--sidebar-hover)]
+                  hover:text-[var(--foreground)]
+                "
+              >
+                <MessageCircle
+                  size={15}
+                  strokeWidth={1.8}
+                  className="shrink-0 text-[var(--foreground-muted)] group-hover:text-[var(--foreground)]"
+                />
+                <span className="overflow-hidden text-ellipsis whitespace-nowrap">
+                  {chat.label}
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
       </nav>
 
-      {/* FOOTER */}
+      {/* =====================================================
+          CARD ÚNICO: "MEU PC"
+      ====================================================== */}
+      <div className="px-3 pb-3">
+        <div
+          className={`
+            flex flex-col gap-2.5
+            rounded-2xl
+            border border-[var(--sidebar-border)]
+            bg-[var(--background-tertiary)]
+            p-3
+            transition-all duration-300
+            ${isOpen ? "opacity-100" : "items-center p-2.5"}
+          `}
+        >
+          {isOpen ? (
+            <>
+              {/* TÍTULO DO CARD */}
+              <div className="flex items-center gap-2 border-b border-[var(--sidebar-border)] pb-2 text-xs font-semibold text-[var(--foreground)]">
+                <Monitor
+                  size={15}
+                  className="text-[var(--foreground-secondary)]"
+                />
+                <span>Meu PC</span>
+              </div>
+
+              {/* CPU */}
+              <div className="flex items-center justify-between text-xs text-[var(--foreground-secondary)]">
+                <span className="flex items-center gap-1.5">
+                  <Cpu size={14} />
+                  CPU
+                </span>
+                <span className="text-[var(--foreground)] font-medium text-[11px]">
+                  Intel i7 (24%)
+                </span>
+              </div>
+
+              {/* RAM */}
+              <div className="flex items-center justify-between text-xs text-[var(--foreground-secondary)]">
+                <span className="flex items-center gap-1.5">
+                  <MemoryStick size={14} />
+                  RAM
+                </span>
+                <span className="text-[var(--foreground)] font-medium text-[11px]">
+                  16 GB (62%)
+                </span>
+              </div>
+
+              {/* SSD */}
+              <div className="flex items-center justify-between text-xs text-[var(--foreground-secondary)]">
+                <span className="flex items-center gap-1.5">
+                  <HardDrive size={14} />
+                  SSD
+                </span>
+                <span className="text-[var(--foreground)] font-medium text-[11px]">
+                  512 GB (45%)
+                </span>
+              </div>
+            </>
+          ) : (
+            <div className="flex flex-col items-center gap-2.5 text-[var(--foreground-secondary)]">
+              <div title="Meu PC: CPU 24% | RAM 62% | SSD 45%">
+                <Monitor size={18} />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* =====================================================
+          THEME TOGGLE
+      ====================================================== */}
       <div
         className="
           border-t
@@ -165,37 +345,61 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
         "
       >
         <button
+          onClick={toggleTheme}
+          type="button"
+          aria-label={isDark ? "Ativar modo claro" : "Ativar modo escuro"}
+          title={isDark ? "Ativar Modo claro" : "Ativar Modo escuro"}
           className={`
-            group flex h-11 w-full
-            items-center rounded-xl
+            group
+            flex h-11 w-full
+            items-center
+            rounded-xl
+            bg-transparent
             text-sm
             text-[var(--foreground-secondary)]
-            transition
+            transition-all duration-200
             hover:bg-[var(--sidebar-hover)]
             hover:text-[var(--foreground)]
             ${isOpen ? "gap-3 px-3" : "justify-center px-0"}
           `}
         >
-          <Settings
-            size={19}
-            strokeWidth={1.8}
-            className="
-              shrink-0
-              transition-transform
-              duration-300
-              group-hover:rotate-45
-            "
-          />
+          {/* ÍCONE */}
+
+          {isDark ? (
+            <Moon
+              size={19}
+              strokeWidth={1.8}
+              className="
+                shrink-0
+                transition-transform
+                duration-300
+                group-hover:rotate-45
+              "
+            />
+          ) : (
+            <Sun
+              size={19}
+              strokeWidth={1.8}
+              className="
+                shrink-0
+                transition-transform
+                duration-300
+                group-hover:rotate-12
+              "
+            />
+          )}
+
+          {/* TEXTO */}
 
           <span
             className={`
-              whitespace-nowrap
               overflow-hidden
+              whitespace-nowrap
               transition-all duration-200
               ${isOpen ? "w-auto opacity-100" : "w-0 opacity-0"}
             `}
           >
-            Configurações
+            {isDark ? "Modo escuro" : "Modo claro"}
           </span>
         </button>
       </div>

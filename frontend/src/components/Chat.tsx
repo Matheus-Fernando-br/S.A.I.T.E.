@@ -1,8 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import AIAvatar from "./AIAvatar";
+import Image from "next/image";
+import { History, Settings } from "lucide-react";
+
 import ChatInput from "./ChatInput";
+import AIAvatar from "./AIAvatar";
+
 import { sendMessage } from "@/services/api";
 
 interface Message {
@@ -57,23 +61,161 @@ export default function Chat() {
   return (
     <main
       className="
-        flex h-screen min-w-0 flex-1
-        flex-col
+        relative
+        flex h-screen min-w-0
+        flex-1 flex-col
         bg-[var(--background)]
         transition-colors duration-200
       "
     >
-      {/* CHAT CONTENT */}
-      <div className="flex-1 overflow-y-auto">
+      {/* =====================================================
+          LOGO FIXA NO CANTO SUPERIOR ESQUERDO
+      ====================================================== */}
+
+      <div
+        className="
+          absolute
+          left-6
+          top-5
+          z-20
+          flex
+          items-center
+        "
+      >
+        <Image
+          src="/assets/LOGO.png"
+          alt="SAITE"
+          width={120}
+          height={40}
+          className="h-12 w-auto object-contain"
+        />
+      </div>
+
+      {/* =====================================================
+          AÇÕES FIXAS DO CHAT (CANTO SUPERIOR DIREITO)
+      ====================================================== */}
+
+      <div
+        className="
+          absolute
+          right-6
+          top-5
+          z-20
+          flex
+          items-start
+          gap-5
+        "
+      >
+        {/* HISTÓRICO */}
+
+        <button
+          type="button"
+          title="Histórico"
+          className="
+            group
+            flex
+            min-w-[52px]
+            flex-col
+            items-center
+            justify-center
+            gap-1.5
+            bg-[var(--background)]
+            text-[var(--foreground-secondary)]
+            transition-all duration-200
+            hover:text-[var(--foreground)]
+          "
+        >
+          <History
+            size={19}
+            strokeWidth={1.8}
+            className="
+              transition-transform
+              duration-200
+              group-hover:scale-110
+            "
+          />
+
+          <span
+            className="
+              text-[10px]
+              leading-none
+            "
+          >
+            Histórico
+          </span>
+        </button>
+
+        {/* CONFIGURAÇÕES */}
+
+        <button
+          type="button"
+          title="Configurações"
+          className="
+            group
+            flex
+            min-w-[52px]
+            flex-col
+            items-center
+            justify-center
+            gap-1.5
+            bg-[var(--background)]
+            text-[var(--foreground-secondary)]
+            transition-all duration-200
+            hover:text-[var(--foreground)]
+          "
+        >
+          <Settings
+            size={19}
+            strokeWidth={1.8}
+            className="
+              transition-transform
+              duration-300
+              group-hover:rotate-45
+            "
+          />
+
+          <span
+            className="
+              text-[10px]
+              leading-none
+            "
+          >
+            Config.
+          </span>
+        </button>
+      </div>
+
+      {/* =====================================================
+          CONTEÚDO
+      ====================================================== */}
+
+      <div
+        className="
+          flex-1
+          overflow-y-auto
+        "
+      >
         {messages.length === 0 ? (
           <div
             className="
-              flex h-full flex-col
-              items-center justify-center
+              flex h-full
+              flex-col
+              items-center
+              justify-center
               px-6
             "
           >
-            <AIAvatar size="lg" />
+            {/* LOGO CENTRAL DA TELA INICIAL */}
+
+            <Image
+              src="/assets/LOGO+TITULO+SUBTITULO BRANCO.png"
+              alt="SAITE"
+              width={120}
+              height={40}
+              className="h-50 w-auto object-contain"
+            />
+
+            {/* TÍTULO */}
 
             <h1
               className="
@@ -87,11 +229,15 @@ export default function Chat() {
               Como posso ajudar?
             </h1>
 
+            {/* DESCRIÇÃO */}
+
             <p
               className="
-                mt-3 max-w-md
+                mt-3
+                max-w-md
                 text-center
-                text-sm leading-6
+                text-sm
+                leading-6
                 text-[var(--foreground-secondary)]
               "
             >
@@ -99,10 +245,16 @@ export default function Chat() {
               explore seus projetos.
             </p>
 
+            {/* SUGESTÕES */}
+
             <div
               className="
-                mt-8 grid w-full
-                max-w-xl grid-cols-2 gap-3
+                mt-8
+                grid
+                w-full
+                max-w-xl
+                grid-cols-2
+                gap-3
               "
             >
               {[
@@ -116,19 +268,20 @@ export default function Chat() {
                   onClick={() => handleSendMessage(suggestion)}
                   disabled={isLoading}
                   className="
-                    rounded-xl
-                    border
-                    border-[var(--border)]
-                    bg-[var(--background-secondary)]
-                    px-4 py-3
-                    text-left text-xs
-                    text-[var(--foreground-secondary)]
-                    transition
-                    hover:border-[var(--border-hover)]
-                    hover:bg-[var(--background-tertiary)]
-                    hover:text-[var(--foreground)]
-                    disabled:opacity-50
-                  "
+                      rounded-xl
+                      border
+                      border-[var(--border)]
+                      bg-[var(--background-secondary)]
+                      px-4 py-3
+                      text-left
+                      text-xs
+                      text-[var(--foreground-secondary)]
+                      transition-all duration-200
+                      hover:border-[var(--border-hover)]
+                      hover:bg-[var(--background-tertiary)]
+                      hover:text-[var(--foreground)]
+                      disabled:opacity-50
+                    "
                 >
                   {suggestion}
                 </button>
@@ -138,7 +291,8 @@ export default function Chat() {
         ) : (
           <div
             className="
-              mx-auto max-w-3xl
+              mx-auto
+              max-w-3xl
               space-y-6
               px-6 py-8
             "
@@ -147,29 +301,32 @@ export default function Chat() {
               <div
                 key={message.id}
                 className={`
-                  flex gap-3
-                  ${message.role === "user" ? "justify-end" : "justify-start"}
-                `}
+                    flex gap-3
+                    ${message.role === "user" ? "justify-end" : "justify-start"}
+                  `}
               >
                 {message.role === "assistant" && <AIAvatar size="sm" />}
 
                 <div
                   className={`
-                    max-w-[75%]
-                    rounded-2xl
-                    px-4 py-3
-                    text-sm leading-6
-                    ${
-                      message.role === "user"
-                        ? "bg-[var(--chat-user-background)] text-[var(--chat-user-foreground)]"
-                        : "border border-[var(--border)] bg-[var(--chat-ai-background)] text-[var(--chat-ai-foreground)]"
-                    }
-                  `}
+                      max-w-[75%]
+                      rounded-2xl
+                      px-4 py-3
+                      text-sm
+                      leading-6
+                      ${
+                        message.role === "user"
+                          ? "bg-[var(--chat-user-background)] text-[var(--chat-user-foreground)]"
+                          : "border border-[var(--border)] bg-[var(--chat-ai-background)] text-[var(--chat-ai-foreground)]"
+                      }
+                    `}
                 >
                   {message.content}
                 </div>
               </div>
             ))}
+
+            {/* LOADING */}
 
             {isLoading && (
               <div
@@ -188,20 +345,52 @@ export default function Chat() {
                     px-4 py-3
                   "
                 >
-                  <div className="flex gap-1">
-                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--foreground-muted)]" />
-                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--foreground-muted)] [animation-delay:150ms]" />
-                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--foreground-muted)] [animation-delay:300ms]" />
+                  <div
+                    className="
+                      flex gap-1
+                    "
+                  >
+                    <span
+                      className="
+                        h-1.5 w-1.5
+                        animate-pulse
+                        rounded-full
+                        bg-[var(--foreground-muted)]
+                      "
+                    />
+
+                    <span
+                      className="
+                        h-1.5 w-1.5
+                        animate-pulse
+                        rounded-full
+                        bg-[var(--foreground-muted)]
+                        [animation-delay:150ms]
+                      "
+                    />
+
+                    <span
+                      className="
+                        h-1.5 w-1.5
+                        animate-pulse
+                        rounded-full
+                        bg-[var(--foreground-muted)]
+                        [animation-delay:300ms]
+                      "
+                    />
                   </div>
                 </div>
               </div>
             )}
 
+            {/* ERRO */}
+
             {error && (
               <div
                 className="
                   rounded-xl
-                  border border-[var(--danger)]/20
+                  border
+                  border-[var(--danger)]/20
                   bg-[var(--danger)]/5
                   px-4 py-3
                   text-xs
@@ -215,7 +404,10 @@ export default function Chat() {
         )}
       </div>
 
-      {/* INPUT */}
+      {/* =====================================================
+          INPUT
+      ====================================================== */}
+
       <ChatInput onSend={handleSendMessage} />
     </main>
   );
