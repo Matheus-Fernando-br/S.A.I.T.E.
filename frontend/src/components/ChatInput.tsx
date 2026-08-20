@@ -1,7 +1,16 @@
 "use client";
 
-import { FormEvent, useState } from "react";
-import { Mic, Send, AudioLines } from "lucide-react";
+import { FormEvent, useState, useRef, useEffect } from "react";
+import {
+  Mic,
+  Send,
+  AudioLines,
+  Plus,
+  Paperclip,
+  HardDrive,
+  Ellipsis,
+  ChevronRight,
+} from "lucide-react";
 
 interface ChatInputProps {
   onSend: (message: string) => void;
@@ -9,6 +18,8 @@ interface ChatInputProps {
 
 export default function ChatInput({ onSend }: ChatInputProps) {
   const [message, setMessage] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -19,7 +30,19 @@ export default function ChatInput({ onSend }: ChatInputProps) {
 
     onSend(message);
     setMessage("");
+    setIsMenuOpen(false);
   }
+
+  // Fecha o menu se clicar fora dele
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <div
@@ -40,10 +63,11 @@ export default function ChatInput({ onSend }: ChatInputProps) {
           gap-6
         "
       >
-        {/* INPUT */}
+        {/* INPUT COM O BOTÃO "+" À ESQUERDA */}
         <form
           onSubmit={handleSubmit}
           className="
+            relative
             flex
             flex-1
             items-center
@@ -58,11 +82,125 @@ export default function ChatInput({ onSend }: ChatInputProps) {
             focus-within:border-[var(--border-hover)]
           "
         >
+          {/* BOTÃO "+" E MINI MODAL */}
+          <div className="relative" ref={menuRef}>
+            <button
+              type="button"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className={`
+                flex h-10 w-10
+                shrink-0
+                items-center justify-center
+                rounded-xl
+                text-[var(--foreground-secondary)]
+                transition-all duration-200
+                hover:bg-[var(--sidebar-hover)]
+                hover:text-[var(--foreground)]
+                ${isMenuOpen ? "bg-[var(--sidebar-hover)] text-[var(--foreground)] rotate-45" : ""}
+              `}
+              title="Mais opções"
+            >
+              <Plus
+                size={19}
+                strokeWidth={2}
+                className="transition-transform duration-200"
+              />
+            </button>
+
+            {/* MINI MODAL FLUTUANTE */}
+            {isMenuOpen && (
+              <div
+                className="
+                  absolute
+                  bottom-14
+                  left-0
+                  z-50
+                  w-58
+                  flex
+                  flex-col
+                  gap-1
+                  rounded-2xl
+                  border
+                  border-[var(--sidebar-border)]
+                  bg-[var(--background-tertiary)]
+                  p-1.5
+                  shadow-xl
+                  backdrop-blur-md
+                  animate-in fade-in zoom-in-95 duration-150
+                "
+              >
+                <button
+                  type="button"
+                  onClick={() => {
+                    alert("Anexar Arquivos clicado");
+                    setIsMenuOpen(false);
+                  }}
+                  className="
+                    flex items-center gap-3
+                    rounded-xl
+                    px-3 py-2.5
+                    text-xs
+                    text-[var(--foreground-secondary)]
+                    transition-all duration-200
+                    hover:bg-[var(--sidebar-hover)]
+                    hover:text-[var(--foreground)]
+                  "
+                >
+                  <Paperclip size={16} strokeWidth={1.8} />
+                  <span>Anexar Arquivos</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    alert("Adicionar do Drive clicado");
+                    setIsMenuOpen(false);
+                  }}
+                  className="
+                    flex items-center gap-3
+                    rounded-xl
+                    px-3 py-2.5
+                    text-xs
+                    text-[var(--foreground-secondary)]
+                    transition-all duration-200
+                    hover:bg-[var(--sidebar-hover)]
+                    hover:text-[var(--foreground)]
+                  "
+                >
+                  <HardDrive size={16} strokeWidth={1.8} />
+                  <span>Adicionar do Drive</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    alert("Mais Ferramentas clicado");
+                    setIsMenuOpen(false);
+                  }}
+                  className="
+                    flex items-center gap-3
+                    rounded-xl
+                    px-3 py-2.5
+                    text-xs
+                    text-[var(--foreground-secondary)]
+                    transition-all duration-200
+                    hover:bg-[var(--sidebar-hover)]
+                    hover:text-[var(--foreground)]
+                  "
+                >
+                  <Ellipsis size={16} strokeWidth={1.8} />
+                  <span>Mais Ferramentas</span>
+                  <ChevronRight size={16} strokeWidth={1.8} />
+                </button>
+              </div>
+            )}
+          </div>
+
           {/* CAMPO */}
           <input
             value={message}
             onChange={(event) => setMessage(event.target.value)}
-            placeholder="Converse com Athena..."
+            placeholder="Converse com SAITE..."
             className="
               min-w-0
               flex-1
@@ -89,7 +227,7 @@ export default function ChatInput({ onSend }: ChatInputProps) {
               hover:bg-[var(--sidebar-hover)]
               hover:text-[var(--foreground)]
             "
-            title="Falar com Athena"
+            title="Falar com SAITE"
           >
             <Mic size={19} strokeWidth={1.8} />
           </button>
@@ -99,20 +237,20 @@ export default function ChatInput({ onSend }: ChatInputProps) {
             type="submit"
             disabled={!message.trim()}
             className="
-              flex h-10 w-10
+              flex h-12 w-12
               shrink-0
               items-center justify-center
               rounded-xl
               bg-[var(--foreground)]
               text-[var(--background)]
               transition-all duration-200
-              hover:scale-105
+              hover:scale-110
               disabled:cursor-not-allowed
               disabled:opacity-30
             "
             title="Enviar mensagem"
           >
-            <Send size={17} strokeWidth={2} />
+            <Send size={25} strokeWidth={2} />
           </button>
         </form>
 

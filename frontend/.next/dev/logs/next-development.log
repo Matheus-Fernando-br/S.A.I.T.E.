@@ -49,3 +49,25 @@
 {"timestamp":"00:40:38.445","source":"Server","level":"LOG","message":"✓ Compiled in 88ms"}
 {"timestamp":"00:40:46.964","source":"Server","level":"LOG","message":"✓ Compiled in 134ms"}
 {"timestamp":"00:40:58.785","source":"Server","level":"LOG","message":"✓ Compiled in 83ms"}
+{"timestamp":"00:52:31.017","source":"Server","level":"LOG","message":"✓ Compiled in 83ms"}
+{"timestamp":"01:06:54.337","source":"Server","level":"LOG","message":"✓ Compiled in 321ms"}
+{"timestamp":"01:07:00.437","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"01:07:00.570","source":"Browser","level":"WARN","message":"Image with src \"/assets/TITULO.png\" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: \"auto\"' or 'height: \"auto\"' to maintain the aspect ratio."}
+{"timestamp":"01:07:00.699","source":"Server","level":"WARN","message":"[browser] \"\\u001b[33mImage with src \\\"/assets/TITULO.png\\\" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: \\\"auto\\\"' or 'height: \\\"auto\\\"' to maintain the aspect ratio.\\u001b[39m\""}
+{"timestamp":"01:08:35.617","source":"Server","level":"LOG","message":"✓ Compiled in 205ms"}
+{"timestamp":"01:09:33.865","source":"Server","level":"LOG","message":"✓ Compiled in 167ms"}
+{"timestamp":"01:10:27.152","source":"Server","level":"LOG","message":"✓ Compiled in 91ms"}
+{"timestamp":"01:10:32.603","source":"Server","level":"LOG","message":"✓ Compiled in 81ms"}
+{"timestamp":"01:11:05.600","source":"Server","level":"LOG","message":"✓ Compiled in 100ms"}
+{"timestamp":"01:11:10.259","source":"Server","level":"LOG","message":"✓ Compiled in 73ms"}
+{"timestamp":"01:11:15.492","source":"Server","level":"LOG","message":"✓ Compiled in 89ms"}
+{"timestamp":"01:11:33.920","source":"Server","level":"LOG","message":"✓ Compiled in 173ms"}
+{"timestamp":"01:11:41.585","source":"Server","level":"LOG","message":"✓ Compiled in 110ms"}
+{"timestamp":"01:12:22.167","source":"Server","level":"LOG","message":"✓ Compiled in 76ms"}
+{"timestamp":"01:12:38.397","source":"Server","level":"LOG","message":"✓ Compiled in 119ms"}
+{"timestamp":"01:13:42.827","source":"Server","level":"LOG","message":"✓ Compiled in 67ms"}
+{"timestamp":"01:13:48.581","source":"Server","level":"LOG","message":"✓ Compiled in 85ms"}
+{"timestamp":"01:13:52.156","source":"Server","level":"LOG","message":"✓ Compiled in 87ms"}
+{"timestamp":"01:13:55.330","source":"Server","level":"LOG","message":"✓ Compiled in 79ms"}
+{"timestamp":"01:14:10.960","source":"Server","level":"LOG","message":"✓ Compiled in 94ms"}
+{"timestamp":"01:14:18.132","source":"Server","level":"LOG","message":"✓ Compiled in 105ms"}
