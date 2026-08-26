@@ -1,73 +1,8 @@
-{"timestamp":"00:00:02.069","source":"Server","level":"LOG","message":""}
-{"timestamp":"00:00:05.125","source":"Server","level":"LOG","message":"○ Compiling / ..."}
-{"timestamp":"00:00:16.506","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
-{"timestamp":"00:01:15.535","source":"Server","level":"LOG","message":"✓ Compiled in 475ms"}
-{"timestamp":"00:01:50.686","source":"Server","level":"LOG","message":"✓ Compiled in 147ms"}
-{"timestamp":"00:02:27.633","source":"Server","level":"LOG","message":"✓ Compiled in 76ms"}
-{"timestamp":"00:02:44.594","source":"Server","level":"LOG","message":"✓ Compiled in 94ms"}
-{"timestamp":"00:04:18.256","source":"Server","level":"LOG","message":"✓ Compiled in 213ms"}
-{"timestamp":"00:05:15.668","source":"Server","level":"LOG","message":"✓ Compiled in 117ms"}
-{"timestamp":"00:05:31.480","source":"Server","level":"LOG","message":"✓ Compiled in 59ms"}
-{"timestamp":"00:06:23.274","source":"Server","level":"LOG","message":"✓ Compiled in 82ms"}
-{"timestamp":"00:06:25.733","source":"Server","level":"LOG","message":"✓ Compiled in 58ms"}
-{"timestamp":"00:06:39.418","source":"Server","level":"LOG","message":"✓ Compiled in 73ms"}
-{"timestamp":"00:10:03.566","source":"Server","level":"LOG","message":"✓ Compiled in 302ms"}
-{"timestamp":"00:10:58.953","source":"Server","level":"LOG","message":"✓ Compiled in 130ms"}
-{"timestamp":"00:14:15.631","source":"Server","level":"LOG","message":"✓ Compiled in 155ms"}
-{"timestamp":"00:15:17.828","source":"Server","level":"LOG","message":"✓ Compiled in 117ms"}
-{"timestamp":"00:15:21.636","source":"Server","level":"LOG","message":"✓ Compiled in 87ms"}
-{"timestamp":"00:15:46.092","source":"Server","level":"LOG","message":"✓ Compiled in 109ms"}
-{"timestamp":"00:15:50.192","source":"Server","level":"LOG","message":"✓ Compiled in 94ms"}
-{"timestamp":"00:18:20.390","source":"Server","level":"LOG","message":"✓ Compiled in 125ms"}
-{"timestamp":"00:18:32.104","source":"Server","level":"LOG","message":"✓ Compiled in 107ms"}
-{"timestamp":"00:19:51.783","source":"Server","level":"LOG","message":"✓ Compiled in 108ms"}
-{"timestamp":"00:21:15.010","source":"Server","level":"LOG","message":"✓ Compiled in 337ms"}
-{"timestamp":"00:26:23.648","source":"Server","level":"LOG","message":"✓ Compiled in 201ms"}
-{"timestamp":"00:27:51.793","source":"Server","level":"LOG","message":"✓ Compiled in 134ms"}
-{"timestamp":"00:28:20.494","source":"Server","level":"LOG","message":"✓ Compiled in 88ms"}
-{"timestamp":"00:28:31.809","source":"Server","level":"LOG","message":"✓ Compiled in 128ms"}
-{"timestamp":"00:28:36.855","source":"Server","level":"LOG","message":"✓ Compiled in 79ms"}
-{"timestamp":"00:34:06.792","source":"Server","level":"LOG","message":"✓ Compiled in 164ms"}
-{"timestamp":"00:34:55.463","source":"Server","level":"LOG","message":"✓ Compiled in 118ms"}
-{"timestamp":"00:35:03.361","source":"Server","level":"LOG","message":"✓ Compiled in 120ms"}
-{"timestamp":"00:35:11.966","source":"Server","level":"LOG","message":"✓ Compiled in 169ms"}
-{"timestamp":"00:35:17.582","source":"Server","level":"LOG","message":"✓ Compiled in 130ms"}
-{"timestamp":"00:35:21.809","source":"Server","level":"LOG","message":"✓ Compiled in 112ms"}
-{"timestamp":"00:35:31.024","source":"Server","level":"LOG","message":"✓ Compiled in 79ms"}
-{"timestamp":"00:35:35.631","source":"Server","level":"LOG","message":"✓ Compiled in 98ms"}
-{"timestamp":"00:35:43.895","source":"Server","level":"LOG","message":"✓ Compiled in 84ms"}
-{"timestamp":"00:36:00.090","source":"Server","level":"LOG","message":"✓ Compiled in 72ms"}
-{"timestamp":"00:36:05.635","source":"Server","level":"LOG","message":"✓ Compiled in 64ms"}
-{"timestamp":"00:38:17.208","source":"Server","level":"LOG","message":"✓ Compiled in 375ms"}
-{"timestamp":"00:38:38.968","source":"Server","level":"LOG","message":"✓ Compiled in 98ms"}
-{"timestamp":"00:38:46.011","source":"Server","level":"LOG","message":"✓ Compiled in 87ms"}
-{"timestamp":"00:38:51.330","source":"Server","level":"LOG","message":"✓ Compiled in 79ms"}
-{"timestamp":"00:38:54.697","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
-{"timestamp":"00:39:09.412","source":"Server","level":"LOG","message":"✓ Compiled in 143ms"}
-{"timestamp":"00:39:49.337","source":"Server","level":"LOG","message":"✓ Compiled in 74ms"}
-{"timestamp":"00:40:18.151","source":"Server","level":"LOG","message":"✓ Compiled in 88ms"}
-{"timestamp":"00:40:38.445","source":"Server","level":"LOG","message":"✓ Compiled in 88ms"}
-{"timestamp":"00:40:46.964","source":"Server","level":"LOG","message":"✓ Compiled in 134ms"}
-{"timestamp":"00:40:58.785","source":"Server","level":"LOG","message":"✓ Compiled in 83ms"}
-{"timestamp":"00:52:31.017","source":"Server","level":"LOG","message":"✓ Compiled in 83ms"}
-{"timestamp":"01:06:54.337","source":"Server","level":"LOG","message":"✓ Compiled in 321ms"}
-{"timestamp":"01:07:00.437","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
-{"timestamp":"01:07:00.570","source":"Browser","level":"WARN","message":"Image with src \"/assets/TITULO.png\" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: \"auto\"' or 'height: \"auto\"' to maintain the aspect ratio."}
-{"timestamp":"01:07:00.699","source":"Server","level":"WARN","message":"[browser] \"\\u001b[33mImage with src \\\"/assets/TITULO.png\\\" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: \\\"auto\\\"' or 'height: \\\"auto\\\"' to maintain the aspect ratio.\\u001b[39m\""}
-{"timestamp":"01:08:35.617","source":"Server","level":"LOG","message":"✓ Compiled in 205ms"}
-{"timestamp":"01:09:33.865","source":"Server","level":"LOG","message":"✓ Compiled in 167ms"}
-{"timestamp":"01:10:27.152","source":"Server","level":"LOG","message":"✓ Compiled in 91ms"}
-{"timestamp":"01:10:32.603","source":"Server","level":"LOG","message":"✓ Compiled in 81ms"}
-{"timestamp":"01:11:05.600","source":"Server","level":"LOG","message":"✓ Compiled in 100ms"}
-{"timestamp":"01:11:10.259","source":"Server","level":"LOG","message":"✓ Compiled in 73ms"}
-{"timestamp":"01:11:15.492","source":"Server","level":"LOG","message":"✓ Compiled in 89ms"}
-{"timestamp":"01:11:33.920","source":"Server","level":"LOG","message":"✓ Compiled in 173ms"}
-{"timestamp":"01:11:41.585","source":"Server","level":"LOG","message":"✓ Compiled in 110ms"}
-{"timestamp":"01:12:22.167","source":"Server","level":"LOG","message":"✓ Compiled in 76ms"}
-{"timestamp":"01:12:38.397","source":"Server","level":"LOG","message":"✓ Compiled in 119ms"}
-{"timestamp":"01:13:42.827","source":"Server","level":"LOG","message":"✓ Compiled in 67ms"}
-{"timestamp":"01:13:48.581","source":"Server","level":"LOG","message":"✓ Compiled in 85ms"}
-{"timestamp":"01:13:52.156","source":"Server","level":"LOG","message":"✓ Compiled in 87ms"}
-{"timestamp":"01:13:55.330","source":"Server","level":"LOG","message":"✓ Compiled in 79ms"}
-{"timestamp":"01:14:10.960","source":"Server","level":"LOG","message":"✓ Compiled in 94ms"}
-{"timestamp":"01:14:18.132","source":"Server","level":"LOG","message":"✓ Compiled in 105ms"}
+{"timestamp":"00:00:02.222","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:37.139","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:00:37.331","source":"Browser","level":"WARN","message":"Image with src \"/assets/TITULO.png\" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: \"auto\"' or 'height: \"auto\"' to maintain the aspect ratio."}
+{"timestamp":"00:00:37.477","source":"Server","level":"WARN","message":"[browser] \"\\u001b[33mImage with src \\\"/assets/TITULO.png\\\" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: \\\"auto\\\"' or 'height: \\\"auto\\\"' to maintain the aspect ratio.\\u001b[39m\""}
+{"timestamp":"00:56:34.068","source":"Server","level":"LOG","message":"✓ Compiled in 383ms"}
+{"timestamp":"00:58:50.304","source":"Server","level":"LOG","message":"  Reload env: .env.local"}
+{"timestamp":"00:58:50.931","source":"Server","level":"LOG","message":"✓ Compiled in 0ms"}
+{"timestamp":"01:09:35.467","source":"Server","level":"LOG","message":"  Reload env: .env"}

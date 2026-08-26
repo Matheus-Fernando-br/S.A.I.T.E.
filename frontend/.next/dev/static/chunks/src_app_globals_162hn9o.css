@@ -428,10 +428,6 @@
     margin-top: calc(var(--spacing) * 8);
   }
 
-  .mb-2 {
-    margin-bottom: calc(var(--spacing) * 2);
-  }
-
   .mb-3 {
     margin-bottom: calc(var(--spacing) * 3);
   }
@@ -468,10 +464,6 @@
     height: calc(var(--spacing) * 12);
   }
 
-  .h-15 {
-    height: calc(var(--spacing) * 15);
-  }
-
   .h-16 {
     height: calc(var(--spacing) * 16);
   }
@@ -484,32 +476,12 @@
     height: calc(var(--spacing) * 24);
   }
 
-  .h-25 {
-    height: calc(var(--spacing) * 25);
-  }
-
-  .h-28 {
-    height: calc(var(--spacing) * 28);
-  }
-
   .h-30 {
     height: calc(var(--spacing) * 30);
   }
 
-  .h-35 {
-    height: calc(var(--spacing) * 35);
-  }
-
   .h-50 {
     height: calc(var(--spacing) * 50);
-  }
-
-  .h-90 {
-    height: calc(var(--spacing) * 90);
-  }
-
-  .h-100 {
-    height: calc(var(--spacing) * 100);
   }
 
   .h-\[72px\] {
@@ -550,14 +522,6 @@
 
   .w-24 {
     width: calc(var(--spacing) * 24);
-  }
-
-  .w-52 {
-    width: calc(var(--spacing) * 52);
-  }
-
-  .w-55 {
-    width: calc(var(--spacing) * 55);
   }
 
   .w-58 {
@@ -682,14 +646,6 @@
 
   .gap-6 {
     gap: calc(var(--spacing) * 6);
-  }
-
-  .gap-10 {
-    gap: calc(var(--spacing) * 10);
-  }
-
-  .gap-20 {
-    gap: calc(var(--spacing) * 20);
   }
 
   :where(.space-y-3 > :not(:last-child)) {
@@ -964,10 +920,6 @@
     padding-block: var(--spacing);
   }
 
-  .py-1\.5 {
-    padding-block: calc(var(--spacing) * 1.5);
-  }
-
   .py-2 {
     padding-block: calc(var(--spacing) * 2);
   }
@@ -988,20 +940,12 @@
     padding-block: calc(var(--spacing) * 4);
   }
 
-  .py-5 {
-    padding-block: calc(var(--spacing) * 5);
-  }
-
   .py-8 {
     padding-block: calc(var(--spacing) * 8);
   }
 
   .pt-4 {
     padding-top: calc(var(--spacing) * 4);
-  }
-
-  .pr-1 {
-    padding-right: var(--spacing);
   }
 
   .pb-2 {
@@ -1267,13 +1211,6 @@
   }
 
   @media (hover: hover) {
-    .hover\:scale-105:hover {
-      --tw-scale-x: 105%;
-      --tw-scale-y: 105%;
-      --tw-scale-z: 105%;
-      scale: var(--tw-scale-x) var(--tw-scale-y);
-    }
-
     .hover\:scale-110:hover {
       --tw-scale-x: 110%;
       --tw-scale-y: 110%;
@@ -1325,10 +1262,6 @@
 
     .hover\:text-\[var\(--foreground\)\]:hover {
       color: var(--foreground);
-    }
-
-    .hover\:text-\[var\(--foreground-secondary\)\]:hover {
-      color: var(--foreground-secondary);
     }
 
     .hover\:text-white:hover {

@@ -1,0 +1,30 @@
+# =========================
+# ENV / SECRETS
+# =========================
+.env
+.env.*
+!.env.example
+
+# Frontend
+frontend/.env
+frontend/.env.*
+
+# Backend
+backend/.env
+backend/.env.*
+
+# =========================
+# NODE
+# =========================
+node_modules/
+.next/
+out/
+dist/
+
+# =========================
+# PYTHON
+# =========================
+__pycache__/
+*.pyc
+.venv/
+venv/

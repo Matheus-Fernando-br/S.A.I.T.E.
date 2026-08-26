@@ -5,8 +5,8 @@ from app.api.routes.chat import router as chat_router
 
 
 app = FastAPI(
-    title="AI Agent API",
-    description="Backend do agente pessoal de IA",
+    title="SAITE — Superior Advanced Intelligence Technological Entity",
+    description="Backend do agente pessoal de IA S.A.I.T.E.",
     version="0.1.0",
 )
 
@@ -31,7 +31,7 @@ app.include_router(
 @app.get("/")
 async def root():
     return {
-        "message": "AI Agent API",
+        "message": "S.A.I.T.E. API",
         "status": "online",
         "version": "0.1.0",
     }
