@@ -8,6 +8,8 @@ class ChatRequest(BaseModel):
         max_length=10000,
     )
 
+    conversation_id: str
+
 
 class ChatResponse(BaseModel):
     response: str
