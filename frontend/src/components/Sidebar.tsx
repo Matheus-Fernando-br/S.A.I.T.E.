@@ -17,13 +17,21 @@ import {
   Bot,
   MessageCircle,
 } from "lucide-react";
+
 import Image from "next/image";
-
+import { useEffect, useState } from "react";
+import { Conversation, getConversations } from "@/services/api";
 import { useTheme } from "./ThemeProvider";
-
+import { LoaderCircle } from "lucide-react";
 interface SidebarProps {
   isOpen: boolean;
   onToggle: () => void;
+
+  onNewConversation: () => void;
+
+  onSelectConversation: (conversationId: string) => void;
+
+  refreshHistory: number;
 }
 
 const menuItems = [
@@ -49,19 +57,56 @@ const menuItems = [
   },
 ];
 
-// HISTÓRICO FAKE (Substitua pelos dados reais da sua API depois)
-const fakeHistory = [
-  { id: "1", label: "Análise do currículo CEFET-MG" },
-  { id: "2", label: "Diagnóstico Peugeot 307" },
-  { id: "3", label: "Configuração Docker no Ubuntu" },
-  { id: "4", label: "Planejamento Kanban Projeto" },
-  { id: "5", label: "Regras de média Unileste" },
-];
-
-export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
+export default function Sidebar({
+  isOpen,
+  onToggle,
+  onNewConversation,
+  onSelectConversation,
+  refreshHistory,
+}: SidebarProps) {
   const { theme, toggleTheme } = useTheme();
 
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+
+  const [isLoadingHistory, setIsLoadingHistory] = useState(true);
+
   const isDark = theme === "dark";
+
+  /* ============================================================
+     CARREGAR HISTÓRICO
+  ============================================================ */
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadConversations() {
+      try {
+        setIsLoadingHistory(true);
+
+        const data = await getConversations();
+
+        if (!cancelled) {
+          setConversations(Array.isArray(data) ? data : []);
+        }
+      } catch (error) {
+        console.error("Erro ao carregar histórico:", error);
+
+        if (!cancelled) {
+          setConversations([]);
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoadingHistory(false);
+        }
+      }
+    }
+
+    void loadConversations();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [refreshHistory]);
 
   return (
     <aside
@@ -106,7 +151,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
           />
         </div>
 
-        {/* SIDEBAR TOGGLE */}
+        {/* TOGGLE */}
 
         <button
           onClick={onToggle}
@@ -130,7 +175,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
       </div>
 
       {/* =====================================================
-          MENU E HISTÓRICO
+          MENU
       ====================================================== */}
 
       <nav
@@ -141,8 +186,10 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
           px-3 py-4
         "
       >
-        {/* BOTÃO "NOVA CONVERSA" DESTAQUE */}
+        {/* NOVA CONVERSA */}
+
         <button
+          onClick={onNewConversation}
           className={`
             group
             mb-3
@@ -183,7 +230,8 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
           </span>
         </button>
 
-        {/* DEMAIS ITENS DO MENU */}
+        {/* MENU */}
+
         {menuItems.map((item) => {
           const Icon = item.icon;
 
@@ -228,46 +276,104 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
           );
         })}
 
-        {/* SEÇÃO DE HISTÓRICO FAKE COM LINHA SEPARADORA */}
+        {/* =====================================================
+            HISTÓRICO REAL
+        ====================================================== */}
+
         {isOpen && (
           <div className="mt-4 flex flex-col gap-1">
             <div className="my-2 border-t border-[var(--sidebar-border)]" />
-            <span className="px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-[var(--foreground-muted)]">
+
+            <span
+              className="
+                px-3 py-1
+                text-[11px]
+                font-semibold
+                uppercase
+                tracking-wider
+                text-[var(--foreground-muted)]
+              "
+            >
               Recentes
             </span>
-            {fakeHistory.map((chat) => (
-              <button
-                key={chat.id}
+
+            {isLoadingHistory ? (
+              <div
                 className="
-                  group
-                  flex h-10 w-full
-                  items-center gap-3
-                  rounded-xl
-                  px-3
-                  text-left text-xs
-                  text-[var(--foreground-secondary)]
-                  transition-all duration-200
-                  hover:bg-[var(--sidebar-hover)]
-                  hover:text-[var(--foreground)]
+                  flex items-center gap-2
+                  px-3 py-3
+                  text-xs
+                  text-[var(--foreground-muted)]
                 "
               >
-                <MessageCircle
+                <LoaderCircle
                   size={15}
+                  className="animate-spin"
                   strokeWidth={1.8}
-                  className="shrink-0 text-[var(--foreground-muted)] group-hover:text-[var(--foreground)]"
                 />
-                <span className="overflow-hidden text-ellipsis whitespace-nowrap">
-                  {chat.label}
-                </span>
-              </button>
-            ))}
+
+                <span>Carregando conversas...</span>
+              </div>
+            ) : conversations.length === 0 ? (
+              <div
+                className="
+      px-3 py-3
+      text-xs
+      text-[var(--foreground-muted)]
+    "
+              >
+                Sem conversas no Histórico.
+              </div>
+            ) : (
+              conversations.map((conversation) => (
+                <button
+                  key={conversation.id}
+                  onClick={() => onSelectConversation(conversation.id)}
+                  className="
+        group
+        flex h-10 w-full
+        items-center gap-3
+        rounded-xl
+        px-3
+        text-left text-xs
+        text-[var(--foreground-secondary)]
+        transition-all duration-200
+        hover:bg-[var(--sidebar-hover)]
+        hover:text-[var(--foreground)]
+      "
+                >
+                  <MessageCircle
+                    size={15}
+                    strokeWidth={1.8}
+                    className="
+          shrink-0
+          text-[var(--foreground-muted)]
+          group-hover:text-[var(--foreground)]
+        "
+                  />
+
+                  <span
+                    className="
+          min-w-0
+          flex-1
+          overflow-hidden
+          text-ellipsis
+          whitespace-nowrap
+        "
+                  >
+                    {conversation.title}
+                  </span>
+                </button>
+              ))
+            )}
           </div>
         )}
       </nav>
 
       {/* =====================================================
-          CARD ÚNICO: "MEU PC"
+          MEU PC
       ====================================================== */}
+
       <div className="px-3 pb-3">
         <div
           className={`
@@ -282,44 +388,54 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
         >
           {isOpen ? (
             <>
-              {/* TÍTULO DO CARD */}
-              <div className="flex items-center gap-2 border-b border-[var(--sidebar-border)] pb-2 text-xs font-semibold text-[var(--foreground)]">
+              <div
+                className="
+                  flex items-center gap-2
+                  border-b
+                  border-[var(--sidebar-border)]
+                  pb-2
+                  text-xs
+                  font-semibold
+                  text-[var(--foreground)]
+                "
+              >
                 <Monitor
                   size={15}
                   className="text-[var(--foreground-secondary)]"
                 />
+
                 <span>Meu PC</span>
               </div>
 
-              {/* CPU */}
               <div className="flex items-center justify-between text-xs text-[var(--foreground-secondary)]">
                 <span className="flex items-center gap-1.5">
                   <Cpu size={14} />
                   CPU
                 </span>
-                <span className="text-[var(--foreground)] font-medium text-[11px]">
+
+                <span className="text-[11px] font-medium text-[var(--foreground)]">
                   Intel i7 (24%)
                 </span>
               </div>
 
-              {/* RAM */}
               <div className="flex items-center justify-between text-xs text-[var(--foreground-secondary)]">
                 <span className="flex items-center gap-1.5">
                   <MemoryStick size={14} />
                   RAM
                 </span>
-                <span className="text-[var(--foreground)] font-medium text-[11px]">
+
+                <span className="text-[11px] font-medium text-[var(--foreground)]">
                   16 GB (62%)
                 </span>
               </div>
 
-              {/* SSD */}
               <div className="flex items-center justify-between text-xs text-[var(--foreground-secondary)]">
                 <span className="flex items-center gap-1.5">
                   <HardDrive size={14} />
                   SSD
                 </span>
-                <span className="text-[var(--foreground)] font-medium text-[11px]">
+
+                <span className="text-[11px] font-medium text-[var(--foreground)]">
                   512 GB (45%)
                 </span>
               </div>
@@ -335,8 +451,9 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
       </div>
 
       {/* =====================================================
-          THEME TOGGLE
+          THEME
       ====================================================== */}
+
       <div
         className="
           border-t
@@ -363,8 +480,6 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
             ${isOpen ? "gap-3 px-3" : "justify-center px-0"}
           `}
         >
-          {/* ÍCONE */}
-
           {isDark ? (
             <Moon
               size={19}
@@ -388,8 +503,6 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
               "
             />
           )}
-
-          {/* TEXTO */}
 
           <span
             className={`
