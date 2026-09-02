@@ -100,7 +100,7 @@ BUSCAR MENSAGENS DE UMA CONVERSA
 
 export async function getMessages(conversationId: string): Promise<Message[]> {
   const response = await fetch(
-    `${API_URL}/api/conversations/${conversationId}/messages`,
+    `${API_URL}/api/conversations/${conversationId}`,
     {
       method: "GET",
       headers: {
@@ -159,4 +159,41 @@ export async function sendMessage(
   const data: ChatResponse = await response.json();
 
   return data.response;
+}
+
+/* ============================================================
+RENOMEAR CONVERSA
+============================================================ */
+
+export async function updateConversation(
+  conversationId: string,
+  title: string,
+) {
+  const response = await fetch(
+    `${API_URL}/api/conversations/${conversationId}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title }),
+    },
+  );
+
+  return response;
+}
+
+/* ============================================================
+DELETAR CONVERSA
+============================================================ */
+
+export async function deleteConversation(conversationId: string) {
+  const response = await fetch(
+    `${API_URL}/api/conversations/${conversationId}`,
+    {
+      method: "DELETE",
+    },
+  );
+
+  return response;
 }

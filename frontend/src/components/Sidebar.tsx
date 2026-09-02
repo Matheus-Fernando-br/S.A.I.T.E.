@@ -16,11 +16,20 @@ import {
   MemoryStick,
   Bot,
   MessageCircle,
+  MoreHorizontal,
+  Pin,
+  Pencil,
+  Trash2,
 } from "lucide-react";
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { Conversation, getConversations } from "@/services/api";
+import {
+  Conversation,
+  getConversations,
+  updateConversation,
+  deleteConversation,
+} from "@/services/api";
 import { useTheme } from "./ThemeProvider";
 import { LoaderCircle } from "lucide-react";
 interface SidebarProps {
@@ -65,11 +74,11 @@ export default function Sidebar({
   refreshHistory,
 }: SidebarProps) {
   const { theme, toggleTheme } = useTheme();
-
   const [conversations, setConversations] = useState<Conversation[]>([]);
-
   const [isLoadingHistory, setIsLoadingHistory] = useState(true);
-
+  const [openConversationMenu, setOpenConversationMenu] = useState<
+    string | null
+  >(null);
   const isDark = theme === "dark";
 
   /* ============================================================
@@ -107,6 +116,83 @@ export default function Sidebar({
       cancelled = true;
     };
   }, [refreshHistory]);
+
+  {
+    /* =====================================================
+          RENOMEAR CONVERSA
+      ====================================================== */
+  }
+
+  const handleRenameConversation = async (conversation: Conversation) => {
+    const currentTitle = conversation.title || "";
+
+    const newTitle = window.prompt(
+      "Digite o novo nome da conversa:",
+      currentTitle,
+    );
+
+    if (newTitle === null) {
+      setOpenConversationMenu(null);
+      return;
+    }
+
+    const title = newTitle.trim();
+
+    if (!title) {
+      window.alert("O nome da conversa não pode ficar vazio.");
+      return;
+    }
+
+    if (title === currentTitle) {
+      setOpenConversationMenu(null);
+      return;
+    }
+
+    try {
+      await updateConversation(conversation.id, title);
+
+      setConversations((prev) =>
+        prev.map((item) =>
+          item.id === conversation.id ? { ...item, title } : item,
+        ),
+      );
+
+      setOpenConversationMenu(null);
+    } catch (error) {
+      console.error("Erro ao renomear conversa:", error);
+      window.alert("Não foi possível renomear a conversa.");
+    }
+  };
+
+  {
+    /* =====================================================
+          DELETAR CONVERSA
+      ====================================================== */
+  }
+
+  const handleDeleteConversation = async (conversation: Conversation) => {
+    const confirmed = window.confirm(
+      `Deseja realmente excluir a conversa "${conversation.title}"?`,
+    );
+
+    if (!confirmed) {
+      setOpenConversationMenu(null);
+      return;
+    }
+
+    try {
+      await deleteConversation(conversation.id);
+
+      setConversations((prev) =>
+        prev.filter((item) => item.id !== conversation.id),
+      );
+
+      setOpenConversationMenu(null);
+    } catch (error) {
+      console.error("Erro ao excluir conversa:", error);
+      window.alert("Não foi possível excluir a conversa.");
+    }
+  };
 
   return (
     <aside
@@ -326,44 +412,166 @@ export default function Sidebar({
               </div>
             ) : (
               conversations.map((conversation) => (
-                <button
+                <div
                   key={conversation.id}
-                  onClick={() => onSelectConversation(conversation.id)}
                   className="
-        group
-        flex h-10 w-full
+                    group
+                    relative
+                    flex h-10 w-full
+                    items-center
+                    rounded-xl
+                    text-xs
+                    text-[var(--foreground-secondary)]
+                    transition-all duration-200
+                    hover:bg-[var(--sidebar-hover)]
+                    hover:text-[var(--foreground)]
+                  "
+                >
+                  {/* CONVERSA */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setOpenConversationMenu(null);
+                      onSelectConversation(conversation.id);
+                    }}
+                    className="
+        flex min-w-0 flex-1
         items-center gap-3
         rounded-xl
         px-3
-        text-left text-xs
-        text-[var(--foreground-secondary)]
-        transition-all duration-200
-        hover:bg-[var(--sidebar-hover)]
-        hover:text-[var(--foreground)]
+        text-left
       "
-                >
-                  <MessageCircle
-                    size={15}
-                    strokeWidth={1.8}
-                    className="
+                  >
+                    <MessageCircle
+                      size={15}
+                      strokeWidth={1.8}
+                      className="
           shrink-0
           text-[var(--foreground-muted)]
           group-hover:text-[var(--foreground)]
         "
-                  />
+                    />
 
-                  <span
-                    className="
+                    <span
+                      className="
           min-w-0
           flex-1
           overflow-hidden
           text-ellipsis
           whitespace-nowrap
         "
+                    >
+                      {conversation.title}
+                    </span>
+                  </button>
+
+                  {/* BOTÃO 3 PONTINHOS */}
+                  <button
+                    type="button"
+                    aria-label="Opções da conversa"
+                    onClick={(event) => {
+                      event.stopPropagation();
+
+                      setOpenConversationMenu((current) =>
+                        current === conversation.id ? null : conversation.id,
+                      );
+                    }}
+                    className="
+        mr-1
+        flex h-8 w-8
+        shrink-0
+        items-center justify-center
+        rounded-lg
+        text-[var(--foreground-muted)]
+        opacity-0
+        transition-all duration-150
+        group-hover:opacity-100
+        hover:bg-[var(--background-tertiary)]
+        hover:text-[var(--foreground)]
+      "
                   >
-                    {conversation.title}
-                  </span>
-                </button>
+                    <MoreHorizontal size={17} strokeWidth={2} />
+                  </button>
+
+                  {/* MENU DE OPÇÕES */}
+                  {openConversationMenu === conversation.id && (
+                    <div
+                      className="
+          absolute
+          right-1
+          top-10
+          z-50
+          w-44
+          overflow-hidden
+          rounded-xl
+          border
+          border-[var(--sidebar-border)]
+          bg-[var(--sidebar-background)]
+          p-1
+          shadow-xl
+        "
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      {/* FIXAR */}
+                      <button
+                        type="button"
+                        disabled
+                        className="
+            flex w-full
+            items-center gap-3
+            rounded-lg
+            px-3 py-2.5
+            text-left text-xs
+            text-[var(--foreground-muted)]
+            opacity-60
+            cursor-not-allowed
+          "
+                      >
+                        <Pin size={15} strokeWidth={1.8} />
+                        <span>Fixar</span>
+                      </button>
+
+                      {/* RENOMEAR */}
+                      <button
+                        type="button"
+                        onClick={() => handleRenameConversation(conversation)}
+                        className="
+            flex w-full
+            items-center gap-3
+            rounded-lg
+            px-3 py-2.5
+            text-left text-xs
+            text-[var(--foreground-secondary)]
+            transition-colors
+            hover:bg-[var(--sidebar-hover)]
+            hover:text-[var(--foreground)]
+          "
+                      >
+                        <Pencil size={15} strokeWidth={1.8} />
+                        <span>Renomear</span>
+                      </button>
+
+                      {/* DELETAR */}
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteConversation(conversation)}
+                        className="
+            flex w-full
+            items-center gap-3
+            rounded-lg
+            px-3 py-2.5
+            text-left text-xs
+            text-red-500
+            transition-colors
+            hover:bg-red-500/10
+          "
+                      >
+                        <Trash2 size={15} strokeWidth={1.8} />
+                        <span>Deletar</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
               ))
             )}
           </div>

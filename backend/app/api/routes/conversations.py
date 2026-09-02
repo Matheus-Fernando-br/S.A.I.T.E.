@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from app.services.conversation import conversation_service
 from app.services.message import message_service
-
+import os
 router = APIRouter(
     prefix="/conversations",
     tags=["Conversations"],
@@ -41,25 +41,25 @@ async def list_messages(conversation_id: str):
         "messages": messages
     }
 
-    @router.delete("/{conversation_id}")
-    async def delete_conversation(conversation_id: str):
-        await conversation_service.delete_conversation(
-            conversation_id=conversation_id,
-            user_id=USER_ID
-        )
+@router.delete("/{conversation_id}")
+async def delete_conversation(conversation_id: str):
+    await conversation_service.delete_conversation(
+        conversation_id=conversation_id,
+        user_id=USER_ID
+    )
 
-        return {
-            "message": "Conversation deleted successfully"
-        }
+    return {
+        "message": "Conversation deleted successfully"
+    }
 
-        @router.put("/{conversation_id}")
-        async def update_conversation(conversation_id: str, title: str):
-            await conversation_service.update_conversation(
-                conversation_id=conversation_id,
-                user_id=USER_ID,
-                title=title
-            )
+@router.put("/{conversation_id}")
+async def update_conversation(conversation_id: str, title: str):
+    await conversation_service.update_conversation(
+        conversation_id=conversation_id,
+        user_id=USER_ID,
+        title=title
+    )
 
-            return {
-                "message": "Conversation updated successfully"
-            }
+    return {
+        "message": "Conversation updated successfully"
+    }

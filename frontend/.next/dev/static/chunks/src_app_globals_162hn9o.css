@@ -55,6 +55,7 @@
       "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
+    --color-red-500: #fb2c36;
     --color-emerald-400: #00d294;
     --color-zinc-400: #9f9fa9;
     --color-zinc-500: #71717b;
@@ -98,6 +99,7 @@
 
   @supports (color: lab(0% 0 0)) {
     :root, :host {
+      --color-red-500: lab(55.4814% 75.0732 48.8528);
       --color-emerald-400: lab(75.0771% -60.7313 19.4147);
       --color-zinc-400: lab(65.6464% 1.53497 -5.42429);
       --color-zinc-500: lab(47.8878% 1.65477 -5.77283);
@@ -369,6 +371,14 @@
     top: calc(var(--spacing) * 5);
   }
 
+  .top-10 {
+    top: calc(var(--spacing) * 10);
+  }
+
+  .right-1 {
+    right: var(--spacing);
+  }
+
   .right-6 {
     right: calc(var(--spacing) * 6);
   }
@@ -429,6 +439,10 @@
     margin-top: calc(var(--spacing) * 8);
   }
 
+  .mr-1 {
+    margin-right: var(--spacing);
+  }
+
   .mb-3 {
     margin-bottom: calc(var(--spacing) * 3);
   }
@@ -447,6 +461,10 @@
 
   .h-1\.5 {
     height: calc(var(--spacing) * 1.5);
+  }
+
+  .h-8 {
+    height: calc(var(--spacing) * 8);
   }
 
   .h-9 {
@@ -505,6 +523,10 @@
     width: calc(var(--spacing) * 1.5);
   }
 
+  .w-8 {
+    width: calc(var(--spacing) * 8);
+  }
+
   .w-9 {
     width: calc(var(--spacing) * 9);
   }
@@ -523,6 +545,10 @@
 
   .w-24 {
     width: calc(var(--spacing) * 24);
+  }
+
+  .w-44 {
+    width: calc(var(--spacing) * 44);
   }
 
   .w-58 {
@@ -591,6 +617,10 @@
 
   .animate-spin {
     animation: var(--animate-spin);
+  }
+
+  .cursor-not-allowed {
+    cursor: not-allowed;
   }
 
   .grid-cols-2 {
@@ -877,6 +907,10 @@
     object-fit: contain;
   }
 
+  .p-1 {
+    padding: var(--spacing);
+  }
+
   .p-1\.5 {
     padding: calc(var(--spacing) * 1.5);
   }
@@ -1082,6 +1116,10 @@
     color: var(--foreground-secondary);
   }
 
+  .text-red-500 {
+    color: var(--color-red-500);
+  }
+
   .text-zinc-400 {
     color: var(--color-zinc-400);
   }
@@ -1100,6 +1138,10 @@
 
   .opacity-0 {
     opacity: 0;
+  }
+
+  .opacity-60 {
+    opacity: .6;
   }
 
   .opacity-100 {
@@ -1205,6 +1247,10 @@
     .group-hover\:text-\[var\(--foreground\)\]:is(:where(.group):hover *) {
       color: var(--foreground);
     }
+
+    .group-hover\:opacity-100:is(:where(.group):hover *) {
+      opacity: 1;
+    }
   }
 
   .placeholder\:text-\[var\(--foreground-muted\)\]::placeholder {
@@ -1243,6 +1289,16 @@
 
     .hover\:bg-\[var\(--sidebar-hover\)\]:hover {
       background-color: var(--sidebar-hover);
+    }
+
+    .hover\:bg-red-500\/10:hover {
+      background-color: #fb2c361a;
+    }
+
+    @supports (color: color-mix(in lab, red, red)) {
+      .hover\:bg-red-500\/10:hover {
+        background-color: color-mix(in oklab, var(--color-red-500) 10%, transparent);
+      }
     }
 
     .hover\:bg-white\/\[0\.05\]:hover {
