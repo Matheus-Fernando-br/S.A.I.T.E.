@@ -162,7 +162,7 @@ export async function sendMessage(
 }
 
 /* ============================================================
-RENOMEAR CONVERSA
+   RENOMEAR CONVERSA
 ============================================================ */
 
 export async function updateConversation(
@@ -170,13 +170,9 @@ export async function updateConversation(
   title: string,
 ) {
   const response = await fetch(
-    `${API_URL}/api/conversations/${conversationId}`,
+    `${API_URL}/api/conversations/${conversationId}?title=${encodeURIComponent(title)}`,
     {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ title }),
     },
   );
 
