@@ -32,5 +32,40 @@ class ConversationService:
 
         return response.data
 
+    async def update_conversation(
+        self,
+        conversation_id: str,
+        user_id: str,
+        title: str
+    ):
+        response = (
+            supabase
+            .table("conversations")
+            .update({
+                "title": title
+            })
+            .eq("id", conversation_id)
+            .eq("user_id", user_id)
+            .execute()
+        )
+
+        return response.data
+
+    async def delete_conversation(
+        self,
+        conversation_id: str,
+        user_id: str
+    ):
+        response = (
+            supabase
+            .table("conversations")
+            .delete()
+            .eq("id", conversation_id)
+            .eq("user_id", user_id)
+            .execute()
+        )
+
+        return response.data
+
 
 conversation_service = ConversationService()
