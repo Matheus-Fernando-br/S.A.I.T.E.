@@ -14,7 +14,6 @@ import {
   Cpu,
   HardDrive,
   MemoryStick,
-  Bot,
   MessageCircle,
   MoreHorizontal,
   Pin,
@@ -28,6 +27,7 @@ import {
   Conversation,
   getConversations,
   updateConversation,
+  updateConversationFix,
   deleteConversation,
 } from "@/services/api";
 import { useTheme } from "./ThemeProvider";
@@ -47,10 +47,6 @@ const menuItems = [
   {
     label: "Chat",
     icon: MessageSquare,
-  },
-  {
-    label: "API",
-    icon: Bot,
   },
   {
     label: "Pesquisar",
@@ -75,7 +71,25 @@ export default function Sidebar({
 }: SidebarProps) {
   const { theme, toggleTheme } = useTheme();
   const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [pinnedConversations, setPinnedConversations] = useState<
+    Conversation[]
+  >([]);
   const [isLoadingHistory, setIsLoadingHistory] = useState(true);
+  const [isUpdatingConversation, setIsUpdatingConversation] = useState<
+    string | null
+  >(null);
+
+  const [isFixingConversation, setIsFixingConversation] = useState<
+    string | null
+  >(null);
+
+  const fixedConversations = conversations.filter(
+    (conversation) => conversation.fix,
+  );
+
+  const recentConversations = conversations.filter(
+    (conversation) => !conversation.fix,
+  );
   const [openConversationMenu, setOpenConversationMenu] = useState<
     string | null
   >(null);
@@ -149,18 +163,26 @@ export default function Sidebar({
     }
 
     try {
+      setIsUpdatingConversation(conversation.id);
+      setOpenConversationMenu(null);
+
       await updateConversation(conversation.id, title);
 
       setConversations((prev) =>
         prev.map((item) =>
-          item.id === conversation.id ? { ...item, title } : item,
+          item.id === conversation.id
+            ? {
+                ...item,
+                title,
+              }
+            : item,
         ),
       );
-
-      setOpenConversationMenu(null);
     } catch (error) {
       console.error("Erro ao renomear conversa:", error);
       window.alert("Não foi possível renomear a conversa.");
+    } finally {
+      setIsUpdatingConversation(null);
     }
   };
 
@@ -191,6 +213,43 @@ export default function Sidebar({
     } catch (error) {
       console.error("Erro ao excluir conversa:", error);
       window.alert("Não foi possível excluir a conversa.");
+    }
+  };
+
+  {
+    /* =====================================================
+          FIXAR CONVERSA
+      ====================================================== */
+  }
+
+  const handleFixConversation = async (conversation: Conversation) => {
+    const newFix = !conversation.fix;
+
+    try {
+      setIsFixingConversation(conversation.id);
+      setOpenConversationMenu(null);
+
+      await updateConversationFix(conversation.id, newFix);
+
+      setConversations((prev) =>
+        prev.map((item) =>
+          item.id === conversation.id
+            ? {
+                ...item,
+                fix: newFix,
+              }
+            : item,
+        ),
+      );
+    } catch (error) {
+      console.error("Erro ao fixar conversa:", error);
+      window.alert(
+        newFix
+          ? "Não foi possível fixar a conversa."
+          : "Não foi possível desafixar a conversa.",
+      );
+    } finally {
+      setIsFixingConversation(null);
     }
   };
 
@@ -370,64 +429,50 @@ export default function Sidebar({
           <div className="mt-4 flex flex-col gap-1">
             <div className="my-2 border-t border-[var(--sidebar-border)]" />
 
+            {/* ======================================================
+        FIXOS
+    ====================================================== */}
+
             <span
               className="
-                px-3 py-1
-                text-[11px]
-                font-semibold
-                uppercase
-                tracking-wider
-                text-[var(--foreground-muted)]
-              "
+        px-3 py-1
+        text-[11px]
+        font-semibold
+        uppercase
+        tracking-wider
+        text-[var(--foreground-muted)]
+      "
             >
-              Recentes
+              Fixos
             </span>
 
-            {isLoadingHistory ? (
+            {fixedConversations.length === 0 ? (
               <div
                 className="
-                  flex items-center gap-2
-                  px-3 py-3
-                  text-xs
-                  text-[var(--foreground-muted)]
-                "
+          px-3 py-3
+          text-xs
+          text-[var(--foreground-muted)]
+        "
               >
-                <LoaderCircle
-                  size={15}
-                  className="animate-spin"
-                  strokeWidth={1.8}
-                />
-
-                <span>Carregando conversas...</span>
-              </div>
-            ) : conversations.length === 0 ? (
-              <div
-                className="
-      px-3 py-3
-      text-xs
-      text-[var(--foreground-muted)]
-    "
-              >
-                Sem conversas no Histórico.
+                Nenhuma conversa fixada.
               </div>
             ) : (
-              conversations.map((conversation) => (
+              fixedConversations.map((conversation) => (
                 <div
                   key={conversation.id}
                   className="
-                    group
-                    relative
-                    flex h-10 w-full
-                    items-center
-                    rounded-xl
-                    text-xs
-                    text-[var(--foreground-secondary)]
-                    transition-all duration-200
-                    hover:bg-[var(--sidebar-hover)]
-                    hover:text-[var(--foreground)]
-                  "
+            group
+            relative
+            flex h-10 w-full
+            items-center
+            rounded-xl
+            text-xs
+            text-[var(--foreground-secondary)]
+            transition-all duration-200
+            hover:bg-[var(--sidebar-hover)]
+            hover:text-[var(--foreground)]
+          "
                 >
-                  {/* CONVERSA */}
                   <button
                     type="button"
                     onClick={() => {
@@ -435,37 +480,45 @@ export default function Sidebar({
                       onSelectConversation(conversation.id);
                     }}
                     className="
-        flex min-w-0 flex-1
-        items-center gap-3
-        rounded-xl
-        px-3
-        text-left
-      "
+              flex min-w-0 flex-1
+              items-center gap-3
+              rounded-xl
+              px-3
+              text-left
+            "
                   >
-                    <MessageCircle
-                      size={15}
-                      strokeWidth={1.8}
-                      className="
-          shrink-0
-          text-[var(--foreground-muted)]
-          group-hover:text-[var(--foreground)]
-        "
-                    />
+                    {isFixingConversation === conversation.id ||
+                    isUpdatingConversation === conversation.id ? (
+                      <LoaderCircle
+                        size={15}
+                        className="shrink-0 animate-spin"
+                        strokeWidth={1.8}
+                      />
+                    ) : (
+                      <Pin
+                        size={15}
+                        strokeWidth={1.8}
+                        className="
+                  shrink-0
+                  text-[var(--foreground-muted)]
+                  group-hover:text-[var(--foreground)]
+                "
+                      />
+                    )}
 
                     <span
                       className="
-          min-w-0
-          flex-1
-          overflow-hidden
-          text-ellipsis
-          whitespace-nowrap
-        "
+                min-w-0
+                flex-1
+                overflow-hidden
+                text-ellipsis
+                whitespace-nowrap
+              "
                     >
                       {conversation.title}
                     </span>
                   </button>
 
-                  {/* BOTÃO 3 PONTINHOS */}
                   <button
                     type="button"
                     aria-label="Opções da conversa"
@@ -477,94 +530,336 @@ export default function Sidebar({
                       );
                     }}
                     className="
-        mr-1
-        flex h-8 w-8
-        shrink-0
-        items-center justify-center
-        rounded-lg
+              mr-1
+              flex h-8 w-8
+              shrink-0
+              items-center justify-center
+              rounded-lg
+              text-[var(--foreground-muted)]
+              opacity-0
+              transition-all duration-150
+              group-hover:opacity-100
+              hover:bg-[var(--background-tertiary)]
+              hover:text-[var(--foreground)]
+            "
+                  >
+                    <MoreHorizontal size={17} strokeWidth={2} />
+                  </button>
+
+                  {openConversationMenu === conversation.id && (
+                    <div
+                      className="
+                absolute
+                right-1
+                top-10
+                z-50
+                w-44
+                overflow-hidden
+                rounded-xl
+                border
+                border-[var(--sidebar-border)]
+                bg-[var(--sidebar-background)]
+                p-1
+                shadow-xl
+              "
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => handleFixConversation(conversation)}
+                        disabled={isFixingConversation === conversation.id}
+                        className="
+                  flex w-full
+                  items-center gap-3
+                  rounded-lg
+                  px-3 py-2.5
+                  text-left text-xs
+                  text-[var(--foreground-secondary)]
+                  transition-colors
+                  hover:bg-[var(--sidebar-hover)]
+                  hover:text-[var(--foreground)]
+                  disabled:opacity-50
+                "
+                      >
+                        {isFixingConversation === conversation.id ? (
+                          <LoaderCircle size={15} className="animate-spin" />
+                        ) : (
+                          <Pin size={15} strokeWidth={1.8} />
+                        )}
+
+                        <span>Desafixar</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => handleRenameConversation(conversation)}
+                        disabled={isUpdatingConversation === conversation.id}
+                        className="
+                  flex w-full
+                  items-center gap-3
+                  rounded-lg
+                  px-3 py-2.5
+                  text-left text-xs
+                  text-[var(--foreground-secondary)]
+                  transition-colors
+                  hover:bg-[var(--sidebar-hover)]
+                  hover:text-[var(--foreground)]
+                  disabled:opacity-50
+                "
+                      >
+                        <Pencil size={15} strokeWidth={1.8} />
+
+                        <span>Renomear</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteConversation(conversation)}
+                        className="
+                  flex w-full
+                  items-center gap-3
+                  rounded-lg
+                  px-3 py-2.5
+                  text-left text-xs
+                  text-red-500
+                  transition-colors
+                  hover:bg-red-500/10
+                "
+                      >
+                        <Trash2 size={15} strokeWidth={1.8} />
+
+                        <span>Deletar</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))
+            )}
+
+            {/* ======================================================
+        RECENTES
+    ====================================================== */}
+            <div className="my-2 border-t border-[var(--sidebar-border)]" />
+
+            <span
+              className="
+        mt-3
+        px-3 py-1
+        text-[11px]
+        font-semibold
+        uppercase
+        tracking-wider
         text-[var(--foreground-muted)]
-        opacity-0
-        transition-all duration-150
-        group-hover:opacity-100
-        hover:bg-[var(--background-tertiary)]
-        hover:text-[var(--foreground)]
       "
+            >
+              Recentes
+            </span>
+
+            {isLoadingHistory ? (
+              <div
+                className="
+          flex items-center gap-2
+          px-3 py-3
+          text-xs
+          text-[var(--foreground-muted)]
+        "
+              >
+                <LoaderCircle
+                  size={15}
+                  className="animate-spin"
+                  strokeWidth={1.8}
+                />
+
+                <span>Carregando conversas...</span>
+              </div>
+            ) : recentConversations.length === 0 ? (
+              <div
+                className="
+          px-3 py-3
+          text-xs
+          text-[var(--foreground-muted)]
+        "
+              >
+                Sem conversas recentes.
+              </div>
+            ) : (
+              recentConversations.map((conversation) => (
+                <div
+                  key={conversation.id}
+                  className="
+            group
+            relative
+            flex h-10 w-full
+            items-center
+            rounded-xl
+            text-xs
+            text-[var(--foreground-secondary)]
+            transition-all duration-200
+            hover:bg-[var(--sidebar-hover)]
+            hover:text-[var(--foreground)]
+          "
+                >
+                  {/* CONVERSA */}
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setOpenConversationMenu(null);
+                      onSelectConversation(conversation.id);
+                    }}
+                    className="
+              flex min-w-0 flex-1
+              items-center gap-3
+              rounded-xl
+              px-3
+              text-left
+            "
+                  >
+                    {isUpdatingConversation === conversation.id ||
+                    isFixingConversation === conversation.id ? (
+                      <LoaderCircle
+                        size={15}
+                        className="shrink-0 animate-spin"
+                        strokeWidth={1.8}
+                      />
+                    ) : (
+                      <MessageCircle
+                        size={15}
+                        strokeWidth={1.8}
+                        className="
+      shrink-0
+      text-[var(--foreground-muted)]
+      group-hover:text-[var(--foreground)]
+    "
+                      />
+                    )}
+
+                    <span
+                      className="
+                min-w-0
+                flex-1
+                overflow-hidden
+                text-ellipsis
+                whitespace-nowrap
+              "
+                    >
+                      {conversation.title}
+                    </span>
+                  </button>
+
+                  {/* 3 PONTINHOS */}
+
+                  <button
+                    type="button"
+                    aria-label="Opções da conversa"
+                    onClick={(event) => {
+                      event.stopPropagation();
+
+                      setOpenConversationMenu((current) =>
+                        current === conversation.id ? null : conversation.id,
+                      );
+                    }}
+                    className="
+              mr-1
+              flex h-8 w-8
+              shrink-0
+              items-center justify-center
+              rounded-lg
+              text-[var(--foreground-muted)]
+              opacity-0
+              transition-all duration-150
+              group-hover:opacity-100
+              hover:bg-[var(--background-tertiary)]
+              hover:text-[var(--foreground)]
+            "
                   >
                     <MoreHorizontal size={17} strokeWidth={2} />
                   </button>
 
                   {/* MENU DE OPÇÕES */}
+
                   {openConversationMenu === conversation.id && (
                     <div
                       className="
-          absolute
-          right-1
-          top-10
-          z-50
-          w-44
-          overflow-hidden
-          rounded-xl
-          border
-          border-[var(--sidebar-border)]
-          bg-[var(--sidebar-background)]
-          p-1
-          shadow-xl
-        "
+                absolute
+                right-1
+                top-10
+                z-50
+                w-44
+                overflow-hidden
+                rounded-xl
+                border
+                border-[var(--sidebar-border)]
+                bg-[var(--sidebar-background)]
+                p-1
+                shadow-xl
+              "
                       onClick={(event) => event.stopPropagation()}
                     >
                       {/* FIXAR */}
+
                       <button
                         type="button"
-                        disabled
+                        onClick={() => handleFixConversation(conversation)}
+                        disabled={isFixingConversation === conversation.id}
                         className="
-            flex w-full
-            items-center gap-3
-            rounded-lg
-            px-3 py-2.5
-            text-left text-xs
-            text-[var(--foreground-muted)]
-            opacity-60
-            cursor-not-allowed
-          "
+    flex w-full
+    items-center gap-3
+    rounded-lg
+    px-3 py-2.5
+    text-left text-xs
+    text-[var(--foreground-secondary)]
+    transition-colors
+    hover:bg-[var(--sidebar-hover)]
+    hover:text-[var(--foreground)]
+    disabled:opacity-50
+  "
                       >
-                        <Pin size={15} strokeWidth={1.8} />
+                        {isFixingConversation === conversation.id ? (
+                          <LoaderCircle size={15} className="animate-spin" />
+                        ) : (
+                          <Pin size={15} strokeWidth={1.8} />
+                        )}
+
                         <span>Fixar</span>
                       </button>
 
                       {/* RENOMEAR */}
+
                       <button
                         type="button"
                         onClick={() => handleRenameConversation(conversation)}
                         className="
-            flex w-full
-            items-center gap-3
-            rounded-lg
-            px-3 py-2.5
-            text-left text-xs
-            text-[var(--foreground-secondary)]
-            transition-colors
-            hover:bg-[var(--sidebar-hover)]
-            hover:text-[var(--foreground)]
-          "
+                  flex w-full
+                  items-center gap-3
+                  rounded-lg
+                  px-3 py-2.5
+                  text-left text-xs
+                  text-[var(--foreground-secondary)]
+                  transition-colors
+                  hover:bg-[var(--sidebar-hover)]
+                  hover:text-[var(--foreground)]
+                "
                       >
                         <Pencil size={15} strokeWidth={1.8} />
                         <span>Renomear</span>
                       </button>
 
                       {/* DELETAR */}
+
                       <button
                         type="button"
                         onClick={() => handleDeleteConversation(conversation)}
                         className="
-            flex w-full
-            items-center gap-3
-            rounded-lg
-            px-3 py-2.5
-            text-left text-xs
-            text-red-500
-            transition-colors
-            hover:bg-red-500/10
-          "
+                  flex w-full
+                  items-center gap-3
+                  rounded-lg
+                  px-3 py-2.5
+                  text-left text-xs
+                  text-red-500
+                  transition-colors
+                  hover:bg-red-500/10
+                "
                       >
                         <Trash2 size={15} strokeWidth={1.8} />
                         <span>Deletar</span>

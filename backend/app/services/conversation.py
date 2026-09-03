@@ -67,5 +67,24 @@ class ConversationService:
 
         return response.data
 
+    async def update_fix(
+        self,
+        conversation_id: str,
+        user_id: str,
+        fix: bool
+    ):
+        response = (
+            supabase
+            .table("conversations")
+            .update({
+                "fix": fix
+            })
+            .eq("id", conversation_id)
+            .eq("user_id", user_id)
+            .execute()
+        )
+
+        return response.data
+
 
 conversation_service = ConversationService()

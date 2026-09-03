@@ -41,16 +41,6 @@ async def list_messages(conversation_id: str):
         "messages": messages
     }
 
-@router.delete("/{conversation_id}")
-async def delete_conversation(conversation_id: str):
-    await conversation_service.delete_conversation(
-        conversation_id=conversation_id,
-        user_id=USER_ID
-    )
-
-    return {
-        "message": "Conversation deleted successfully"
-    }
 
 @router.put("/{conversation_id}")
 async def update_conversation(conversation_id: str, title: str):
@@ -62,4 +52,31 @@ async def update_conversation(conversation_id: str, title: str):
 
     return {
         "message": "Conversation updated successfully"
+    }
+
+@router.delete("/{conversation_id}")
+async def delete_conversation(conversation_id: str):
+    await conversation_service.delete_conversation(
+        conversation_id=conversation_id,
+        user_id=USER_ID
+    )
+
+    return {
+        "message": "Conversation deleted successfully"
+    }
+
+@router.put("/{conversation_id}/fix")
+async def update_fix(
+    conversation_id: str,
+    fix: bool
+):
+    await conversation_service.update_fix(
+        conversation_id=conversation_id,
+        user_id=USER_ID,
+        fix=fix
+    )
+
+    return {
+        "message": "Conversation fix updated successfully",
+        "fix": fix
     }

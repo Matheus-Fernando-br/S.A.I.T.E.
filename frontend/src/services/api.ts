@@ -13,6 +13,7 @@ export interface Conversation {
   summary: string | null;
   created_at: string;
   updated_at: string;
+  fix: boolean;
 }
 
 export interface Message {
@@ -188,6 +189,24 @@ export async function deleteConversation(conversationId: string) {
     `${API_URL}/api/conversations/${conversationId}`,
     {
       method: "DELETE",
+    },
+  );
+
+  return response;
+}
+
+/* ============================================================
+FIXAR CONVERSA
+============================================================ */
+
+export async function updateConversationFix(
+  conversationId: string,
+  fix: boolean,
+) {
+  const response = await fetch(
+    `${API_URL}/api/conversations/${conversationId}/fix?fix=${fix}`,
+    {
+      method: "PUT",
     },
   );
 
