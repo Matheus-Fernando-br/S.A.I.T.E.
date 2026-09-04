@@ -11,7 +11,7 @@ router = APIRouter(
 )
 
 
-@router.post("", response_model=ChatResponse,)
+@router.post("", response_model=ChatResponse)
 async def chat(request: ChatRequest):
 
     # Salva a mensagem do usuário

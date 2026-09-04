@@ -98,7 +98,7 @@ export default function ChatInput({ onSend }: ChatInputProps) {
                 hover:text-[var(--foreground)]
                 ${isMenuOpen ? "bg-[var(--sidebar-hover)] text-[var(--foreground)] rotate-45" : ""}
               `}
-              title="Mais opções"
+              title="Adicione Arquivos e mais..."
             >
               <Plus
                 size={19}
@@ -227,7 +227,7 @@ export default function ChatInput({ onSend }: ChatInputProps) {
               hover:bg-[var(--sidebar-hover)]
               hover:text-[var(--foreground)]
             "
-            title="Falar com SAITE"
+            title="Gravar Aúdio"
           >
             <Mic size={19} strokeWidth={1.8} />
           </button>

@@ -71,9 +71,6 @@ export default function Sidebar({
 }: SidebarProps) {
   const { theme, toggleTheme } = useTheme();
   const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [pinnedConversations, setPinnedConversations] = useState<
-    Conversation[]
-  >([]);
   const [isLoadingHistory, setIsLoadingHistory] = useState(true);
   const [isUpdatingConversation, setIsUpdatingConversation] = useState<
     string | null
@@ -94,6 +91,26 @@ export default function Sidebar({
     string | null
   >(null);
   const isDark = theme === "dark";
+
+  /* ============================================================
+     FECHAR MENU CONVERSA AO CLICAR FORA
+  ============================================================ */
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      const target = event.target as HTMLElement;
+
+      if (openConversationMenu && !target.closest("[data-conversation-menu]")) {
+        setOpenConversationMenu(null);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openConversationMenu]);
 
   /* ============================================================
      CARREGAR HISTÓRICO
@@ -446,13 +463,30 @@ export default function Sidebar({
               Fixos
             </span>
 
-            {fixedConversations.length === 0 ? (
+            {isLoadingHistory ? (
               <div
                 className="
-          px-3 py-3
-          text-xs
-          text-[var(--foreground-muted)]
-        "
+      flex items-center gap-2
+      px-3 py-3
+      text-xs
+      text-[var(--foreground-muted)]
+    "
+              >
+                <LoaderCircle
+                  size={15}
+                  className="animate-spin"
+                  strokeWidth={1.8}
+                />
+
+                <span>Carregando conversas fixadas...</span>
+              </div>
+            ) : fixedConversations.length === 0 ? (
+              <div
+                className="
+      px-3 py-3
+      text-xs
+      text-[var(--foreground-muted)]
+    "
               >
                 Nenhuma conversa fixada.
               </div>
@@ -670,7 +704,7 @@ export default function Sidebar({
                   strokeWidth={1.8}
                 />
 
-                <span>Carregando conversas...</span>
+                <span>Carregando histórico de conversas...</span>
               </div>
             ) : recentConversations.length === 0 ? (
               <div
@@ -780,6 +814,7 @@ export default function Sidebar({
 
                   {openConversationMenu === conversation.id && (
                     <div
+                      data-conversation-menu
                       className="
                 absolute
                 right-1

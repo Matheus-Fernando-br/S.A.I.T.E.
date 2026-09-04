@@ -1,27 +1,48 @@
+import os
+
+from openai import AsyncOpenAI
+
+
 class AgentService:
 
-    async def process_message(self, message: str) -> str:
-        """
-        Processa uma mensagem enviada pelo usuário.
+    def __init__(self):
+        self.client = AsyncOpenAI(
+            api_key=os.getenv("OPENAI_API_KEY")
+        )
 
-        Futuramente este serviço será responsável por:
-        - chamar o modelo de IA
-        - utilizar ferramentas
-        - consultar memória
-        - acessar documentos
-        - realizar pesquisas
-        - consultar informações do computador
-        """
+        self.model = os.getenv(
+            "OPENAI_MODEL",
+            "gpt-5.6-luna"
+        )
+
+    async def process_message(
+        self,
+        message: str
+    ) -> str:
 
         message = message.strip()
 
         if not message:
             return "Não recebi nenhuma mensagem."
 
-        return (
-            f"Recebi sua mensagem: '{message}'. "
-            "Meu sistema de IA ainda está sendo configurado."
+        response = await self.client.responses.create(
+            model=self.model,
+            instructions="""
+Você é Athena, a inteligência artificial pessoal do projeto S.A.I.T.E.
+
+Seu objetivo é ajudar o usuário de forma clara, objetiva e inteligente.
+
+Características:
+- Responda em português por padrão.
+- Seja direta, mas explique quando necessário.
+- Não invente informações.
+- Quando estiver escrevendo código, forneça código funcional.
+- Considere que você faz parte do sistema S.A.I.T.E.
+""",
+            input=message,
         )
+
+        return response.output_text
 
 
 agent_service = AgentService()
