@@ -17,3 +17,5 @@ venv/
 
 # OS
 .DS_Store
+# Dados locais (banco SQLite e arquivos importados)
+data/
