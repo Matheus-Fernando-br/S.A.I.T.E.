@@ -46,6 +46,10 @@ DENIED_FILES = [
 ]
 
 
+PSEUDO_FS = {"squashfs", "tmpfs", "devtmpfs", "overlay", "fuse.snapfuse", "autofs", "proc", "sysfs"}
+MIN_DISK_BYTES = 1024**3
+
+
 def _now() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
@@ -122,12 +126,14 @@ def disk_usage(config: AgentConfig, **_) -> dict:
     if psutil:
         seen = set()
         for partition in psutil.disk_partitions(all=False):
-            if partition.mountpoint in seen or "loop" in partition.device:
+            if partition.mountpoint in seen or "loop" in partition.device or partition.fstype in PSEUDO_FS:
                 continue
             seen.add(partition.mountpoint)
             try:
                 usage = psutil.disk_usage(partition.mountpoint)
             except (PermissionError, OSError):
+                continue
+            if usage.total < MIN_DISK_BYTES:  # montagens auxiliares minúsculas não são discos do usuário
                 continue
             disks.append(
                 {
