@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>S.A.I.T.E. — Relatório técnico</title>
+<style>
+  :root { --ink:#0d1726; --muted:#5d697b; --line:#dfe6ee; --accent:#0b78ab; --soft:#e8f4fa; --ok:#15803d; --warn:#b45309; --bad:#dc2626; }
+  * { box-sizing: border-box; }
+  body { font-family: Inter, "Segoe UI", system-ui, sans-serif; color: var(--ink); font-size: 10.2pt; line-height: 1.5; margin: 0; }
+  h1, h2, h3 { line-height: 1.25; }
+  h2 { font-size: 15pt; margin: 0 0 8px; padding-top: 4px; border-bottom: 2px solid var(--accent); padding-bottom: 4px; }
+  h2 .n { color: var(--accent); margin-right: 6px; }
+  h3 { font-size: 11pt; margin: 14px 0 6px; }
+  section { margin-bottom: 18px; }
+  .break { page-break-before: always; }
+  p { margin: 6px 0; }
+  ul, ol { margin: 6px 0; padding-left: 20px; }
+  li { margin: 2px 0; }
+  table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 8.8pt; page-break-inside: auto; }
+  tr { page-break-inside: avoid; }
+  th, td { border: 1px solid var(--line); padding: 4px 6px; text-align: left; vertical-align: top; }
+  th { background: var(--soft); font-weight: 600; }
+  code, pre { font-family: "JetBrains Mono", Consolas, monospace; font-size: 8.4pt; }
+  pre { background: #f4f7fa; border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; white-space: pre-wrap; }
+  .ok { color: var(--ok); font-weight: 600; } .warn { color: var(--warn); font-weight: 600; } .bad { color: var(--bad); font-weight: 600; }
+  .muted { color: var(--muted); }
+  .callout { background: var(--soft); border-left: 3px solid var(--accent); padding: 8px 12px; border-radius: 4px; margin: 8px 0; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  figure { margin: 8px 0; text-align: center; page-break-inside: avoid; }
+  figure img { width: 100%; border: 1px solid var(--line); border-radius: 6px; }
+  figcaption { font-size: 8pt; color: var(--muted); margin-top: 3px; }
+  .cover { height: 255mm; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 0 6mm;
+           background: linear-gradient(160deg, #04131a 0%, #0b2233 55%, #0b78ab 140%); color: #eef2f7; border-radius: 10px; }
+  .cover h1 { font-size: 34pt; margin: 0; letter-spacing: 2px; color: #48cae3; font-family: Georgia, serif; }
+  .cover .sub { font-size: 12pt; color: #a3d9e8; margin-top: 4px; }
+  .cover .title { font-size: 19pt; margin-top: 36px; font-weight: 600; }
+  .cover .meta { margin-top: 28px; font-size: 10pt; color: #c6d3df; line-height: 1.8; }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 10px 0; }
+  .kpi { border: 1px solid var(--line); border-radius: 8px; padding: 8px; }
+  .kpi b { display: block; font-size: 15pt; color: var(--accent); }
+  .kpi span { font-size: 8pt; color: var(--muted); }
+  svg text { font-family: Inter, "Segoe UI", sans-serif; }
+</style>
+</head>
+<body>
+
+<!-- 1. CAPA -->
+<div class="cover">
+  <h1>S.A.I.T.E.</h1>
+  <div class="sub">Superior Advanced Intelligence Technological Entity</div>
+  <div class="title">Relatório técnico<br><span style="font-weight:400;font-size:14pt">Transformação em IA pessoal local, privada e integrada</span></div>
+  <div class="meta">
+    Repositório: github.com/Matheus-Fernando-br/S.A.I.T.E<br>
+    Branch: <code>claude/new-session-owvmaf</code> · base auditada: <code>ec858e81</code><br>
+    Gerado em: {{DATE}}
+  </div>
+</div>
+
+<!-- 2. RESUMO EXECUTIVO -->
+<section class="break">
+  <h2><span class="n">2</span>Resumo executivo</h2>
+  <p>O S.A.I.T.E. era uma interface de chat (Next.js) ligada a um backend FastAPI que dependia da API comercial da OpenAI e de um banco Supabase remoto. O backend <strong>não iniciava</strong> a partir de uma instalação limpa (pacote <code>openai</code> ausente), não havia testes, e várias áreas da interface eram apenas visuais ou exibiam dados inventados.</p>
+  <p>O projeto foi convertido em uma IA pessoal que roda <strong>inteiramente no computador do usuário</strong>: inferência local via Ollama (ou llama.cpp/LM Studio), banco SQLite com índice lexical e vetorial, base de conhecimento com importação de arquivos e links (com proteção SSRF), respostas com citações verificadas, projetos com contexto isolado, chat com streaming e cancelamento, e um agente local separado que dá acesso somente leitura ao computador, dentro de pastas autorizadas e com auditoria. A interface foi conectada a todas essas funções e modernizada de forma moderada, preservando a identidade visual.</p>
+  <div class="kpis">
+    <div class="kpi"><b>81 + 17</b><span>testes backend + agente aprovados</span></div>
+    <div class="kpi"><b>13/13</b><span>cenários ponta a ponta (sistema real)</span></div>
+    <div class="kpi"><b>100%</b><span>recuperação e fidelidade (qwen2.5:7b + bge-m3)</span></div>
+    <div class="kpi"><b>0</b><span>vulnerabilidades conhecidas (npm/pip audit)</span></div>
+  </div>
+  <p>Pendências principais: OCR, voz, integração com Google Drive, ações que alteram o computador e multiusuário — todas documentadas com o motivo e o próximo passo (seções 21–25). A integração com a <code>main</code> não foi feita: o trabalho está no branch designado, enviado ao remoto, pronto para revisão (seção 20).</p>
+</section>
+
+<!-- 3. OBJETIVO -->
+<section>
+  <h2><span class="n">3</span>Objetivo e visão da IA pessoal</h2>
+  <p>Construir um produto próprio que orquestre <strong>modelos abertos locais</strong> com dados e infraestrutura controlados pelo usuário: conhecimento persistente e consultável (RAG), projetos independentes, conversas do dia a dia e integração controlada com o computador — sem depender de serviços pagos de IA.</p>
+  <div class="callout">Seguindo o documento de referência “Como Criar Sua Própria IA do Zero”, o sistema foi tratado como produto completo (dados, ingestão, API, orquestração, inferência, RAG, persistência, interface, segurança, avaliação). As seções sobre tokenização BPE, Transformers, pré-treinamento, SFT/LoRA, DPO e RLHF foram interpretadas como material didático: <strong>não</strong> foi treinado nem ajustado nenhum modelo (falta objetivo, dados licenciados e hardware); isso consta como evolução futura. O PDF original não estava disponível no ambiente; usou-se a síntese incorporada ao prompt mestre.</div>
+</section>
+
+<!-- 4. ARQUITETURA INICIAL -->
+<section>
+  <h2><span class="n">4</span>Arquitetura encontrada inicialmente</h2>
+  <table>
+    <tr><th>Camada</th><th>Estado inicial</th></tr>
+    <tr><td>Frontend</td><td>Next.js 16.3.1, React 19, Tailwind 4; uma página; tema claro/escuro; histórico de conversas funcional</td></tr>
+    <tr><td>Backend</td><td>FastAPI; rotas <code>/api/chat</code> e <code>/api/conversations</code>; <code>USER_ID</code> fixo por variável de ambiente</td></tr>
+    <tr><td>IA</td><td><code>AsyncOpenAI</code> com <code>OPENAI_API_KEY</code> obrigatória; cada mensagem enviada sem histórico</td></tr>
+    <tr><td>Banco</td><td>Supabase remoto (tabelas <code>conversations</code> e <code>messages</code>, esquema não versionado)</td></tr>
+    <tr><td>Implantação</td><td>Vercel (frontend) + Render (backend) + Supabase</td></tr>
+    <tr><td>Testes</td><td>nenhum</td></tr>
+  </table>
+</section>
+
+<!-- 5. PROBLEMAS -->
+<section>
+  <h2><span class="n">5</span>Principais problemas identificados</h2>
+  <ol>
+    <li><strong>Dependência obrigatória da OpenAI</strong> e modelo comercial configurado por padrão.</li>
+    <li><strong>Backend não instalável</strong>: <code>ModuleNotFoundError: openai</code> a partir do <code>requirements.txt</code>.</li>
+    <li>Sem autenticação; mensagens e conversas sem verificação de dono; título enviado por query string.</li>
+    <li>Chat sem contexto (histórico persistido não era usado) e falhas convertidas em HTTP 500 genérico.</li>
+    <li>Dados inventados na interface (CPU “Intel i7 (24%)”, RAM “16 GB (62%)”, “Online” fixo).</li>
+    <li>Botões sem ação: Pesquisar, Projetos, Aprender, Histórico, Configurações, microfone, voz; anexos/Drive com <code>alert()</code>.</li>
+    <li>Bugs de interação (menu de fixadas fechava antes do clique; sugestões desativadas sem conversa).</li>
+    <li><strong>25 349 arquivos de <code>node_modules</code> e 407 de <code>.next</code> versionados</strong> (repositório com 234 MB).</li>
+    <li>Next.js 16.3.1 com avisos <strong>críticos</strong> (RCE e SSRF no otimizador de imagens) — relevante para o site publicado.</li>
+    <li>Um backend hospedado (Render) nunca alcançaria Ollama, arquivos ou processos do computador do usuário.</li>
+    <li>Imagens de marca de até 12 MB carregadas na interface; acento índigo destoando do ciano do logotipo.</li>
+  </ol>
+</section>
+
+<!-- 6. MATRIZ INICIAL -->
+<section class="break">
+  <h2><span class="n">6</span>Matriz de requisitos e estado inicial</h2>
+  <p class="muted">Versão completa com evidências, prioridades, dependências e critérios de conclusão: <code>docs/DIAGNOSTICO_INICIAL.md</code>.</p>
+  <table>
+    <tr><th>Requisito</th><th>Estado inicial</th><th>Prioridade</th><th>Critério de conclusão</th></tr>
+    <tr><td>Inferência local sem OpenAI</td><td class="bad">Ausente</td><td>Crítica</td><td>Chat responde via Ollama sem chave comercial</td></tr>
+    <tr><td>Backend instalável</td><td class="bad">Quebrado</td><td>Crítica</td><td>Instalação limpa inicia</td></tr>
+    <tr><td>Estado do runtime</td><td class="bad">Ausente</td><td>Crítica</td><td>Interface mostra conectado/desconectado real</td></tr>
+    <tr><td>Persistência de conversas</td><td class="warn">Parcial (Supabase)</td><td>Crítica</td><td>Teste cria/lista/continua conversa</td></tr>
+    <tr><td>Histórico como contexto</td><td class="bad">Ausente</td><td>Alta</td><td>Histórico presente no prompt</td></tr>
+    <tr><td>Busca/arquivamento</td><td class="warn">Só interface</td><td>Média</td><td>Busca por título e conteúdo</td></tr>
+    <tr><td>Streaming/cancelamento</td><td class="bad">Ausente</td><td>Média</td><td>Resposta incremental interrompível</td></tr>
+    <tr><td>Aprender — arquivos</td><td class="warn">Só interface</td><td>Alta</td><td>Formatos indexados e listados</td></tr>
+    <tr><td>Aprender — links</td><td class="bad">Ausente</td><td>Alta</td><td>URL pública indexada; interna recusada</td></tr>
+    <tr><td>RAG com citações</td><td class="bad">Ausente</td><td>Alta</td><td>Resposta cita trechos; teste de fidelidade</td></tr>
+    <tr><td>Projetos isolados</td><td class="warn">Só interface</td><td>Alta</td><td>Projeto A não recupera B</td></tr>
+    <tr><td>Agente do computador</td><td class="warn">Só interface (dados falsos)</td><td>Alta</td><td>Dados reais; acesso fora da pasta negado</td></tr>
+    <tr><td>Autenticação</td><td class="bad">Ausente</td><td>Crítica</td><td>401 sem token quando configurado</td></tr>
+    <tr><td>Testes automatizados</td><td class="bad">Ausente</td><td>Crítica</td><td>Suíte executa e passa</td></tr>
+    <tr><td>Voz / Google Drive</td><td class="warn">Só interface</td><td>Baixa</td><td>Dependem de decisão do usuário</td></tr>
+  </table>
+</section>
+
+<!-- 7. FUNCIONALIDADES -->
+<section>
+  <h2><span class="n">7</span>Funcionalidades implementadas</h2>
+  <table>
+    <tr><th>Área</th><th>Implementação</th></tr>
+    <tr><td>IA local</td><td>Contrato <code>LLMProvider</code>; provedores Ollama e OpenAI-compatível local; status, modelos instalados, teste de geração, erros com instrução de configuração</td></tr>
+    <tr><td>Persistência</td><td>SQLite com migrações versionadas, chaves estrangeiras e exclusão em cascata; preferências e log de atividades</td></tr>
+    <tr><td>Chat</td><td>Histórico como contexto, SSE, cancelamento com resposta parcial salva, títulos automáticos, busca, fixar/arquivar/excluir, anexos por conversa, “Lembrar isto”</td></tr>
+    <tr><td>Aprender</td><td>PDF, DOCX, TXT, MD, CSV, XLSX, HTML e links; extração, normalização, chunking com localização, embeddings locais, FTS5, deduplicação, reprocessamento, cancelamento, reindexação, inspeção de trechos, teste de recuperação</td></tr>
+    <tr><td>RAG</td><td>Recuperação híbrida filtrada por escopo no SQL; citações verificadas; aviso de “sem fontes”</td></tr>
+    <tr><td>Projetos</td><td>CRUD, instruções, conhecimento e memórias próprios, atividade, arquivamento, exclusão protegida pelo nome</td></tr>
+    <tr><td>Agente local</td><td>Processo separado com token, 7 ferramentas somente leitura, pastas autorizadas, negação de credenciais, limites, pausa, auditoria, CLI</td></tr>
+    <tr><td>Interface</td><td>Chat, Aprender, Projetos, Histórico, Configurações; estado real da IA/agente; diálogos e notificações acessíveis; responsiva; animações discretas</td></tr>
+    <tr><td>Dados</td><td>Exportação/importação JSON; backup por cópia da pasta de dados</td></tr>
+    <tr><td>Qualidade</td><td>81 testes backend, 17 agente, 13 cenários e2e com axe, avaliação RAG reproduzível</td></tr>
+  </table>
+</section>
+
+<!-- 8. ARQUITETURA FINAL -->
+<section class="break">
+  <h2><span class="n">8</span>Arquitetura final</h2>
+  <svg viewBox="0 0 720 300" width="100%" role="img" aria-label="Diagrama de arquitetura">
+    <defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#0b78ab"/></marker></defs>
+    <rect x="10" y="10" width="700" height="280" rx="12" fill="#f4f9fc" stroke="#0b78ab" stroke-dasharray="5 4"/>
+    <text x="22" y="30" font-size="11" fill="#0b78ab" font-weight="600">Computador do usuário (127.0.0.1)</text>
+    <rect x="30" y="50" width="160" height="70" rx="10" fill="#fff" stroke="#c9d3e0"/>
+    <text x="110" y="78" text-anchor="middle" font-size="12" font-weight="600">Navegador</text>
+    <text x="110" y="96" text-anchor="middle" font-size="9" fill="#5d697b">interface Next.js</text>
+    <text x="110" y="109" text-anchor="middle" font-size="9" fill="#5d697b">(local ou Vercel)</text>
+    <rect x="270" y="50" width="190" height="110" rx="10" fill="#fff" stroke="#0b78ab" stroke-width="1.5"/>
+    <text x="365" y="74" text-anchor="middle" font-size="12" font-weight="600">Backend FastAPI :8000</text>
+    <text x="365" y="94" text-anchor="middle" font-size="9" fill="#5d697b">AgentService (prompt, SSE)</text>
+    <text x="365" y="108" text-anchor="middle" font-size="9" fill="#5d697b">KnowledgeService (ingestão)</text>
+    <text x="365" y="122" text-anchor="middle" font-size="9" fill="#5d697b">Recuperação híbrida + escopo</text>
+    <text x="365" y="136" text-anchor="middle" font-size="9" fill="#5d697b">Projetos · conversas · memórias</text>
+    <text x="365" y="150" text-anchor="middle" font-size="9" fill="#5d697b">token · limites · CORS/PNA</text>
+    <rect x="540" y="50" width="160" height="60" rx="10" fill="#fff" stroke="#c9d3e0"/>
+    <text x="620" y="76" text-anchor="middle" font-size="12" font-weight="600">Ollama :11434</text>
+    <text x="620" y="94" text-anchor="middle" font-size="9" fill="#5d697b">qwen2.5:7b · bge-m3</text>
+    <rect x="270" y="200" width="190" height="70" rx="10" fill="#fff" stroke="#c9d3e0"/>
+    <text x="365" y="226" text-anchor="middle" font-size="12" font-weight="600">SQLite + arquivos</text>
+    <text x="365" y="244" text-anchor="middle" font-size="9" fill="#5d697b">tabelas · FTS5 · embeddings</text>
+    <text x="365" y="257" text-anchor="middle" font-size="9" fill="#5d697b">backend/data</text>
+    <rect x="540" y="160" width="160" height="110" rx="10" fill="#fff" stroke="#c9d3e0"/>
+    <text x="620" y="184" text-anchor="middle" font-size="12" font-weight="600">Agente local :8765</text>
+    <text x="620" y="202" text-anchor="middle" font-size="9" fill="#5d697b">token próprio</text>
+    <text x="620" y="216" text-anchor="middle" font-size="9" fill="#5d697b">somente leitura</text>
+    <text x="620" y="230" text-anchor="middle" font-size="9" fill="#5d697b">pastas autorizadas</text>
+    <text x="620" y="244" text-anchor="middle" font-size="9" fill="#5d697b">auditoria · pausa</text>
+    <line x1="190" y1="85" x2="268" y2="85" stroke="#0b78ab" stroke-width="1.5" marker-end="url(#a)"/>
+    <text x="229" y="78" text-anchor="middle" font-size="8" fill="#0b78ab">HTTP/SSE</text>
+    <line x1="460" y1="80" x2="538" y2="80" stroke="#0b78ab" stroke-width="1.5" marker-end="url(#a)"/>
+    <line x1="365" y1="160" x2="365" y2="198" stroke="#0b78ab" stroke-width="1.5" marker-end="url(#a)"/>
+    <line x1="460" y1="140" x2="538" y2="200" stroke="#0b78ab" stroke-width="1.5" marker-end="url(#a)"/>
+    <text x="500" y="160" text-anchor="middle" font-size="8" fill="#0b78ab">Bearer</text>
+  </svg>
+  <p>Componentes, responsabilidades, modelo de dados e fluxos detalhados em <code>docs/ARQUITETURA.md</code>. A Vercel só entrega arquivos estáticos: quem conversa com <code>localhost</code> é o navegador, e o backend responde ao <em>preflight</em> de rede privada apenas para as origens configuradas.</p>
+  <table>
+    <tr><th>Decisão</th><th>Justificativa</th></tr>
+    <tr><td>Backend na máquina do usuário</td><td>Único lugar com acesso ao runtime local, aos arquivos e ao agente; privacidade</td></tr>
+    <tr><td>SQLite em vez de Supabase</td><td>Zero serviços, backup por cópia, dados não saem da máquina; FTS5 nativo</td></tr>
+    <tr><td>Busca vetorial com NumPy</td><td>Suficiente para uso pessoal; trocável por sqlite-vec/Qdrant sem mudar a API</td></tr>
+    <tr><td>asyncio em vez de Celery/Redis</td><td>Estado persistido no banco cobre o volume pessoal sem novos serviços</td></tr>
+    <tr><td>Agente como processo separado</td><td>Privilégios mínimos e isolados; o backend nunca toca o disco do usuário</td></tr>
+  </table>
+</section>
+
+<!-- 9. MODELO -->
+<section>
+  <h2><span class="n">9</span>Modelo de IA local utilizado e justificativa</h2>
+  <table>
+    <tr><th>Uso</th><th>Modelo</th><th>Tamanho</th><th>Licença</th><th>Justificativa</th></tr>
+    <tr><td>Chat (padrão)</td><td>qwen2.5:7b (Q4)</td><td>~4,7 GB</td><td>Apache-2.0</td><td>Bom português, chamada de ferramentas nativa, roda em 8 GB de RAM; melhor resultado na avaliação</td></tr>
+    <tr><td>Chat (leve)</td><td>qwen2.5:1.5b</td><td>~1,0 GB</td><td>Apache-2.0</td><td>Máquinas modestas; fidelidade 100% na avaliação, mas cita pouco</td></tr>
+    <tr><td>Embeddings (padrão)</td><td>bge-m3</td><td>~1,2 GB</td><td>MIT</td><td>Multilíngue; separou relevante (0,53–0,80) de irrelevante (≤0,31)</td></tr>
+    <tr><td>Embeddings (leve)</td><td>nomic-embed-text</td><td>~275 MB</td><td>Apache-2.0</td><td>Medido: irrelevantes ~0,60–0,65 em português — não separáveis; mantido como opção</td></tr>
+  </table>
+  <p>Runtime: <strong>Ollama</strong> (instalação simples em Windows/macOS/Linux, quantização pronta, API de chat/embeddings/ferramentas). llama.cpp e LM Studio funcionam pelo provedor OpenAI-compatível. vLLM não foi adotado (exige GPU de servidor, sem benefício para um único usuário). Nenhum modelo é baixado automaticamente: a interface mostra o comando, o tamanho e a licença. <span class="muted">qwen2.5:3b foi evitado por usar licença de pesquisa não comercial.</span></p>
+</section>
+
+<!-- 10. BASE DE CONHECIMENTO -->
+<section class="break">
+  <h2><span class="n">10</span>Funcionamento da base de conhecimento</h2>
+  <p>“Aprender” é <strong>aprendizagem por consulta</strong> (RAG), não alteração dos pesos do modelo. Cada documento tem escopo:</p>
+  <table>
+    <tr><th>Escopo</th><th>Onde é criado</th><th>Quem enxerga</th></tr>
+    <tr><td>Global</td><td>Aba Aprender</td><td>Todas as conversas</td></tr>
+    <tr><td>Projeto</td><td>Detalhe do projeto</td><td>Somente conversas do projeto</td></tr>
+    <tr><td>Conversa</td><td>Anexar no chat</td><td>Somente aquela conversa (apagado com ela)</td></tr>
+  </table>
+  <p>Na pergunta: filtro de escopo no SQL → BM25 (FTS5) + cosseno → fusão RRF → limiar absoluto (0,45) e relativo (melhor −0,25) → até 5 trechos entram no prompt, delimitados e marcados como dados não confiáveis → marcadores [n] inválidos são removidos → a interface mostra fontes citadas e consultadas. Memórias (fatos explícitos do usuário) e histórico são mantidos separados da base.</p>
+  <figure><img src="{{IMG:05-chat-fontes}}" alt=""><figcaption>Resposta fundamentada no documento importado, com os trechos consultados (dados reais).</figcaption></figure>
+</section>
+
+<!-- 11. ARQUIVOS E URLS -->
+<section>
+  <h2><span class="n">11</span>Processamento de arquivos e URLs</h2>
+  <table>
+    <tr><th>Etapa</th><th>Detalhe</th></tr>
+    <tr><td>Validação</td><td>Extensão permitida; assinatura real (<code>%PDF</code>, ZIP); limite 25 MB; ZIP descompactado ≤ 200 MB e razão ≤ 100×; texto sem bytes nulos</td></tr>
+    <tr><td>Extração</td><td>PDF por página; DOCX com títulos e tabelas; XLSX por planilha; CSV em grupos de 50 linhas com cabeçalho; HTML sem script/nav/rodapé; MD por título</td></tr>
+    <tr><td>Normalização</td><td>Unicode NFC, remoção de controles, espaços; títulos sem corpo unidos à seção seguinte</td></tr>
+    <tr><td>Chunking</td><td>~1 600 caracteres (~400 tokens), sobreposição de 200, respeitando parágrafos/frases</td></tr>
+    <tr><td>Indexação</td><td>Embeddings em lotes de 16; gravação atômica de trechos + FTS; sem embeddings → busca só lexical com aviso</td></tr>
+    <tr><td>Estados</td><td>na fila → processando → indexado/erro; cancelamento; reprocessamento incrementa versão; interrupção vira erro recuperável</td></tr>
+    <tr><td>URLs</td><td>Só http/https em 80/443/8080/8443; sem credenciais; todos os IPs resolvidos públicos; conexão no IP validado (anti-rebinding); até 5 redirecionamentos revalidados; 15 s; 5 MB; tipos HTML/TXT/MD/CSV/PDF; 401/403 informados sem contornar</td></tr>
+  </table>
+  <p>Limitação: PDFs digitalizados geram erro explicativo (OCR não implementado).</p>
+</section>
+
+<!-- 12. PROJETOS E CONVERSAS -->
+<section>
+  <h2><span class="n">12</span>Funcionamento de projetos e conversas</h2>
+  <p>Conversas gerais usam apenas conhecimento e memórias globais. Uma conversa criada dentro de um projeto (<code>/?p=&lt;id&gt;</code>) recebe também as instruções, os documentos e as memórias daquele projeto — e nada de outros projetos (verificado em <code>test_project_context_does_not_leak</code>, que inspeciona o prompt enviado ao modelo). Excluir um projeto exige digitar o nome e remove em cascata conversas, mensagens, documentos, trechos, índices, memórias e arquivos; arquivar apenas o oculta.</p>
+  <div class="grid2">
+    <figure><img src="{{IMG:06-projeto}}" alt=""><figcaption>Detalhe de projeto.</figcaption></figure>
+    <figure><img src="{{IMG:07-historico}}" alt=""><figcaption>Histórico com busca no conteúdo.</figcaption></figure>
+  </div>
+</section>
+
+<!-- 13. AGENTE -->
+<section class="break">
+  <h2><span class="n">13</span>Arquitetura e permissões do agente local</h2>
+  <table>
+    <tr><th>Ferramenta</th><th>Padrão</th><th>Proteções</th></tr>
+    <tr><td>system_info / disk_usage</td><td>ligadas</td><td>dados atuais com horário da coleta; montagens auxiliares ocultadas</td></tr>
+    <tr><td>list_directory / search_files / file_metadata</td><td>ligadas</td><td>somente dentro das pastas autorizadas (nenhuma por padrão); caminho resolvido seguindo links; sem pastas ocultas; até 200 resultados; tempo limitado</td></tr>
+    <tr><td>read_text_file</td><td><strong>desligada</strong></td><td>texto até 200 KB; binário recusado</td></tr>
+    <tr><td>list_processes</td><td><strong>desligada</strong></td><td>sem linha de comando nem usuário</td></tr>
+  </table>
+  <ul>
+    <li>Sempre negados: <code>.env</code>, chaves SSH/PGP/AWS/Azure/Kube, <code>*.pem</code>, <code>*.key</code>, cofres de senha, perfis de navegador (Chrome/Edge/Firefox/Brave), cofres de credenciais do Windows.</li>
+    <li>Escuta só em 127.0.0.1; token gerado no primeiro uso e guardado com permissão 600; 60 chamadas/min; timeout por ferramenta.</li>
+    <li>O modelo só recebe as ferramentas quando o usuário ativa “Usar computador”; ferramentas desligadas/inexistentes são recusadas pelo backend e pelo agente.</li>
+    <li>Pausa global e revogação imediata (pela interface ou CLI); auditoria JSONL sem conteúdo lido.</li>
+    <li>Sem ferramentas de escrita, exclusão, instalação ou execução de comandos (decisão de segurança).</li>
+  </ul>
+  <p>Validação com modelo real: <code>qwen2.5:7b</code> chamou <code>search_files</code> por iniciativa própria e respondeu com o caminho correto do arquivo.</p>
+  <figure><img src="{{IMG:08-configuracoes-agente}}" alt=""><figcaption>Configurações do agente: pastas autorizadas e ferramentas (dados reais do agente).</figcaption></figure>
+</section>
+
+<!-- 14. BANCO -->
+<section>
+  <h2><span class="n">14</span>Banco de dados e persistência</h2>
+  <p>SQLite (WAL, chaves estrangeiras, <code>busy_timeout</code>) em <code>backend/data/saite.db</code>; migrações SQL versionadas em <code>app/db/migrations</code>, aplicadas atomicamente na inicialização. Tabelas: <code>projects</code>, <code>conversations</code>, <code>messages</code>, <code>documents</code>, <code>chunks</code> (+ <code>chunks_fts</code> via gatilhos), <code>memories</code>, <code>settings</code>, <code>activity_log</code>, <code>schema_migrations</code>. Restrição CHECK garante coerência entre escopo e chaves do documento. Originais em <code>data/files/&lt;id&gt;/</code>. Exportação/importação JSON e backup por cópia da pasta.</p>
+</section>
+
+<!-- 15. SEGURANÇA -->
+<section>
+  <h2><span class="n">15</span>Medidas de segurança</h2>
+  <table>
+    <tr><th>Risco</th><th>Medida</th></tr>
+    <tr><td>Acesso indevido à API</td><td>bind em 127.0.0.1; token Bearer opcional (comparação em tempo constante); CORS restrito; PNA só para origens permitidas</td></tr>
+    <tr><td>SSRF</td><td>validação de URL, IPs públicos, conexão fixada no IP, redirecionamentos revalidados (31 testes)</td></tr>
+    <tr><td>Arquivos maliciosos</td><td>assinatura real, zip bomb, limites, nomes higienizados</td></tr>
+    <tr><td>Injeção SQL/FTS</td><td>parâmetros; curingas LIKE escapados; termos FTS citados</td></tr>
+    <tr><td>Prompt injection / abuso de ferramentas</td><td>fontes delimitadas e declaradas não confiáveis; ferramentas só com opt-in, somente leitura, lista fechada</td></tr>
+    <tr><td>Traversal / credenciais</td><td>resolução de caminho + pastas autorizadas + lista de negação</td></tr>
+    <tr><td>Vazamento</td><td>logs e auditoria sem conteúdo; nenhum segredo no frontend/Git; segredos não retornam pela API</td></tr>
+    <tr><td>Exclusão acidental</td><td>confirmação; projeto exige digitar o nome</td></tr>
+    <tr><td>Dependências</td><td>Next.js 16.3.1 → 16.4.3 (corrige RCE/SSRF críticos); npm audit 0; pip-audit 0</td></tr>
+    <tr><td>Abuso de recursos</td><td>limites de taxa, tamanho, contexto e tempo</td></tr>
+  </table>
+  <p class="muted">Riscos residuais: prompt injection não é eliminável; dados em repouso dependem da criptografia do disco; sem token, outros processos locais podem chamar o backend (ver <code>docs/SEGURANCA.md</code>).</p>
+</section>
+
+<!-- 16. TESTES -->
+<section class="break">
+  <h2><span class="n">16</span>Testes realizados e resultados</h2>
+  <table>
+    <tr><th>Comando</th><th>Resultado</th></tr>
+    <tr><td><code>backend: python -m pytest</code></td><td class="ok">81 aprovados</td></tr>
+    <tr><td><code>agent: python -m pytest</code></td><td class="ok">17 aprovados</td></tr>
+    <tr><td><code>frontend: npm run lint</code> / <code>npm run typecheck</code></td><td class="ok">0 erros (baseline tinha 1 erro de lint, corrigido)</td></tr>
+    <tr><td><code>frontend: npm run build</code> (Next 16.4.3)</td><td class="ok">sucesso — 6 rotas</td></tr>
+    <tr><td><code>frontend: npm run test:e2e</code> (Playwright + axe, sistema real)</td><td class="ok">13/13; 0 erros de console</td></tr>
+    <tr><td><code>npm audit</code> · <code>pip-audit</code> (backend e agente)</td><td class="ok">0 vulnerabilidades</td></tr>
+  </table>
+  <h3>Cobertura por tipo</h3>
+  <ul>
+    <li><strong>Unitários:</strong> normalização, chunking, extração dos 7 formatos, rejeição de arquivos inválidos, regras SSRF, citações.</li>
+    <li><strong>Integração:</strong> persistência e histórico no prompt, upload→indexação→busca→exclusão, URL ponta a ponta com servidor HTTP local, reprocessamento, fallback lexical, reindexação, isolamento global/projeto/conversa, memórias, exportação/importação, indisponibilidade do modelo, erro no meio do streaming, backend ↔ agente real (processo HTTP), ferramentas recusadas.</li>
+    <li><strong>Segurança:</strong> token, PNA, traversal, links simbólicos, arquivos de credenciais, ferramentas desativadas, pausa, comandos inexistentes, URLs internas, entradas malformadas, limites de taxa.</li>
+    <li><strong>Interface:</strong> estados reais, chat com streaming e persistência, Aprender, RAG com fontes, Projetos, Histórico, Meu PC, opt-in do computador, backend offline, 390 px sem rolagem horizontal, movimento reduzido, WCAG A/AA (axe) em ambos os temas.</li>
+  </ul>
+  <h3>Avaliação de RAG (corpus e perguntas fixos em <code>backend/eval</code>; 8 respondíveis + 3 sem evidência)</h3>
+  <table>
+    <tr><th>Chat</th><th>Embeddings</th><th>Recuperação</th><th>Fidelidade</th><th>Com citação</th><th>Precisão citações</th><th>Admite ausência</th><th>Latência p50</th></tr>
+    {{EVAL_ROWS}}
+  </table>
+  <p class="muted">Referência anterior à calibragem: com nomic-embed-text + qwen2.5:0.5b a recuperação foi 75% e todas as perguntas recuperavam 5 trechos, inclusive as sem relação. Latências em CPU de 4 núcleos sem GPU. “Fidelidade” = fatos esperados presentes na resposta (aproximação). Mesmo o 7B atribuiu aos documentos uma resposta sem fonte quando a pergunta induzia (“segundo meus documentos…”); por isso a interface sinaliza deterministicamente respostas sem fontes.</p>
+</section>
+
+<!-- 17. COMANDOS -->
+<section>
+  <h2><span class="n">17</span>Comandos de instalação e execução</h2>
+<pre>ollama pull qwen2.5:7b && ollama pull bge-m3
+
+cd backend && python -m venv venv && source venv/bin/activate   # Windows: venv\Scripts\activate
+pip install -r requirements.txt && cp .env.example .env
+uvicorn app.main:app --host 127.0.0.1 --port 8000
+
+cd frontend && npm install && npm run dev                        # http://localhost:3000
+
+cd agent && pip install -r requirements.txt                      # opcional
+python -m saite_agent roots add "C:\Users\voce\Documents"
+python -m saite_agent token        # → SAITE_AGENT_TOKEN no backend/.env
+python -m saite_agent serve</pre>
+  <p>Guia completo, variáveis de ambiente e solução de problemas: <code>docs/INSTALACAO.md</code>.</p>
+</section>
+
+<!-- 18. CONFIGURAÇÃO NO COMPUTADOR -->
+<section>
+  <h2><span class="n">18</span>Configuração necessária no computador</h2>
+  <ul>
+    <li>Python 3.11+, Node 20+, Ollama 0.40+; ~6 GB de disco para os modelos padrão; 8 GB de RAM livres (ou GPU com 6 GB+) para o 7B.</li>
+    <li>Portas locais 11434, 8000, 3000 e 8765 (todas em 127.0.0.1; não abrir no firewall).</li>
+    <li>Para usar o site da Vercel: aceitar a permissão de rede local do navegador; manter a origem em <code>SAITE_CORS_ORIGINS</code>.</li>
+    <li>Recomendado: <code>SAITE_API_TOKEN</code> definido; criptografia de disco do sistema ativa.</li>
+    <li>Agente: escolher conscientemente as pastas autorizadas e ligar ferramentas sensíveis só se necessário.</li>
+  </ul>
+</section>
+
+<!-- 19. COMMITS -->
+<section class="break">
+  <h2><span class="n">19</span>Alterações por branch e commit</h2>
+  <p>Branch: <code>claude/new-session-owvmaf</code> (designado para esta sessão), a partir de <code>ec858e81</code>. {{COMMIT_COUNT}} commits no padrão Conventional Commits (o commit que adiciona este PDF vem em seguida):</p>
+  <table><tr><th>Commit</th><th>Mensagem</th></tr>{{COMMITS}}</table>
+  <p class="muted">Não foram criadas branches de funcionalidade separadas: as instruções do ambiente determinam um único branch de desenvolvimento e proíbem push para outros branches sem autorização explícita. Os commits foram organizados por unidade coerente (repositório, auditoria, armazenamento, IA/conhecimento, chat/API, agente, testes, calibragem, interface, e2e, segurança, documentação).</p>
+</section>
+
+<!-- 20. MERGE E PUSH -->
+<section>
+  <h2><span class="n">20</span>Situação do merge e do push</h2>
+  <table>
+    <tr><th>Item</th><th>Situação</th></tr>
+    <tr><td>Push do branch <code>claude/new-session-owvmaf</code></td><td class="ok">Realizado (confirmado pelo Git)</td></tr>
+    <tr><td>Merge na <code>main</code></td><td class="warn">Não realizado</td></tr>
+    <tr><td>Pull request</td><td class="warn">Não criado (aguarda pedido explícito do responsável)</td></tr>
+  </table>
+  <p>Motivo: as regras desta sessão permitem push apenas no branch designado. A integração recomendada é um pull request <code>claude/new-session-owvmaf → main</code>, com revisão humana. Atenção: a <code>main</code> ainda contém <code>node_modules</code>/<code>.next</code> versionados; o merge os remove do índice.</p>
+  <p><strong>Impacto na implantação atual:</strong> o backend no Render (OpenAI + Supabase) deixa de ser usado; a interface da Vercel passa a apontar para o backend local de cada usuário. Os dados existentes no Supabase não são migrados automaticamente (o esquema não estava versionado) — se necessário, exporte-os e importe no formato de <code>/api/data/import</code>.</p>
+</section>
+
+<!-- 21. PENDENTES -->
+<section>
+  <h2><span class="n">21</span>Funcionalidades pendentes</h2>
+  <table>
+    <tr><th>Pendência</th><th>Motivo</th><th>Próximo passo</th></tr>
+    <tr><td>OCR de PDFs digitalizados</td><td>Exige dependência nativa (Tesseract) e decisão de idioma/qualidade</td><td>Integrar <code>pytesseract</code> com detecção de páginas sem texto</td></tr>
+    <tr><td>Voz (STT/TTS)</td><td>Web Speech envia áudio a terceiros; motor local não escolhido</td><td>whisper.cpp + Piper, via backend</td></tr>
+    <tr><td>Google Drive</td><td>OAuth de terceiros; decisão de privacidade do usuário</td><td>Conector opcional, só leitura, por escopo</td></tr>
+    <tr><td>Ações que alteram o computador</td><td>Risco alto; não exigidas para leitura</td><td>Fluxo de confirmação por operação com pré-visualização</td></tr>
+    <tr><td>Multiusuário/login</td><td>Uso pessoal local</td><td>Contas locais + tokens por dispositivo</td></tr>
+    <tr><td>Fila persistente entre reinícios</td><td>Reinício vira erro recuperável (suficiente para uso pessoal)</td><td>Retomada automática na inicialização</td></tr>
+    <tr><td>Migração de dados do Supabase</td><td>Esquema remoto não versionado</td><td>Script de exportação → <code>/api/data/import</code></td></tr>
+    <tr><td>Execução validada do llama.cpp</td><td>Testado só o contrato; Ollama validado com modelos reais</td><td>Teste de integração com <code>llama-server</code></td></tr>
+  </table>
+</section>
+
+<!-- 22. LIMITAÇÕES -->
+<section>
+  <h2><span class="n">22</span>Limitações conhecidas</h2>
+  <ul>
+    <li>Qualidade depende do modelo: ≤1,5B raramente citam, quase não usam ferramentas e podem afirmar sem base.</li>
+    <li>Latência alta em CPU (7B: mediana 12,8 s; até ~27 s no teste).</li>
+    <li>Busca vetorial em força bruta: adequada a milhares de trechos, não a milhões.</li>
+    <li>Limiar de similaridade calibrado para bge-m3; outros modelos de embeddings exigem ajuste.</li>
+    <li>Páginas que dependem de JavaScript não têm o texto extraído; paywalls/logins não são contornados.</li>
+    <li>Limites de taxa em memória; um processo, um usuário.</li>
+    <li>Testes e2e dependem de Ollama e modelos instalados; não há CI configurado no repositório.</li>
+  </ul>
+</section>
+
+<!-- 23. HARDWARE -->
+<section>
+  <h2><span class="n">23</span>Dependências de hardware ou serviços</h2>
+  <table>
+    <tr><th>Configuração</th><th>Experiência esperada</th></tr>
+    <tr><td>CPU 4 núcleos, 16 GB RAM, sem GPU (ambiente de teste)</td><td>7B utilizável (10–25 s/resposta); 1,5B ~3 s</td></tr>
+    <tr><td>GPU com 6–8 GB de VRAM</td><td>7B em poucos segundos</td></tr>
+    <tr><td>8 GB de RAM total</td><td>Preferir qwen2.5:1.5b + nomic-embed-text</td></tr>
+  </table>
+  <p>Serviços externos: nenhum obrigatório. A Vercel é opcional (a interface roda localmente). Importação de links acessa a internet apenas para a URL pedida.</p>
+</section>
+
+<!-- 24. RISCOS -->
+<section>
+  <h2><span class="n">24</span>Riscos técnicos e recomendações</h2>
+  <table>
+    <tr><th>Risco</th><th>Recomendação</th></tr>
+    <tr><td>Prompt injection via documentos</td><td>Autorizar só pastas necessárias; manter ferramentas sensíveis desligadas; revisar a auditoria</td></tr>
+    <tr><td>Exposição acidental da porta</td><td>Definir <code>SAITE_API_TOKEN</code>; não usar <code>--host 0.0.0.0</code></td></tr>
+    <tr><td>Perda de dados</td><td>Backup periódico de <code>backend/data</code>; exportação JSON</td></tr>
+    <tr><td>Mudança de modelo de embeddings</td><td>Usar <em>Reindexar</em> e recalibrar o limiar com <code>backend/eval</code></td></tr>
+    <tr><td>Avisos futuros de dependências</td><td>Rodar <code>npm audit</code>/<code>pip-audit</code> a cada atualização; adicionar CI</td></tr>
+    <tr><td>Respostas sem base</td><td>Preferir 7B+; observar o aviso “sem fontes”; ampliar o conjunto de avaliação</td></tr>
+  </table>
+</section>
+
+<!-- 25. EVOLUÇÃO -->
+<section>
+  <h2><span class="n">25</span>Plano de evolução</h2>
+  <ol>
+    <li><strong>Curto prazo:</strong> PR para a <code>main</code>; CI com pytest, lint, build e audit; OCR; retomada automática de ingestão.</li>
+    <li><strong>Médio prazo:</strong> reranking local; índice vetorial dedicado (sqlite-vec/Qdrant) para grandes volumes; voz local; ampliação do conjunto de avaliação (mais documentos e perguntas, juiz automático local).</li>
+    <li><strong>Desktop:</strong> empacotar interface + backend + agente com Tauri (instalação de um clique no Windows), como previsto no README original.</li>
+    <li><strong>Mobile:</strong> cliente React Native que conversa com o backend da máquina do usuário via túnel autenticado.</li>
+    <li><strong>Treinamento (condicional):</strong> somente com objetivo, dados licenciados e hardware definidos — LoRA/QLoRA de um modelo aberto, avaliado contra a linha de base RAG desta entrega.</li>
+  </ol>
+</section>
+
+<!-- 26. CHECKLIST -->
+<section class="break">
+  <h2><span class="n">26</span>Checklist final de entrega</h2>
+  <table>
+    <tr><th>Critério de aceitação</th><th>Situação</th><th>Evidência</th></tr>
+    <tr><td>Instalável seguindo a documentação</td><td class="ok">✓</td><td>docs/INSTALACAO.md; instalação limpa usada nos testes</td></tr>
+    <tr><td>Inferência local sem OpenAI</td><td class="ok">✓</td><td>Ollama + qwen2.5; nenhuma dependência comercial</td></tr>
+    <tr><td>Indisponibilidade do modelo tratada</td><td class="ok">✓</td><td>testes + e2e “backend offline” + banners</td></tr>
+    <tr><td>Importar documentos pela aba Aprender</td><td class="ok">✓</td><td>e2e Aprender; 7 formatos testados</td></tr>
+    <tr><td>Documentos processados e persistidos</td><td class="ok">✓</td><td>SQLite + arquivos; testes de ingestão</td></tr>
+    <tr><td>Importar links compatíveis</td><td class="ok">✓</td><td>test_import_url_end_to_end</td></tr>
+    <tr><td>Conteúdo recuperado em consultas</td><td class="ok">✓</td><td>avaliação: recuperação 100%</td></tr>
+    <tr><td>Respostas apresentam fontes</td><td class="ok">✓</td><td>citações verificadas; e2e RAG</td></tr>
+    <tr><td>Criar e administrar projetos</td><td class="ok">✓</td><td>testes + e2e Projetos</td></tr>
+    <tr><td>Projetos com contextos separados</td><td class="ok">✓</td><td>test_project_context_does_not_leak</td></tr>
+    <tr><td>Conversas persistentes</td><td class="ok">✓</td><td>testes + e2e (recarregamento)</td></tr>
+    <tr><td>Agente dentro das permissões</td><td class="ok">✓</td><td>17 testes do agente + 5 de integração</td></tr>
+    <tr><td>Operações sensíveis protegidas</td><td class="ok">✓</td><td>opt-in, ferramentas desligadas, pausa, confirmação de exclusões</td></tr>
+    <tr><td>Interface conectada às funções reais</td><td class="ok">✓</td><td>remoção de dados falsos; e2e 13/13</td></tr>
+    <tr><td>Testes e build executados e registrados</td><td class="ok">✓</td><td>seção 16</td></tr>
+    <tr><td>Documentação atualizada</td><td class="ok">✓</td><td>README, docs/*, agent/README, frontend/README</td></tr>
+    <tr><td>PDF técnico gerado e validado</td><td class="ok">✓</td><td>este documento (validado após a geração)</td></tr>
+    <tr><td>Commits profissionais</td><td class="ok">✓</td><td>seção 19</td></tr>
+    <tr><td>Situação da integração e do push documentada</td><td class="ok">✓</td><td>seção 20 — push no branch designado; merge na main pendente de PR</td></tr>
+  </table>
+  <div class="callout">A entrega não é declarada integralmente concluída em relação a todo o escopo desejado: OCR, voz, Google Drive, ações de escrita no computador, multiusuário e o merge na <code>main</code> permanecem pendentes pelos motivos descritos nas seções 20 e 21.</div>
+  <div class="grid2">
+    <figure><img src="{{IMG:02-inicio-claro}}" alt=""><figcaption>Tema claro.</figcaption></figure>
+    <figure><img src="{{IMG:04-aprender}}" alt=""><figcaption>Aba Aprender.</figcaption></figure>
+  </div>
+  <div class="grid2">
+    <figure><img src="{{IMG:10-backend-offline}}" alt=""><figcaption>Estado de erro real (backend offline).</figcaption></figure>
+    <figure style="max-width:55%;margin:8px auto"><img src="{{IMG:12-mobile-menu}}" alt=""><figcaption>Mobile (390 px).</figcaption></figure>
+  </div>
+</section>
+
+</body>
+</html>
