@@ -22,4 +22,4 @@ pnpm-debug.log*
 .idea/
 
 # OS
-.DS_Store
+.DS_Store*.tsbuildinfo
