@@ -21,7 +21,7 @@ def defaults() -> dict[str, Any]:
         "num_ctx": 8192,
         "history_messages": 20,
         "rag_top_k": 5,
-        "rag_min_similarity": 0.5,
+        "rag_min_similarity": 0.45,
         "agent_url": config.agent_url,
         "assistant_name": "Athena",
     }

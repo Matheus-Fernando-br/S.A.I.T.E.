@@ -136,16 +136,22 @@ def split_by_headings(lines: list[str], pattern: str) -> list[Section]:
     heading = re.compile(pattern)
     sections: list[Section] = []
     current: list[str] = []
+    has_body = False
     title = ""
     for line in lines:
         match = heading.match(line)
         if match:
-            if "\n".join(current).strip():
+            if has_body:
                 sections.append(Section("\n".join(current), f"Seção: {title}" if title else ""))
+                current = []
+            # Títulos sem corpo (ex.: título do documento) seguem junto com a próxima seção,
+            # em vez de virarem trechos vazios de conteúdo.
             title = match.group(2).strip()
-            current = [line]
+            current.append(line)
+            has_body = False
         else:
             current.append(line)
+            has_body = has_body or bool(line.strip())
     if "\n".join(current).strip():
         sections.append(Section("\n".join(current), f"Seção: {title}" if title else ""))
     return sections

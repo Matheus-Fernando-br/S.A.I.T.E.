@@ -137,11 +137,13 @@ class KnowledgeService:
         with get_conn() as conn:
             row = conn.execute(
                 "SELECT COUNT(*) AS documents,"
+                " COALESCE(SUM(status = 'ready' AND (embed_model IS NULL OR embed_model != ?)), 0) AS stale,"
                 " COALESCE(SUM(chunk_count), 0) AS chunks,"
                 " COALESCE(SUM(status = 'ready'), 0) AS ready,"
                 " COALESCE(SUM(status = 'error'), 0) AS errors,"
                 " COALESCE(SUM(status IN ('pending', 'processing')), 0) AS processing"
-                " FROM documents"
+                " FROM documents",
+                (get_settings()["embed_model"],),
             ).fetchone()
         return dict(row)
 
@@ -399,6 +401,22 @@ class KnowledgeService:
             log_activity(conn, "document.deleted", {"name": document["name"]}, document["project_id"])
         if document["stored_path"]:
             remove_stored_files([document["stored_path"]])
+
+    def reindex_stale(self) -> int:
+        """Reprocessa documentos indexados com outro modelo de embeddings (ou sem embeddings)."""
+        model = get_settings()["embed_model"]
+        with get_conn() as conn:
+            ids = [
+                row["id"]
+                for row in conn.execute(
+                    "SELECT id FROM documents WHERE status IN ('ready', 'error')"
+                    " AND (embed_model IS NULL OR embed_model != ?)",
+                    (model,),
+                )
+            ]
+        for document_id in ids:
+            self.reprocess(document_id)
+        return len(ids)
 
     def recover_interrupted(self) -> int:
         """Ao iniciar, documentos que estavam em processamento voltam para erro recuperável."""

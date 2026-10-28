@@ -87,7 +87,7 @@ def test_upload_index_search_and_delete(client):
     assert result["created"] is True
     document = wait_ready(client, result["document"]["id"])
     assert document["status"] == "ready", document["error"]
-    assert document["chunk_count"] == 2 and document["embed_model"] == "nomic-embed-text"
+    assert document["chunk_count"] == 2 and document["embed_model"] == config.embed_model
 
     results = search(client, "quanto dura a bateria do robo")
     assert results and results[0]["location"] == "p. 1"
@@ -136,7 +136,7 @@ def test_lexical_fallback_when_embeddings_unavailable_and_reprocess(client, prov
     provider.embed_fails = False
     client.post(f"/api/knowledge/documents/{document['id']}/reprocess")
     document = wait_ready(client, document["id"])
-    assert document["embed_model"] == "nomic-embed-text" and document["error"] is None
+    assert document["embed_model"] == config.embed_model and document["error"] is None
     assert document["version"] == 2
     chunks = client.get(f"/api/knowledge/documents/{document['id']}").json()["chunks"]
     assert all(chunk["embedded"] for chunk in chunks)
@@ -160,3 +160,18 @@ def test_stats_and_listing(client):
     assert stats["documents"] == 1 and stats["ready"] == 1 and stats["chunks"] == 1
     listed = client.get("/api/knowledge/documents", params={"scope": "global"}).json()["documents"]
     assert [d["name"] for d in listed] == ["s.txt"]
+
+
+def test_heading_without_body_joins_next_section():
+    sections = extract("doc.md", "# Manual\n\n## Bateria\n\nDura 14 horas.".encode())
+    assert [s.location for s in sections] == ["Seção: Bateria"]
+    assert sections[0].text.startswith("# Manual")
+
+
+def test_reindex_after_embedding_model_change(client):
+    document = wait_ready(client, upload(client, "r.txt", "reindexar este texto".encode())["document"]["id"])
+    assert client.get("/api/knowledge/stats").json()["stale"] == 0
+    client.put("/api/ai/settings", json={"embed_model": "outro-modelo"})
+    assert client.get("/api/knowledge/stats").json()["stale"] == 1
+    assert client.post("/api/knowledge/reindex").json()["scheduled"] == 1
+    assert wait_ready(client, document["id"])["embed_model"] == "outro-modelo"

@@ -17,6 +17,8 @@ from app.services.knowledge.service import embed_prefix, unpack_embedding
 
 RRF_K = 60
 CANDIDATES = 30
+# Trechos muito abaixo do melhor resultado costumam ser ruído, mesmo acima do limiar absoluto.
+RELATIVE_MARGIN = 0.25
 
 STOPWORDS = set(
     """a o as os um uma uns umas de do da dos das em no na nos nas por para pra com sem
@@ -146,6 +148,7 @@ async def retrieve(
         lexical_rank = {chunk_id: rank for rank, chunk_id in enumerate(lexical_ids)}
         vector_rank = {chunk_id: rank for rank, chunk_id in enumerate(vector_ranked)}
 
+        best = max(similarities.values(), default=0.0)
         candidates = []
         for chunk_id in set(lexical_rank) | set(vector_rank):
             similarity = similarities.get(chunk_id)
@@ -153,7 +156,7 @@ async def retrieve(
             # só basta se a similaridade estiver perto do limiar. Trechos sem embedding
             # (documento indexado só lexicalmente) entram pela busca por palavras.
             if similarity is not None:
-                threshold = min_similarity - (0.1 if chunk_id in lexical_rank else 0.0)
+                threshold = max(min_similarity, best - RELATIVE_MARGIN) - (0.1 if chunk_id in lexical_rank else 0.0)
                 if similarity < threshold:
                     continue
             score = 0.0

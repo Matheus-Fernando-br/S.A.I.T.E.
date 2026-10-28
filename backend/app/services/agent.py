@@ -63,17 +63,16 @@ def build_system_prompt(
             "- Se as FONTES não contiverem a resposta, diga que não encontrou a informação nos documentos do usuário.",
         ]
     else:
-        lines.append(
-            "- Nenhum trecho dos documentos do usuário foi encontrado para esta pergunta: "
-            "não use marcadores de citação como [1]."
-        )
+        lines += [
+            "- Nenhum documento do usuário trata desta pergunta. Nunca diga que a resposta vem dos documentos dele "
+            "e não use marcadores de citação como [1].",
+            "- Se responder com conhecimento geral, avise que a informação não veio dos documentos do usuário.",
+        ]
     if tools_enabled:
         lines.append(
             "- Você pode usar as ferramentas oferecidas para consultar o computador do usuário em tempo real, "
             "apenas dentro das permissões dele. Use-as só quando a pergunta exigir."
         )
-    else:
-        lines.append("- Você não tem acesso ao computador do usuário nesta mensagem.")
     if project:
         lines += ["", f"PROJETO ATUAL: {project['name']}"]
         if project.get("description"):
@@ -90,6 +89,8 @@ def build_system_prompt(
             lines.append(
                 f'<fonte n="{number}" documento="{chunk.document_name}"{where}>\n{chunk.content}\n</fonte>'
             )
+        # Lembrete no fim: modelos pequenos dão mais peso ao final do contexto.
+        lines += ["", "Ao responder, use as FONTES acima e indique a fonte de cada informação com [n]."]
     return "\n".join(lines)
 
 

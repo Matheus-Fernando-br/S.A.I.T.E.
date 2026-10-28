@@ -1,0 +1,13 @@
+[
+  {"q": "Quanto tempo dura a bateria do robô Zeta?", "doc": "robo_zeta.md", "location": "Seção: Bateria", "expect": ["14"]},
+  {"q": "Quanto tempo leva para recarregar o Zeta e com qual carregador?", "doc": "robo_zeta.md", "location": "Seção: Bateria", "expect": ["90", "ZX-9"]},
+  {"q": "Posso limpar os sensores do robô com álcool?", "doc": "robo_zeta.md", "location": "Seção: Limpeza", "expect": ["não"]},
+  {"q": "A garantia do Zeta cobre danos por água?", "doc": "robo_zeta.md", "location": "Seção: Garantia", "expect": ["não"]},
+  {"q": "Quantos dias de férias por ano tenho na Empresa Aurora?", "doc": "politica_ferias.txt", "location": "", "expect": ["30"]},
+  {"q": "Com quanta antecedência devo pedir férias?", "doc": "politica_ferias.txt", "location": "", "expect": ["45"]},
+  {"q": "Quanto de farinha vai no pão de fermentação natural?", "doc": "receita.html", "location": "Seção: Ingredientes", "expect": ["500"]},
+  {"q": "Em que temperatura devo assar o pão?", "doc": "receita.html", "location": "Seção: Preparo", "expect": ["250"]},
+  {"q": "Qual é a capital da Austrália segundo meus documentos?", "doc": null, "expect": []},
+  {"q": "Qual o preço da ação da Petrobras hoje?", "doc": null, "expect": []},
+  {"q": "Qual o telefone do suporte técnico do robô Zeta?", "doc": null, "expect": []}
+]

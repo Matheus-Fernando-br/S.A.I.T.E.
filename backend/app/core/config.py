@@ -50,7 +50,7 @@ class Config:
     llm_api_key: str = field(default_factory=lambda: _env("SAITE_LLM_API_KEY"))
     chat_model: str = field(default_factory=lambda: _env("SAITE_CHAT_MODEL", "qwen2.5:7b"))
     embed_model: str = field(
-        default_factory=lambda: _env("SAITE_EMBED_MODEL", "nomic-embed-text")
+        default_factory=lambda: _env("SAITE_EMBED_MODEL", "bge-m3")
     )
 
     agent_url: str = field(

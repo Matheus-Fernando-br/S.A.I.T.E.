@@ -85,7 +85,7 @@ def test_chat_uses_tools_only_when_enabled(client, provider, agent):
     # Sem "use_computer", nenhuma ferramenta é oferecida ao modelo.
     stream_events(client, cid, "Onde está meu currículo?")
     assert provider.calls[-1]["kind"] == "stream"
-    assert "não tem acesso ao computador" in provider.calls[-1]["messages"][0]["content"]
+    assert "ferramentas oferecidas" not in provider.calls[-1]["messages"][0]["content"]
 
 
 def test_disallowed_tool_requests_are_refused(client, provider, agent, tmp_path):

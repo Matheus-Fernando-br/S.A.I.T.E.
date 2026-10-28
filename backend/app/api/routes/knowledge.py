@@ -63,6 +63,14 @@ async def import_url(payload: URLImport):
     }
 
 
+@router.post("/reindex", dependencies=[Depends(ingest_limiter)])
+async def reindex():
+    """Reprocessa documentos indexados com outro modelo de embeddings (após trocar o modelo)."""
+    return {
+        "scheduled": knowledge_service.reindex_stale()
+    }
+
+
 @router.get("/documents/{document_id}")
 def get_document(document_id: str):
     return {
