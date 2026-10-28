@@ -1,308 +1,278 @@
 "use client";
 
-import { FormEvent, useState, useRef, useEffect } from "react";
-import {
-  Mic,
-  Send,
-  AudioLines,
-  Plus,
-  Paperclip,
-  HardDrive,
-  Ellipsis,
-  ChevronRight,
-} from "lucide-react";
+import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
+import { ArrowUp, CircleAlert, FileText, LoaderCircle, Monitor, Paperclip, Plus, Square, X } from "lucide-react";
+
+import { cx } from "@/lib/format";
+import { KnowledgeDocument } from "@/services/api";
+
+const ACCEPT = ".pdf,.txt,.md,.markdown,.csv,.html,.htm,.docx,.xlsx";
 
 interface ChatInputProps {
   onSend: (message: string) => void;
+  onStop: () => void;
+  onAttach: (files: File[]) => void;
+  onRemoveAttachment: (document: KnowledgeDocument) => void;
+  attachments: KnowledgeDocument[];
+  isStreaming: boolean;
+  disabled?: boolean;
+  disabledReason?: string;
+  useComputer: boolean;
+  onUseComputerChange: (value: boolean) => void;
+  computerAvailable: boolean;
+  computerHint?: string;
 }
 
-export default function ChatInput({ onSend }: ChatInputProps) {
+export default function ChatInput({
+  onSend,
+  onStop,
+  onAttach,
+  onRemoveAttachment,
+  attachments,
+  isStreaming,
+  disabled = false,
+  disabledReason,
+  useComputer,
+  onUseComputerChange,
+  computerAvailable,
+  computerHint,
+}: ChatInputProps) {
   const [message, setMessage] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
 
-  function handleSubmit(event: FormEvent) {
-    event.preventDefault();
+  // Altura automática do campo (até ~8 linhas).
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+    textarea.style.height = "auto";
+    textarea.style.height = `${Math.min(textarea.scrollHeight, 200)}px`;
+  }, [message]);
 
-    if (!message.trim()) {
-      return;
-    }
-
-    onSend(message);
-    setMessage("");
-    setIsMenuOpen(false);
-  }
-
-  // Fecha o menu se clicar fora dele
+  // Fecha o menu se clicar fora dele ou apertar Esc
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsMenuOpen(false);
       }
     }
+    function handleKey(event: globalThis.KeyboardEvent) {
+      if (event.key === "Escape") setIsMenuOpen(false);
+    }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKey);
+    };
   }, []);
 
+  function submit() {
+    if (!message.trim() || isStreaming || disabled) return;
+    onSend(message.trim());
+    setMessage("");
+    setIsMenuOpen(false);
+  }
+
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault();
+    submit();
+  }
+
+  function handleKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
+    if (event.key === "Enter" && !event.shiftKey && !event.nativeEvent.isComposing) {
+      event.preventDefault();
+      submit();
+    }
+  }
+
   return (
-    <div
-      className="
-        border-t
-        border-[var(--border)]
-        bg-[var(--background)]
-        px-5 pb-5 pt-4
-      "
-    >
-      {/* LINHA PRINCIPAL: INPUT CENTRALIZADO + BOTÃO DE VOZ À DIREITA */}
-      <div
-        className="
-          mx-auto
-          flex
-          max-w-3xl
-          items-center
-          gap-6
-        "
-      >
-        {/* INPUT COM O BOTÃO "+" À ESQUERDA */}
+    <div className="bg-gradient-to-t from-[var(--background)] via-[var(--background)] to-transparent px-3 pb-3 pt-2 sm:px-5 sm:pb-4">
+      <div className="mx-auto max-w-3xl">
+        {attachments.length > 0 && (
+          <ul className="mb-2 flex flex-wrap gap-1.5" aria-label="Arquivos anexados a esta conversa">
+            {attachments.map((document) => (
+              <li
+                key={document.id}
+                title={document.error ?? undefined}
+                className={cx(
+                  "animate-pop-in flex max-w-[240px] items-center gap-1.5 rounded-lg border bg-[var(--background-secondary)] py-1 pl-2 pr-1 text-xs",
+                  document.status === "error" ? "border-[var(--danger)]/40" : "border-[var(--border)]",
+                )}
+              >
+                {document.status === "ready" ? (
+                  <FileText size={13} className="shrink-0 text-[var(--accent)]" aria-hidden />
+                ) : document.status === "error" ? (
+                  <CircleAlert size={13} className="shrink-0 text-[var(--danger)]" aria-hidden />
+                ) : (
+                  <LoaderCircle size={13} className="shrink-0 animate-spin text-[var(--foreground-muted)]" aria-hidden />
+                )}
+                <span className="truncate text-[var(--foreground-secondary)]">{document.name}</span>
+                <span className="sr-only">
+                  {document.status === "ready" ? "pronto" : document.status === "error" ? `erro: ${document.error}` : "processando"}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => onRemoveAttachment(document)}
+                  aria-label={`Remover ${document.name}`}
+                  className="rounded p-0.5 text-[var(--foreground-muted)] hover:bg-[var(--sidebar-hover)] hover:text-[var(--foreground)]"
+                >
+                  <X size={12} />
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+
         <form
           onSubmit={handleSubmit}
-          className="
-            relative
-            flex
-            flex-1
-            items-center
-            gap-2
-            rounded-2xl
-            border
-            border-[var(--input-border)]
-            bg-[var(--input-background)]
-            p-2
-            shadow-lg
-            transition-all duration-200
-            focus-within:border-[var(--border-hover)]
-          "
+          className={cx(
+            "relative flex items-end gap-1.5 rounded-2xl border bg-[var(--input-background)] p-1.5 shadow-[var(--shadow-md)] transition-[border-color,box-shadow] duration-200",
+            "border-[var(--input-border)] focus-within:border-[var(--accent)] focus-within:shadow-[0_0_0_3px_var(--accent-soft),var(--shadow-md)]",
+          )}
         >
-          {/* BOTÃO "+" E MINI MODAL */}
+          {/* BOTÃO "+" E MENU */}
           <div className="relative" ref={menuRef}>
             <button
               type="button"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`
-                flex h-10 w-10
-                shrink-0
-                items-center justify-center
-                rounded-xl
-                text-[var(--foreground-secondary)]
-                transition-all duration-200
-                hover:bg-[var(--sidebar-hover)]
-                hover:text-[var(--foreground)]
-                ${isMenuOpen ? "bg-[var(--sidebar-hover)] text-[var(--foreground)] rotate-45" : ""}
-              `}
-              title="Adicione Arquivos e mais..."
+              onClick={() => setIsMenuOpen((open) => !open)}
+              aria-label="Anexar e ferramentas"
+              aria-haspopup="menu"
+              aria-expanded={isMenuOpen}
+              className={cx(
+                "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-[var(--foreground-secondary)] transition-[background-color,color,transform] duration-200 hover:bg-[var(--sidebar-hover)] hover:text-[var(--foreground)]",
+                isMenuOpen && "rotate-45 bg-[var(--sidebar-hover)] text-[var(--foreground)]",
+              )}
             >
-              <Plus
-                size={19}
-                strokeWidth={2}
-                className="transition-transform duration-200"
-              />
+              <Plus size={19} strokeWidth={2} />
             </button>
 
-            {/* MINI MODAL FLUTUANTE */}
             {isMenuOpen && (
               <div
-                className="
-                  absolute
-                  bottom-14
-                  left-0
-                  z-50
-                  w-58
-                  flex
-                  flex-col
-                  gap-1
-                  rounded-2xl
-                  border
-                  border-[var(--sidebar-border)]
-                  bg-[var(--background-tertiary)]
-                  p-1.5
-                  shadow-xl
-                  backdrop-blur-md
-                  animate-in fade-in zoom-in-95 duration-150
-                "
+                role="menu"
+                className="animate-pop-in absolute bottom-12 left-0 z-50 flex w-64 flex-col gap-0.5 rounded-2xl border border-[var(--sidebar-border)] bg-[var(--background-secondary)] p-1.5 shadow-[var(--shadow-lg)]"
               >
                 <button
                   type="button"
+                  role="menuitem"
                   onClick={() => {
-                    alert("Anexar Arquivos clicado");
                     setIsMenuOpen(false);
+                    fileRef.current?.click();
                   }}
-                  className="
-                    flex items-center gap-3
-                    rounded-xl
-                    px-3 py-2.5
-                    text-xs
-                    text-[var(--foreground-secondary)]
-                    transition-all duration-200
-                    hover:bg-[var(--sidebar-hover)]
-                    hover:text-[var(--foreground)]
-                  "
+                  className="flex items-start gap-3 rounded-xl px-3 py-2.5 text-left text-xs text-[var(--foreground-secondary)] transition-colors hover:bg-[var(--sidebar-hover)] hover:text-[var(--foreground)]"
                 >
-                  <Paperclip size={16} strokeWidth={1.8} />
-                  <span>Anexar Arquivos</span>
+                  <Paperclip size={16} strokeWidth={1.8} className="mt-0.5 shrink-0" />
+                  <span>
+                    <span className="block font-medium text-[var(--foreground)]">Anexar arquivos</span>
+                    Usados apenas nesta conversa (PDF, DOCX, TXT, MD, CSV, XLSX, HTML)
+                  </span>
                 </button>
-
                 <button
                   type="button"
-                  onClick={() => {
-                    alert("Adicionar do Drive clicado");
-                    setIsMenuOpen(false);
-                  }}
-                  className="
-                    flex items-center gap-3
-                    rounded-xl
-                    px-3 py-2.5
-                    text-xs
-                    text-[var(--foreground-secondary)]
-                    transition-all duration-200
-                    hover:bg-[var(--sidebar-hover)]
-                    hover:text-[var(--foreground)]
-                  "
+                  role="menuitemcheckbox"
+                  aria-checked={useComputer}
+                  disabled={!computerAvailable}
+                  onClick={() => onUseComputerChange(!useComputer)}
+                  className="flex items-start gap-3 rounded-xl px-3 py-2.5 text-left text-xs text-[var(--foreground-secondary)] transition-colors hover:bg-[var(--sidebar-hover)] hover:text-[var(--foreground)] disabled:opacity-50"
                 >
-                  <HardDrive size={16} strokeWidth={1.8} />
-                  <span>Adicionar do Drive</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    alert("Mais Ferramentas clicado");
-                    setIsMenuOpen(false);
-                  }}
-                  className="
-                    flex items-center gap-3
-                    rounded-xl
-                    px-3 py-2.5
-                    text-xs
-                    text-[var(--foreground-secondary)]
-                    transition-all duration-200
-                    hover:bg-[var(--sidebar-hover)]
-                    hover:text-[var(--foreground)]
-                  "
-                >
-                  <Ellipsis size={16} strokeWidth={1.8} />
-                  <span>Mais Ferramentas</span>
-                  <ChevronRight size={16} strokeWidth={1.8} />
+                  <Monitor size={16} strokeWidth={1.8} className="mt-0.5 shrink-0" />
+                  <span className="flex-1">
+                    <span className="block font-medium text-[var(--foreground)]">Usar computador</span>
+                    {computerAvailable
+                      ? "Permite consultas de leitura ao agente local, dentro das permissões"
+                      : computerHint || "Agente local desconectado"}
+                  </span>
+                  <span
+                    className={cx(
+                      "mt-0.5 flex h-4 w-7 shrink-0 items-center rounded-full p-0.5 transition-colors",
+                      useComputer ? "bg-[var(--accent)]" : "bg-[var(--border-hover)]",
+                    )}
+                    aria-hidden
+                  >
+                    <span
+                      className={cx(
+                        "h-3 w-3 rounded-full bg-white shadow transition-transform duration-200",
+                        useComputer && "translate-x-3",
+                      )}
+                    />
+                  </span>
                 </button>
               </div>
             )}
           </div>
 
-          {/* CAMPO */}
           <input
+            ref={fileRef}
+            type="file"
+            multiple
+            accept={ACCEPT}
+            className="hidden"
+            onChange={(event) => {
+              const files = Array.from(event.target.files ?? []);
+              if (files.length) onAttach(files);
+              event.target.value = "";
+            }}
+          />
+
+          {/* CAMPO */}
+          <label htmlFor="chat-message" className="sr-only">
+            Mensagem para a IA
+          </label>
+          <textarea
+            id="chat-message"
+            ref={textareaRef}
+            rows={1}
             value={message}
             onChange={(event) => setMessage(event.target.value)}
-            placeholder="Converse com SAITE..."
-            className="
-              min-w-0
-              flex-1
-              bg-transparent
-              px-3
-              py-3
-              text-sm
-              text-[var(--foreground)]
-              outline-none
-              placeholder:text-[var(--foreground-muted)]
-            "
+            onKeyDown={handleKeyDown}
+            placeholder={disabled ? disabledReason : "Converse com SAITE…"}
+            disabled={disabled}
+            maxLength={10000}
+            className="max-h-[200px] min-w-0 flex-1 resize-none bg-transparent px-2 py-2.5 text-sm leading-6 text-[var(--foreground)] outline-none placeholder:text-[var(--foreground-muted)] disabled:cursor-not-allowed"
           />
 
-          {/* MICROFONE (INTERNO DO INPUT) */}
-          <button
-            type="button"
-            className="
-              flex h-10 w-10
-              shrink-0
-              items-center justify-center
-              rounded-xl
-              text-[var(--foreground-secondary)]
-              transition-all duration-200
-              hover:bg-[var(--sidebar-hover)]
-              hover:text-[var(--foreground)]
-            "
-            title="Gravar Aúdio"
-          >
-            <Mic size={19} strokeWidth={1.8} />
-          </button>
+          {useComputer && (
+            <button
+              type="button"
+              onClick={() => onUseComputerChange(false)}
+              title="Acesso ao computador ativado para as próximas mensagens. Clique para desativar."
+              className="animate-pop-in mb-1.5 hidden h-7 shrink-0 items-center gap-1 rounded-lg bg-[var(--accent-soft)] px-2 text-[11px] font-medium text-[var(--accent)] sm:flex"
+            >
+              <Monitor size={12} /> Computador <X size={11} />
+            </button>
+          )}
 
-          {/* ENVIAR */}
-          <button
-            type="submit"
-            disabled={!message.trim()}
-            className="
-              flex h-12 w-12
-              shrink-0
-              items-center justify-center
-              rounded-xl
-              bg-[var(--foreground)]
-              text-[var(--background)]
-              transition-all duration-200
-              hover:scale-110
-              disabled:cursor-not-allowed
-              disabled:opacity-30
-            "
-            title="Enviar mensagem"
-          >
-            <Send size={25} strokeWidth={2} />
-          </button>
+          {/* ENVIAR / PARAR */}
+          {isStreaming ? (
+            <button
+              type="button"
+              onClick={onStop}
+              aria-label="Parar geração"
+              title="Parar geração"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--foreground)] text-[var(--background)] transition-transform duration-150 active:scale-95"
+            >
+              <Square size={14} fill="currentColor" />
+            </button>
+          ) : (
+            <button
+              type="submit"
+              disabled={!message.trim() || disabled}
+              aria-label="Enviar mensagem"
+              title="Enviar (Enter)"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent)] text-[var(--accent-foreground)] transition-[transform,opacity,background-color] duration-150 hover:bg-[var(--accent-hover)] active:scale-95 disabled:opacity-30"
+            >
+              <ArrowUp size={19} strokeWidth={2.2} />
+            </button>
+          )}
         </form>
 
-        {/* BOTÃO DE CONVERSAR POR VOZ (NA MESMA LINHA, À DIREITA) */}
-        <button
-          type="button"
-          className="
-            group
-            flex
-            shrink-0
-            items-center
-            gap-2
-            rounded-2xl
-            border
-            border-[var(--input-border)]
-            bg-[var(--input-background)]
-            px-4
-            py-3.5
-            text-xs
-            font-medium
-            text-[var(--foreground-secondary)]
-            shadow-lg
-            transition-all duration-200
-            hover:border-[var(--border-hover)]
-            hover:bg-[var(--sidebar-hover)]
-            hover:text-[var(--foreground)]
-          "
-          title="Conversar por voz"
-        >
-          <AudioLines
-            size={20}
-            strokeWidth={1.8}
-            className="
-              transition-transform duration-200
-              group-hover:scale-110
-            "
-          />
-          <span className="hidden sm:inline">Voz</span>
-        </button>
+        {/* AVISO */}
+        <p className="mt-2 text-center text-[11px] text-[var(--foreground-muted)]">
+          IA local: pode cometer erros. Verifique informações importantes. Enter envia · Shift+Enter quebra linha.
+        </p>
       </div>
-
-      {/* AVISO */}
-      <p
-        className="
-          mt-2
-          text-center
-          text-[10px]
-          text-[var(--foreground-muted)]
-        "
-      >
-        A IA pode cometer erros. Verifique informações importantes.
-      </p>
     </div>
   );
 }
