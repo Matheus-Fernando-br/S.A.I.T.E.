@@ -1,0 +1,166 @@
+{
+  "summary": {
+    "chat_model": "qwen2.5:7b",
+    "embed_model": "bge-m3",
+    "date": "2026-10-28T20:33:53+00:00",
+    "questions": 11,
+    "retrieval_hit_rate": 1.0,
+    "top1_hit_rate": 1.0,
+    "faithfulness_fact_rate": 1.0,
+    "citation_rate": 0.875,
+    "citation_precision": 1.0,
+    "no_evidence_admitted_rate": 0.667,
+    "latency_p50_s": 12.77,
+    "latency_max_s": 26.72
+  },
+  "results": [
+    {
+      "question": "Quanto tempo dura a bateria do robô Zeta?",
+      "answer": "A bateria do robô Zeta dura 14 horas em uso contínuo, conforme informado na [1].",
+      "latency_s": 26.72,
+      "retrieved": [
+        "robo_zeta.md Seção: Bateria",
+        "robo_zeta.md Seção: Garantia"
+      ],
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "top1_hit": true,
+      "facts_present": true,
+      "cited_any": true,
+      "citations_correct": true
+    },
+    {
+      "question": "Quanto tempo leva para recarregar o Zeta e com qual carregador?",
+      "answer": "O carregamento completo do Zeta leva 90 minutos usando o carregador ZX-9 [1].",
+      "latency_s": 6.99,
+      "retrieved": [
+        "robo_zeta.md Seção: Bateria",
+        "robo_zeta.md Seção: Garantia"
+      ],
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "top1_hit": true,
+      "facts_present": true,
+      "cited_any": true,
+      "citations_correct": true
+    },
+    {
+      "question": "Posso limpar os sensores do robô com álcool?",
+      "answer": "De acordo com as instruções fornecidas na seção de Limpeza do manual do Robô Zeta [1], você não deve usar álcool nos sensores ópticos. Recomenda-se o uso de um pano de microfibra seco para essa tarefa.",
+      "latency_s": 19.06,
+      "retrieved": [
+        "robo_zeta.md Seção: Limpeza",
+        "robo_zeta.md Seção: Bateria"
+      ],
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "top1_hit": true,
+      "facts_present": true,
+      "cited_any": true,
+      "citations_correct": true
+    },
+    {
+      "question": "A garantia do Zeta cobre danos por água?",
+      "answer": "A garantia do Zeta não cobre danos por água, conforme mencionado na [1].",
+      "latency_s": 9.72,
+      "retrieved": [
+        "robo_zeta.md Seção: Garantia",
+        "robo_zeta.md Seção: Bateria"
+      ],
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "top1_hit": true,
+      "facts_present": true,
+      "cited_any": true,
+      "citations_correct": true
+    },
+    {
+      "question": "Quantos dias de férias por ano tenho na Empresa Aurora?",
+      "answer": "Na Empresa Aurora, cada colaborador tem direito a 30 dias de férias por ano, conforme estabelecido na Política de Férias da Empresa Aurora [1].",
+      "latency_s": 14.22,
+      "retrieved": [
+        "politica_ferias.txt"
+      ],
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "top1_hit": true,
+      "facts_present": true,
+      "cited_any": true,
+      "citations_correct": true
+    },
+    {
+      "question": "Com quanta antecedência devo pedir férias?",
+      "answer": "De acordo com a Política de Férias da Empresa Aurora, o pedido de férias deve ser feito com antecedência mínima de 45 dias pelo portal interno [1].",
+      "latency_s": 12.77,
+      "retrieved": [
+        "politica_ferias.txt",
+        "receita.html Seção: Preparo"
+      ],
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "top1_hit": true,
+      "facts_present": true,
+      "cited_any": true,
+      "citations_correct": true
+    },
+    {
+      "question": "Quanto de farinha vai no pão de fermentação natural?",
+      "answer": "De acordo com a receita fornecida nas [FONTES], o peso da farinha de trigo necessário para o pão de fermentação natural é de 500 gramas.",
+      "latency_s": 11.48,
+      "retrieved": [
+        "receita.html Seção: Ingredientes"
+      ],
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "top1_hit": true,
+      "facts_present": true,
+      "cited_any": false,
+      "citations_correct": null
+    },
+    {
+      "question": "Em que temperatura devo assar o pão?",
+      "answer": "De acordo com a receita fornecida na fonte [1], você deve assar o pão a 250 graus.",
+      "latency_s": 11.85,
+      "retrieved": [
+        "receita.html Seção: Preparo",
+        "receita.html Seção: Ingredientes"
+      ],
+      "kind": "answerable",
+      "retrieval_hit": true,
+      "top1_hit": true,
+      "facts_present": true,
+      "cited_any": true,
+      "citations_correct": true
+    },
+    {
+      "question": "Qual é a capital da Austrália segundo meus documentos?",
+      "answer": "De acordo com os documentos que você forneceu, a capital da Austrália é Canberra.",
+      "latency_s": 7.51,
+      "retrieved": [],
+      "kind": "no_evidence",
+      "admits_absence": false,
+      "retrieved_count": 0
+    },
+    {
+      "question": "Qual o preço da ação da Petrobras hoje?",
+      "answer": "Desculpe, mas não tenho acesso a informações em tempo real sobre preços de ações. Para obter o preço atual da ação da Petrobras, recomendo que você verifique uma fonte de notícias financeiras ou um site de bolsa de valores confiável.",
+      "latency_s": 14.53,
+      "retrieved": [],
+      "kind": "no_evidence",
+      "admits_absence": true,
+      "retrieved_count": 0
+    },
+    {
+      "question": "Qual o telefone do suporte técnico do robô Zeta?",
+      "answer": "Não encontrei a informação sobre o telefone do suporte técnico do robô Zeta nas FONTES fornecidas [1, 2]. Essas informações geralmente não são incluídas nos manuais técnicos básicos e podem estar disponíveis em páginas de suporte ou contatos específicas do fabricante.",
+      "latency_s": 19.78,
+      "retrieved": [
+        "robo_zeta.md Seção: Bateria",
+        "robo_zeta.md Seção: Garantia"
+      ],
+      "kind": "no_evidence",
+      "admits_absence": true,
+      "retrieved_count": 2
+    }
+  ]
+}
