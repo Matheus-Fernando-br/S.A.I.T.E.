@@ -1,215 +1,153 @@
-# Instalação, configuração e operação
+# Implantação, configuração e operação
 
-Este guia leva o S.A.I.T.E. de um clone vazio até o uso diário. Tudo roda **no seu computador**;
-nenhuma chave de API comercial é necessária.
+O S.A.I.T.E. roda **na nuvem** para que todos os dispositivos (celular, computador e, no futuro,
+apps, `.exe` e TV) usem os mesmos dados:
 
-## 1. Visão rápida do que será executado
-
-| Processo | Onde roda | Porta (padrão) | Obrigatório |
-|---|---|---|---|
-| **Ollama** (modelos de IA) | seu computador | 11434 | sim |
-| **Backend** FastAPI (chat, RAG, banco SQLite) | seu computador | 8000 | sim |
-| **Interface** Next.js | seu computador (`npm run dev`/`start`) **ou** Vercel | 3000 | sim |
-| **Agente local** (leitura do computador) | seu computador | 8765 | opcional |
-
-Todos escutam apenas em `127.0.0.1`. A interface publicada na Vercel conversa com o backend
-através do **seu navegador** (`http://localhost:8000`), nunca a partir dos servidores da Vercel.
-
-## 2. Pré-requisitos
-
-| Item | Versão testada | Observação |
+| Parte | Serviço | Endereço |
 |---|---|---|
-| Python | 3.11+ (testado em 3.13) | backend e agente |
-| Node.js | 20+ (testado em 22) | interface |
-| Ollama | 0.40+ | https://ollama.com/download (Windows, macOS, Linux) |
-| Git | qualquer | |
+| Interface (site) | Vercel | https://saite-agent.vercel.app |
+| Backend (API) | Render — serviço `S.A.I.T.E.` (pasta `backend`, branch `main`) | https://s-a-i-t-e.onrender.com |
+| Banco de dados | Supabase — projeto `saite` (us-west-1, perto do Render em Oregon) | PostgreSQL |
+| Modelos de IA | Provedor compatível com a API OpenAI (padrão: Google Gemini) | chamado pelo backend |
 
-### Hardware e modelos
+Nada roda no seu computador. O navegador fala só com o backend no Render; o backend fala com o banco e
+com o provedor de IA. As chaves ficam apenas no Render.
 
-| Perfil | Modelo de chat | Download | RAM livre | Latência medida* |
-|---|---|---|---|---|
-| Recomendado | `qwen2.5:7b` (Apache-2.0) | ~4,7 GB | ~8 GB (ou GPU com 6 GB+ de VRAM) | mediana 12,8 s |
-| Leve | `qwen2.5:1.5b` (Apache-2.0) | ~1,0 GB | ~3 GB | mediana 3,0 s |
-| Mínimo (testes) | `qwen2.5:0.5b` (Apache-2.0) | ~0,4 GB | ~1,5 GB | mediana 1,3 s — qualidade baixa |
+## 1. Banco de dados (Supabase) — já criado
 
-| Embeddings | Download | Licença | Observação |
+O projeto `saite` foi criado e o esquema já foi aplicado (tabelas, índices, RLS ligado e acesso pela API
+pública do Supabase bloqueado). Para conectar o backend, falta apenas a **URL de conexão**:
+
+1. Abra https://supabase.com/dashboard → projeto **saite**.
+2. **Project Settings → Database → Reset database password**: gere uma senha e copie-a.
+3. Clique em **Connect** (topo da página) → aba **Connection string** → **Session pooler** (funciona por IPv4,
+   que é o que o Render usa). Copie a URL e troque `[YOUR-PASSWORD]` pela senha do passo 2.
+
+O formato é:
+`postgresql://postgres.rceydzbmdflvewueaqkj:SENHA@aws-?-us-west-1.pooler.supabase.com:5432/postgres`
+
+## 2. Chave do provedor de IA
+
+Padrão recomendado: **Google Gemini** (uma única chave serve para o chat e para os embeddings; plano gratuito).
+
+1. Entre em https://aistudio.google.com/apikey com sua conta Google.
+2. **Create API key** → copie a chave.
+
+No plano gratuito do Gemini, o Google pode usar o conteúdo enviado para melhorar os produtos dele. Se preferir
+outro provedor, veja a seção 6.
+
+## 3. Variáveis no Render
+
+Render → serviço **S.A.I.T.E.** → **Environment** → *Add Environment Variable*. Cadastre os **segredos**:
+
+| Variável | Valor |
+|---|---|
+| `DATABASE_URL` | URL do passo 1 |
+| `SAITE_LLM_API_KEY` | chave do passo 2 |
+| `SAITE_ACCESS_PASSWORD` | a senha que você vai usar para entrar no S.A.I.T.E. (longa; não reutilize outra senha) |
+
+Já configuradas (não secretas): `SAITE_LLM_PROVIDER=openai_compatible`,
+`SAITE_LLM_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai`, `SAITE_CHAT_MODEL=gemini-2.5-flash`,
+`SAITE_EMBED_MODEL=gemini-embedding-001`, `SAITE_CORS_ORIGINS=https://saite-agent.vercel.app,http://localhost:3000`.
+
+Variáveis antigas (`OPENAI_API_KEY`, `SUPABASE_URL`, `SUPABASE_KEY`, `USER_ID`) não são mais usadas e podem ser apagadas.
+
+Comandos do serviço (já estão assim): *Root Directory* `backend`, *Build* `pip install -r requirements.txt`,
+*Start* `uvicorn app.main:app --host 0.0.0.0 --port $PORT`. O Render publica automaticamente a cada commit na `main`.
+
+Ao iniciar, o backend aplica as migrações pendentes sozinho. Confira em https://s-a-i-t-e.onrender.com/health
+(deve mostrar `"auth_required": true`).
+
+## 4. Interface (Vercel)
+
+O site publicado usa `https://s-a-i-t-e.onrender.com` automaticamente. Se o projeto na Vercel tiver a variável
+`NEXT_PUBLIC_API_URL`, ela deve apontar para esse mesmo endereço. A Vercel publica a cada commit na `main`.
+
+## 5. Uso
+
+1. Abra https://saite-agent.vercel.app no celular ou no computador e entre com `SAITE_ACCESS_PASSWORD`.
+2. A sessão dura 90 dias por dispositivo. *Configurações → Conexão → Sair deste dispositivo* encerra a sessão local;
+   trocar a senha no Render encerra as sessões de **todos** os dispositivos.
+3. No plano gratuito, o Render "dorme" após 15 minutos sem uso: a primeira abertura pode levar até ~1 minuto
+   (o site mostra um aviso). O Supabase gratuito pausa projetos após 7 dias sem nenhuma atividade — basta reativar no painel.
+
+## 6. Outros provedores de IA
+
+Qualquer serviço com API compatível com a da OpenAI funciona; troque as variáveis no Render (ou em Configurações → IA):
+
+| Provedor | `SAITE_LLM_BASE_URL` | Modelo de chat | Embeddings |
 |---|---|---|---|
-| `bge-m3` (padrão) | ~1,2 GB | MIT | multilíngue; separa bem perguntas relevantes/irrelevantes em português |
-| `nomic-embed-text` | ~275 MB | Apache-2.0 | mais leve; em português separou mal (ver `docs/avaliacao`) |
+| Google Gemini (padrão) | `https://generativelanguage.googleapis.com/v1beta/openai` | `gemini-2.5-flash` | `gemini-embedding-001` (mesma chave) |
+| Groq (modelos abertos, não treina com seus dados) | `https://api.groq.com/openai/v1` | `llama-3.3-70b-versatile` | não oferece: use `SAITE_EMBED_BASE_URL`/`SAITE_EMBED_API_KEY` do Gemini |
+| OpenRouter | `https://openrouter.ai/api/v1` | ex.: `meta-llama/llama-3.3-70b-instruct` | use outro provedor para embeddings |
+| Ollama (desenvolvimento local) | `http://127.0.0.1:11434` com `SAITE_LLM_PROVIDER=ollama` | `qwen2.5:7b` | `bge-m3` |
 
-\* Medido em CPU de 4 núcleos, sem GPU, 15 GB de RAM, com a avaliação `backend/eval`. Com GPU as respostas são várias vezes mais rápidas.
+Ao trocar o **modelo de embeddings**, use *Reindexar* na aba Aprender (os vetores antigos não são compatíveis).
 
-Evite `qwen2.5:3b`: sua licença (Qwen Research) não permite uso comercial. Alternativas válidas: `llama3.2:3b`
-(Llama 3.2 Community License), `gemma2:2b` (Gemma Terms). Confira sempre a licença na página do modelo.
+## 7. Desenvolvimento local
 
-## 3. Modelo local (Ollama)
+Pré-requisitos: Python 3.11+, Node 20+, um PostgreSQL (local ou um projeto Supabase de teste).
 
 ```bash
-ollama pull qwen2.5:7b
+cd backend && python -m venv venv && source venv/bin/activate && pip install -r requirements-dev.txt && cp .env.example .env
+```
+
+Edite o `.env` (`DATABASE_URL` de um banco de desenvolvimento — nunca o de produção) e rode:
+
+```bash
+uvicorn app.main:app --reload --port 8000
 ```
 
 ```bash
-ollama pull bge-m3
+cd frontend && npm install && npm run dev
 ```
 
-Verifique: `ollama list` deve mostrar os dois. O Ollama inicia sozinho no Windows/macOS; no Linux use
-`ollama serve` (ou o serviço do systemd). Ele escuta em `http://127.0.0.1:11434`.
+Em `http://localhost:3000` a interface usa `http://localhost:8000` automaticamente.
 
-**Alternativa sem Ollama (llama.cpp):** baixe um GGUF e inicie
-`llama-server -m modelo.gguf --port 8080 --embeddings`; depois, em Configurações → IA local, escolha
-"OpenAI-compatível local" e o endereço `http://127.0.0.1:8080`. LM Studio funciona da mesma forma.
+## 8. Testes
 
-## 4. Backend
+Os testes do backend usam um PostgreSQL descartável (o esquema `public` dele é **apagado** a cada teste):
 
 ```bash
-cd backend
-python -m venv venv
-```
-
-Ative o ambiente — Windows: `venv\Scripts\activate` · macOS/Linux: `source venv/bin/activate` (fish: `source venv/bin/activate.fish`).
-
-```bash
-pip install -r requirements.txt
+cd backend && SAITE_TEST_DATABASE_URL=postgresql://postgres@127.0.0.1:5433/postgres python -m pytest
 ```
 
 ```bash
-cp .env.example .env
-```
-
-(no Windows: `copy .env.example .env`). Ajuste o `.env` se necessário e inicie:
-
-```bash
-uvicorn app.main:app --host 127.0.0.1 --port 8000
-```
-
-Na primeira execução o banco `backend/data/saite.db` é criado e as migrações são aplicadas. Documentação
-interativa da API: http://127.0.0.1:8000/docs.
-
-### Variáveis de ambiente (`backend/.env`)
-
-| Variável | Padrão | Função |
-|---|---|---|
-| `SAITE_DATA_DIR` | `./data` | Banco SQLite e arquivos originais importados |
-| `SAITE_API_TOKEN` | vazio | Se definido, toda rota `/api` exige `Authorization: Bearer <token>`. **Defina-o se a porta for exposta além de localhost.** |
-| `SAITE_CORS_ORIGINS` | `http://localhost:3000,https://saite-agent.vercel.app` | Origens que podem chamar a API pelo navegador |
-| `SAITE_LLM_PROVIDER` | `ollama` | `ollama` ou `openai_compatible` |
-| `SAITE_LLM_BASE_URL` | `http://127.0.0.1:11434` | Endereço do runtime |
-| `SAITE_CHAT_MODEL` | `qwen2.5:7b` | Modelo de chat padrão |
-| `SAITE_EMBED_MODEL` | `bge-m3` | Modelo de embeddings padrão |
-| `SAITE_LLM_API_KEY` | vazio | Só para servidores locais que exigem chave própria (não é chave da OpenAI) |
-| `SAITE_AGENT_URL` | `http://127.0.0.1:8765` | Endereço do agente local |
-| `SAITE_AGENT_TOKEN` | vazio | Token do agente (`python -m saite_agent token`) |
-| `SAITE_MAX_UPLOAD_MB` | `25` | Limite de upload |
-| `SAITE_MAX_URL_MB` | `5` | Limite de download de páginas |
-
-Modelo, endereço do runtime, temperatura, contexto e parâmetros de RAG também podem ser alterados pela
-interface (Configurações → IA local); esses valores ficam no banco e têm precedência sobre o `.env`.
-
-## 5. Agente local do computador (opcional)
-
-```bash
-cd agent
-python -m venv .venv
-```
-
-Ative (`.venv\Scripts\activate` no Windows ou `source .venv/bin/activate`) e instale:
-
-```bash
-pip install -r requirements.txt
-```
-
-Autorize ao menos uma pasta e pegue o token:
-
-```bash
-python -m saite_agent roots add "C:\Users\voce\Documents"
-```
-
-```bash
-python -m saite_agent token
-```
-
-Cole o token em `SAITE_AGENT_TOKEN` no `backend/.env`, reinicie o backend e inicie o agente:
-
-```bash
-python -m saite_agent serve
-```
-
-Permissões detalhadas e ferramentas: `agent/README.md`. Tudo também pode ser gerenciado em Configurações → Agente local.
-
-## 6. Interface
-
-```bash
-cd frontend
-npm install
-```
-
-```bash
-npm run dev
-```
-
-Abra http://localhost:3000. Para produção local: `npm run build` e `npm run start`.
-
-Se o backend não estiver em `http://localhost:8000`, ajuste em Configurações → Conexão (fica salvo no
-navegador) ou defina `NEXT_PUBLIC_API_URL` antes do build.
-
-### Usando a interface publicada (Vercel)
-
-1. Rode Ollama + backend (e, se quiser, o agente) no computador.
-2. Garanta que `https://saite-agent.vercel.app` está em `SAITE_CORS_ORIGINS` (já é o padrão).
-3. Abra o site. Navegadores Chromium podem pedir permissão de **acesso à rede local** na primeira vez — aceite.
-   O backend responde ao *preflight* com `Access-Control-Allow-Private-Network: true`.
-4. Recomenda-se definir `SAITE_API_TOKEN` e informá-lo em Configurações → Conexão.
-
-Para publicar uma nova versão da interface, faça o deploy da pasta `frontend/` na Vercel normalmente; não há
-variáveis secretas no frontend. O backend **não** deve ser hospedado no Render/Vercel: ele precisa estar na
-mesma máquina que o Ollama, os arquivos e o agente.
-
-## 7. Testes
-
-```bash
-cd backend && pip install -r requirements-dev.txt && python -m pytest
-```
-
-```bash
-cd agent && pip install pytest && python -m pytest
+cd agent && python -m pytest
 ```
 
 ```bash
 cd frontend && npm run lint && npm run typecheck && npm run build
 ```
 
-Testes de interface (com Ollama, backend, agente e `npm run start` rodando):
+Ponta a ponta (backend configurado como produção em `localhost:8000` com um banco de teste, e `npm run start`):
 
 ```bash
-cd frontend && npm run test:e2e -- --screens ../docs/screenshots
+cd frontend && SAITE_E2E_PASSWORD=<senha do backend de teste> npm run test:e2e -- --screens ../docs/screenshots
 ```
 
-Avaliação de qualidade do RAG com o modelo real:
+Avaliação do RAG com um modelo real (banco descartável):
 
 ```bash
-cd backend && python -m eval.rag_eval --chat-model qwen2.5:7b --embed-model bge-m3
+cd backend && SAITE_EVAL_DATABASE_URL=postgresql://... python -m eval.rag_eval --chat-model gemini-2.5-flash --embed-model gemini-embedding-001 --base-url https://generativelanguage.googleapis.com/v1beta/openai
 ```
 
-## 8. Backup e recuperação
+## 9. Backup e recuperação
 
-- **Tudo o que importa está em `backend/data/`** (`saite.db` + `files/`). Pare o backend e copie a pasta.
-  Para restaurar, coloque a cópia no lugar e inicie o backend.
-- Exportação lógica: Configurações → Dados → *Exportar* (JSON com projetos, conversas, mensagens, memórias e
-  catálogo de documentos). *Importar* adiciona registros ausentes sem sobrescrever os existentes.
-- Permissões do agente: `~/.saite-agent/config.json` (contém o token — proteja como senha).
-- Após trocar o modelo de embeddings, use *Reindexar* na aba Aprender.
+- O Supabase gratuito não inclui backups automáticos para restauração. Use *Configurações → Dados → Exportar*
+  periodicamente (JSON com projetos, conversas, mensagens, memórias e catálogo de documentos).
+- Para um backup completo do banco: `pg_dump "$DATABASE_URL" > saite.sql` (de qualquer computador com PostgreSQL instalado).
 
-## 9. Solução de problemas
+## 10. Solução de problemas
 
 | Sintoma | Causa provável | Solução |
 |---|---|---|
-| "Backend local indisponível" | backend parado ou endereço errado | inicie o `uvicorn`; confira Configurações → Conexão |
-| "Runtime de IA não está respondendo" | Ollama parado | `ollama serve`; confira o endereço em Configurações |
-| "Modelo de chat não instalado" | modelo não baixado | `ollama pull <modelo>` ou escolha um instalado |
-| Documento "Indexado só para busca por palavras" | modelo de embeddings ausente | `ollama pull bge-m3` e *Reprocessar*/*Reindexar* |
-| "Nenhum texto encontrado no PDF" | PDF digitalizado (imagem) | OCR ainda não suportado: exporte com texto |
-| Site da Vercel não conecta ao localhost | permissão de rede local negada / CORS | aceite a permissão; inclua a origem em `SAITE_CORS_ORIGINS` |
-| 401 nas requisições | `SAITE_API_TOKEN` definido | informe o mesmo token em Configurações → Conexão |
-| "Agente local desconectado" | agente parado ou token diferente | `python -m saite_agent serve`; copie o token para o `.env` |
-| Respostas lentas | CPU sem GPU / modelo grande | use `qwen2.5:1.5b` ou uma GPU; reduza a janela de contexto |
-| Documento preso "Na fila" após reiniciar | processamento interrompido | ao iniciar o backend ele vira "Erro"; use *Reprocessar* |
+| "Iniciando o servidor na nuvem…" por ~1 min | Render gratuito acordando | aguarde; é normal após 15 min sem uso |
+| "Servidor indisponível" | deploy com erro ou `DATABASE_URL` errada | veja os logs do serviço no Render |
+| Senha não aceita | `SAITE_ACCESS_PASSWORD` diferente | confira a variável no Render |
+| "Muitas tentativas" | proteção contra força bruta | aguarde 5 minutos |
+| "O provedor recusou a chave" | `SAITE_LLM_API_KEY` ausente/errada | gere outra chave e atualize no Render |
+| "Limite de uso do provedor" | cota gratuita do provedor esgotada | aguarde ou troque de provedor (seção 6) |
+| Documento "Indexado só para busca por palavras" | embeddings falharam | confira o modelo de embeddings e use *Reprocessar* |
+| "Nenhum texto encontrado no PDF" | PDF digitalizado (imagem) | OCR ainda não suportado |
+| Respostas citam trechos pouco relacionados | limiar de similaridade não calibrado para o modelo | ajuste *Similaridade mínima* (Configurações → IA) usando *Testar recuperação* |

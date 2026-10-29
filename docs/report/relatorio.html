@@ -56,6 +56,36 @@
   </div>
 </div>
 
+<!-- ATUALIZAÇÃO: VERSÃO NA NUVEM -->
+<section class="break">
+  <h2><span class="n">★</span>Atualização de 29/10/2026 — versão na nuvem e sincronizada</h2>
+  <div class="callout">A pedido do dono, o S.A.I.T.E. passou a rodar <strong>na nuvem</strong>, com os mesmos dados em qualquer dispositivo (celular agora; computador, apps, <code>.exe</code> e TV depois). Esta seção substitui as partes das seções seguintes que descrevem o backend, o banco e o modelo rodando no computador do usuário.</div>
+  <table>
+    <tr><th>Aspecto</th><th>Antes (seções 2–26)</th><th>Agora</th></tr>
+    <tr><td>Backend</td><td>FastAPI no computador do usuário</td><td>FastAPI no <strong>Render</strong> (serviço <code>S.A.I.T.E.</code>, s-a-i-t-e.onrender.com)</td></tr>
+    <tr><td>Banco</td><td>SQLite local + FTS5</td><td><strong>PostgreSQL no Supabase</strong> (projeto <code>saite</code>, us-west-1): tsvector em português, embeddings em bytea, arquivos originais no banco; RLS ligado e API pública do Supabase bloqueada</td></tr>
+    <tr><td>IA</td><td>Ollama local (qwen2.5 + bge-m3)</td><td>Provedor compatível com a API OpenAI, padrão <strong>Gemini</strong> (gemini-2.5-flash + gemini-embedding-001); Groq/OpenRouter/Ollama por configuração; chat e embeddings separados</td></tr>
+    <tr><td>Acesso</td><td>localhost + token opcional</td><td><strong>Login com a senha do dono</strong>; sessão HMAC por dispositivo (90 dias); trocar a senha revoga tudo; limite contra força bruta</td></tr>
+    <tr><td>Agente do computador</td><td>Processo local consultado pelo backend</td><td>Indisponível na nuvem (informado na interface); previsto para o <code>.exe</code></td></tr>
+  </table>
+  <h3>Verificação</h3>
+  <table>
+    <tr><th>Item</th><th>Resultado</th></tr>
+    <tr><td>Backend <code>pytest</code> contra PostgreSQL real</td><td class="ok">88 aprovados</td></tr>
+    <tr><td>Agente local</td><td class="ok">17 aprovados</td></tr>
+    <tr><td>Ponta a ponta com stack igual à produção (PostgreSQL, senha, provedor OpenAI-compatível)</td><td class="ok">15/15 — inclui login, senha errada, sincronização entre dois dispositivos e logout</td></tr>
+    <tr><td>Avaliação RAG no PostgreSQL (qwen2.5:1.5b + bge-m3 via API OpenAI-compatível)</td><td class="ok">recuperação 100%, fidelidade 100% — igual à versão SQLite</td></tr>
+    <tr><td>Esquema aplicado no Supabase</td><td class="ok">10 tabelas, RLS em todas, <code>anon</code> sem acesso (consultado no projeto real)</td></tr>
+  </table>
+  <h3>Pendências para entrar no ar</h3>
+  <ol>
+    <li>Cadastrar no Render os segredos <code>DATABASE_URL</code> (Supabase → Connect → Session pooler), <code>SAITE_LLM_API_KEY</code> e <code>SAITE_ACCESS_PASSWORD</code> (as variáveis não secretas já foram cadastradas).</li>
+    <li>Publicar o código na <code>main</code> (o Render e a Vercel publicam a partir dela).</li>
+    <li>Com a chave real, calibrar o limiar de similaridade para <code>gemini-embedding-001</code> (o valor 0,45 foi calibrado para bge-m3).</li>
+  </ol>
+  <figure style="max-width:55%;margin:8px auto"><img src="{{IMG:00-login}}" alt=""><figcaption>Tela de login (a mesma em todos os dispositivos).</figcaption></figure>
+</section>
+
 <!-- 2. RESUMO EXECUTIVO -->
 <section class="break">
   <h2><span class="n">2</span>Resumo executivo</h2>
@@ -271,7 +301,6 @@
     <li>Sem ferramentas de escrita, exclusão, instalação ou execução de comandos (decisão de segurança).</li>
   </ul>
   <p>Validação com modelo real: <code>qwen2.5:7b</code> chamou <code>search_files</code> por iniciativa própria e respondeu com o caminho correto do arquivo.</p>
-  <figure><img src="{{IMG:08-configuracoes-agente}}" alt=""><figcaption>Configurações do agente: pastas autorizadas e ferramentas (dados reais do agente).</figcaption></figure>
 </section>
 
 <!-- 14. BANCO -->
