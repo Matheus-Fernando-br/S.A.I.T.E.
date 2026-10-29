@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.api.routes.ai import router as ai_router
+from app.api.routes.auth import router as auth_router
 from app.api.routes.chat import router as chat_router
 from app.api.routes.computer import router as computer_router
 from app.api.routes.conversations import router as conversations_router
@@ -14,8 +15,8 @@ from app.api.routes.knowledge import router as knowledge_router
 from app.api.routes.memories import router as memories_router
 from app.api.routes.projects import router as projects_router
 from app.core.config import config
-from app.core.security import require_token
-from app.db.database import migrate
+from app.core.security import auth_required, require_token
+from app.db.database import close_pool, migrate
 from app.llm.base import LLMError
 from app.services.computer import ComputerAgentError
 from app.services.knowledge.service import KnowledgeError, knowledge_service
@@ -23,7 +24,7 @@ from app.services.project import NotFoundError
 from app.services.settings import SettingsError
 
 
-VERSION = "0.2.0"
+VERSION = "0.3.0"
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 logger = logging.getLogger("saite")
@@ -37,14 +38,15 @@ async def lifespan(_: FastAPI):
     recovered = knowledge_service.recover_interrupted()
     if recovered:
         logger.warning("%d documento(s) com processamento interrompido marcados para reprocessar", recovered)
-    if not config.api_token:
-        logger.warning("SAITE_API_TOKEN não definido: mantenha o backend acessível apenas em 127.0.0.1")
+    if not auth_required():
+        logger.warning("SAITE_ACCESS_PASSWORD não definida: a API está ABERTA (use só em desenvolvimento).")
     yield
+    close_pool()
 
 
 app = FastAPI(
     title="SAITE — Superior Advanced Intelligence Technological Entity",
-    description="Backend local do agente pessoal de IA S.A.I.T.E. (inferência local, RAG, projetos).",
+    description="Backend do agente pessoal de IA S.A.I.T.E. (chat, RAG, projetos, dados sincronizados).",
     version=VERSION,
     lifespan=lifespan,
 )
@@ -103,6 +105,8 @@ async def agent_error(_: Request, exc: ComputerAgentError):
     return _error(exc.status, str(exc))
 
 
+app.include_router(auth_router, prefix="/api")
+
 protected = [Depends(require_token)]
 for router in (
     chat_router,
@@ -131,5 +135,5 @@ async def health():
     return {
         "status": "healthy",
         "version": VERSION,
-        "auth_required": bool(config.api_token),
+        "auth_required": auth_required(),
     }

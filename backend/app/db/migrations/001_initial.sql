@@ -1,6 +1,6 @@
--- S.A.I.T.E. — esquema inicial (SQLite)
--- Fonte da verdade relacional. O índice lexical (FTS5) é mantido por gatilhos
--- e os embeddings ficam na própria tabela de chunks.
+-- S.A.I.T.E. — esquema inicial (PostgreSQL)
+-- Fonte da verdade na nuvem (Supabase). Índice lexical via tsvector (português);
+-- embeddings como float32 empacotados em bytea; arquivos originais em document_blobs.
 
 CREATE TABLE projects (
     id           TEXT PRIMARY KEY,
@@ -22,8 +22,10 @@ CREATE TABLE conversations (
     updated_at  TEXT NOT NULL
 );
 CREATE INDEX idx_conversations_project ON conversations(project_id);
+CREATE INDEX idx_conversations_updated ON conversations(updated_at DESC);
 
 CREATE TABLE messages (
+    seq              BIGSERIAL UNIQUE,
     id               TEXT PRIMARY KEY,
     conversation_id  TEXT NOT NULL REFERENCES conversations(id) ON DELETE CASCADE,
     role             TEXT NOT NULL CHECK (role IN ('user', 'assistant', 'tool')),
@@ -35,9 +37,8 @@ CREATE TABLE messages (
     tool_calls       TEXT NOT NULL DEFAULT '[]',
     created_at       TEXT NOT NULL
 );
-CREATE INDEX idx_messages_conversation ON messages(conversation_id, created_at);
+CREATE INDEX idx_messages_conversation ON messages(conversation_id, seq);
 
--- scope: global (todas as conversas), project (só o projeto), conversation (só a conversa)
 CREATE TABLE documents (
     id               TEXT PRIMARY KEY,
     scope            TEXT NOT NULL CHECK (scope IN ('global', 'project', 'conversation')),
@@ -49,7 +50,6 @@ CREATE TABLE documents (
     size_bytes       INTEGER NOT NULL DEFAULT 0,
     sha256           TEXT NOT NULL DEFAULT '',
     url              TEXT,
-    stored_path      TEXT,
     status           TEXT NOT NULL DEFAULT 'pending'
                      CHECK (status IN ('pending', 'processing', 'ready', 'error')),
     error            TEXT,
@@ -69,34 +69,24 @@ CREATE TABLE documents (
 CREATE INDEX idx_documents_scope ON documents(scope, project_id, conversation_id);
 CREATE INDEX idx_documents_sha ON documents(sha256);
 
+-- Original do arquivo (ou cópia capturada de um link), apagado junto com o documento.
+CREATE TABLE document_blobs (
+    document_id  TEXT PRIMARY KEY REFERENCES documents(id) ON DELETE CASCADE,
+    data         BYTEA NOT NULL
+);
+
 CREATE TABLE chunks (
-    id           INTEGER PRIMARY KEY AUTOINCREMENT,
+    id           BIGSERIAL PRIMARY KEY,
     document_id  TEXT NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
     ord          INTEGER NOT NULL,
     content      TEXT NOT NULL,
     location     TEXT NOT NULL DEFAULT '',
-    embedding    BLOB,
-    embed_dim    INTEGER
+    embedding    BYTEA,
+    embed_dim    INTEGER,
+    tsv          TSVECTOR GENERATED ALWAYS AS (to_tsvector('portuguese', content)) STORED
 );
 CREATE INDEX idx_chunks_document ON chunks(document_id, ord);
-
-CREATE VIRTUAL TABLE chunks_fts USING fts5(
-    content,
-    content = 'chunks',
-    content_rowid = 'id',
-    tokenize = 'unicode61 remove_diacritics 2'
-);
-
-CREATE TRIGGER chunks_ai AFTER INSERT ON chunks BEGIN
-    INSERT INTO chunks_fts(rowid, content) VALUES (new.id, new.content);
-END;
-CREATE TRIGGER chunks_ad AFTER DELETE ON chunks BEGIN
-    INSERT INTO chunks_fts(chunks_fts, rowid, content) VALUES ('delete', old.id, old.content);
-END;
-CREATE TRIGGER chunks_au AFTER UPDATE OF content ON chunks BEGIN
-    INSERT INTO chunks_fts(chunks_fts, rowid, content) VALUES ('delete', old.id, old.content);
-    INSERT INTO chunks_fts(rowid, content) VALUES (new.id, new.content);
-END;
+CREATE INDEX idx_chunks_tsv ON chunks USING GIN (tsv);
 
 -- Memórias explícitas, criadas e removidas pelo usuário (nunca automáticas)
 CREATE TABLE memories (
@@ -111,10 +101,9 @@ CREATE TABLE settings (
     value  TEXT NOT NULL
 );
 
--- Registro de operações relevantes (ferramentas, exclusões, importações).
--- Não guarda conteúdo de mensagens ou documentos.
+-- Registro de operações relevantes (sem conteúdo de mensagens ou documentos).
 CREATE TABLE activity_log (
-    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    id          BIGSERIAL PRIMARY KEY,
     created_at  TEXT NOT NULL,
     project_id  TEXT REFERENCES projects(id) ON DELETE CASCADE,
     action      TEXT NOT NULL,

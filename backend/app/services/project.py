@@ -1,6 +1,3 @@
-import shutil
-
-from app.core.config import config
 from app.db.database import get_conn, log_activity, new_id, now_iso, row_to_dict
 
 
@@ -65,24 +62,15 @@ class ProjectService:
         if confirm_name.strip() != project["name"]:
             raise ValueError("Confirmação inválida: digite o nome exato do projeto.")
         with get_conn() as conn:
-            paths = [
-                row["stored_path"]
-                for row in conn.execute(
-                    "SELECT stored_path FROM documents WHERE project_id = ?"
-                    " OR conversation_id IN (SELECT id FROM conversations WHERE project_id = ?)",
-                    (project_id, project_id),
-                )
-                if row["stored_path"]
-            ]
-            counts = {
-                "conversations": conn.execute(
-                    "SELECT COUNT(*) FROM conversations WHERE project_id = ?", (project_id,)
-                ).fetchone()[0],
-                "documents": conn.execute(
-                    "SELECT COUNT(*) FROM documents WHERE project_id = ?", (project_id,)
-                ).fetchone()[0],
-            }
+            counts = conn.execute(
+                "SELECT"
+                " (SELECT COUNT(*) FROM conversations WHERE project_id = ?) AS conversations,"
+                " (SELECT COUNT(*) FROM documents WHERE project_id = ?) AS documents",
+                (project_id, project_id),
+            ).fetchone()
+            counts = {key: int(value) for key, value in counts.items()}
             # Documentos de conversas do projeto não têm project_id: remover explicitamente.
+            # Trechos e arquivos originais saem em cascata.
             conn.execute(
                 "DELETE FROM documents WHERE conversation_id IN"
                 " (SELECT id FROM conversations WHERE project_id = ?)",
@@ -90,7 +78,6 @@ class ProjectService:
             )
             conn.execute("DELETE FROM projects WHERE id = ?", (project_id,))
             log_activity(conn, "project.deleted", {"name": project["name"], **counts})
-        remove_stored_files(paths)
         return counts
 
     def activity(self, project_id: str, limit: int = 50) -> list[dict]:
@@ -101,15 +88,6 @@ class ProjectService:
                 (project_id, limit),
             )
             return [row_to_dict(row, ("detail",)) for row in rows]
-
-
-def remove_stored_files(paths: list[str]) -> None:
-    root = config.files_dir.resolve()
-    for path in paths:
-        directory = (root / path).resolve().parent
-        # Só remove dentro do diretório de dados: nunca segue caminhos externos.
-        if directory.is_relative_to(root) and directory != root:
-            shutil.rmtree(directory, ignore_errors=True)
 
 
 project_service = ProjectService()

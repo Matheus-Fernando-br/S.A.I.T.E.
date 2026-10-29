@@ -6,7 +6,7 @@ import pytest
 from app.core.config import config
 from app.services.knowledge.chunking import chunk_sections
 from app.services.knowledge.extract import ExtractionError, Section, extract, normalize_text
-from tests.conftest import upload, wait_ready
+from tests.conftest import blob_count, upload, wait_ready
 from tests.samples import make_docx, make_pdf, make_xlsx
 
 
@@ -94,10 +94,10 @@ def test_upload_index_search_and_delete(client):
     assert results[0]["document_name"] == "zeta.pdf"
 
     # Arquivo original guardado e removido junto com o documento.
-    stored = config.files_dir / document["stored_path"]
-    assert stored.is_file()
+    # Arquivo original guardado no banco e removido junto com o documento.
+    assert blob_count(document["id"]) == 1
     assert client.delete(f"/api/knowledge/documents/{document['id']}").status_code == 200
-    assert not stored.exists()
+    assert blob_count(document["id"]) == 0
     assert search(client, "bateria robo") == []
     assert client.get(f"/api/knowledge/documents/{document['id']}").status_code == 404
 

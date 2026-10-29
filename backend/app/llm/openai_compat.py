@@ -6,6 +6,7 @@ chave arbitrária configurada pelo próprio usuário).
 """
 
 import json
+from urllib.parse import urlsplit
 from collections.abc import AsyncIterator
 from typing import Any
 
@@ -23,9 +24,9 @@ from app.llm.base import (
 
 
 SETUP_HINT = (
-    "Inicie um servidor compatível, por exemplo "
-    "`llama-server -m modelo.gguf --port 8080 --embeddings`, "
-    "e configure o endereço (ex.: http://127.0.0.1:8080) em Configurações."
+    "Confira o endereço do provedor e a chave SAITE_LLM_API_KEY nas variáveis de ambiente do backend "
+    "(ex.: Gemini https://generativelanguage.googleapis.com/v1beta/openai, "
+    "Groq https://api.groq.com/openai/v1, ou um llama-server local)."
 )
 
 
@@ -34,7 +35,9 @@ class OpenAICompatibleProvider:
 
     def __init__(self, base_url: str, api_key: str = "", timeout: float = 300.0):
         base = base_url.rstrip("/")
-        self.base_url = base if base.endswith("/v1") else base + "/v1"
+        # Servidores locais costumam expor /v1; provedores na nuvem já trazem o caminho
+        # completo (ex.: .../v1beta/openai do Gemini, .../openai/v1 do Groq).
+        self.base_url = base + "/v1" if urlsplit(base).path in ("", "/") else base
         self.api_key = api_key
         self.timeout = timeout
 
@@ -57,7 +60,20 @@ class OpenAICompatibleProvider:
         if response.status_code < 400:
             return
         if response.status_code == 404:
-            raise LLMModelNotFoundError(f"Modelo ou rota não encontrada ({model}).")
+            raise LLMModelNotFoundError(
+                f"Modelo ou rota não encontrada ({model}).",
+                hint="Confira o nome do modelo em Configurações → IA.",
+            )
+        if response.status_code in (401, 403):
+            raise LLMError(
+                f"O provedor recusou a chave de acesso (HTTP {response.status_code}).",
+                hint="Confira SAITE_LLM_API_KEY nas variáveis de ambiente do backend.",
+            )
+        if response.status_code == 429:
+            raise LLMError(
+                "Limite de uso do provedor de IA atingido. Aguarde um pouco e tente de novo.",
+                hint="Planos gratuitos têm limite de requisições por minuto e por dia.",
+            )
         raise LLMError(f"Servidor retornou erro {response.status_code}: {response.text[:300]}")
 
     @staticmethod

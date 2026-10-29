@@ -1,7 +1,7 @@
 """Base de conhecimento: importação, processamento, atualização e remoção.
 
 Pipeline: validar → guardar original → extrair → normalizar → dividir em
-trechos → gerar embeddings locais → gravar trechos + índice FTS5 numa única
+trechos → gerar embeddings → gravar trechos + índice lexical numa única
 transação → registrar resultado. O processamento roda em segundo plano
 (``asyncio``), com estado persistido, cancelamento e reprocessamento idempotente.
 """
@@ -13,10 +13,12 @@ import re
 import struct
 from pathlib import Path
 
+from psycopg import Binary
+
 from app.core.config import config
 from app.db.database import get_conn, log_activity, new_id, now_iso, row_to_dict
 from app.llm.base import LLMError
-from app.llm.registry import get_provider
+from app.llm.registry import get_embed_provider
 from app.services.conversation import conversation_service
 from app.services.knowledge.chunking import chunk_sections
 from app.services.knowledge.extract import (
@@ -30,7 +32,7 @@ from app.services.knowledge.extract import (
     normalize_text,
 )
 from app.services.knowledge.urlfetch import URLFetchError, fetch_url, validate_url
-from app.services.project import NotFoundError, project_service, remove_stored_files
+from app.services.project import NotFoundError, project_service
 from app.services.settings import get_settings
 
 
@@ -137,15 +139,16 @@ class KnowledgeService:
         with get_conn() as conn:
             row = conn.execute(
                 "SELECT COUNT(*) AS documents,"
-                " COALESCE(SUM(status = 'ready' AND (embed_model IS NULL OR embed_model != ?)), 0) AS stale,"
+                " COUNT(*) FILTER (WHERE status = 'ready'"
+                "   AND (embed_model IS NULL OR embed_model != ?)) AS stale,"
                 " COALESCE(SUM(chunk_count), 0) AS chunks,"
-                " COALESCE(SUM(status = 'ready'), 0) AS ready,"
-                " COALESCE(SUM(status = 'error'), 0) AS errors,"
-                " COALESCE(SUM(status IN ('pending', 'processing')), 0) AS processing"
+                " COUNT(*) FILTER (WHERE status = 'ready') AS ready,"
+                " COUNT(*) FILTER (WHERE status = 'error') AS errors,"
+                " COUNT(*) FILTER (WHERE status IN ('pending', 'processing')) AS processing"
                 " FROM documents",
                 (get_settings()["embed_model"],),
             ).fetchone()
-        return dict(row)
+        return {key: int(value) for key, value in row.items()}
 
     # ---------------------------------------------------------------- importação
 
@@ -174,20 +177,20 @@ class KnowledgeService:
 
         document_id = new_id()
         safe_name = _safe_filename(filename)
-        relative = f"{document_id}/{safe_name}"
-        target = config.files_dir / relative
-        target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_bytes(data)
         now = now_iso()
         with get_conn() as conn:
             conn.execute(
                 "INSERT INTO documents (id, scope, project_id, conversation_id, source_type, name,"
-                " mime, size_bytes, sha256, stored_path, status, created_at, updated_at)"
-                " VALUES (?, ?, ?, ?, 'file', ?, ?, ?, ?, ?, 'pending', ?, ?)",
+                " mime, size_bytes, sha256, status, created_at, updated_at)"
+                " VALUES (?, ?, ?, ?, 'file', ?, ?, ?, ?, 'pending', ?, ?)",
                 (
                     document_id, scope, project_id, conversation_id, safe_name,
-                    SUPPORTED[suffix], len(data), digest, relative, now, now,
+                    SUPPORTED[suffix], len(data), digest, now, now,
                 ),
+            )
+            # O original fica no banco: o disco do servidor na nuvem é temporário.
+            conn.execute(
+                "INSERT INTO document_blobs (document_id, data) VALUES (?, ?)", (document_id, Binary(data))
             )
             log_activity(conn, "document.added", {"name": safe_name, "scope": scope}, project_id)
         return self.get_document(document_id), True
@@ -292,7 +295,7 @@ class KnowledgeService:
                             index,
                             chunk.content,
                             chunk.location,
-                            pack_embedding(embeddings[index]) if embeddings else None,
+                            Binary(pack_embedding(embeddings[index])) if embeddings else None,
                             len(embeddings[index]) if embeddings else None,
                         )
                         for index, chunk in enumerate(chunks)
@@ -331,10 +334,13 @@ class KnowledgeService:
     async def _load_sections(self, document: dict):
         extra: dict = {}
         if document["source_type"] == "file":
-            path = config.files_dir / document["stored_path"]
-            if not path.is_file():
-                raise KnowledgeError("Arquivo original não encontrado no disco.")
-            data = path.read_bytes()
+            with get_conn() as conn:
+                row = conn.execute(
+                    "SELECT data FROM document_blobs WHERE document_id = ?", (document["id"],)
+                ).fetchone()
+            if row is None:
+                raise KnowledgeError("Arquivo original não encontrado. Envie o arquivo novamente.")
+            data = bytes(row["data"])
             return await asyncio.to_thread(extract, document["name"], data), extra
 
         resource = await fetch_url(document["url"], config.max_url_bytes)
@@ -355,22 +361,20 @@ class KnowledgeService:
                 raise KnowledgeError("A página não tem texto extraível (pode depender de JavaScript).")
         else:
             sections = await asyncio.to_thread(extract, f"pagina{resource.suffix}", resource.data)
-        # Guarda a cópia capturada para auditoria e reprocessamento.
-        old = document.get("stored_path")
-        relative = f"{document['id']}/captura{resource.suffix}"
-        target = config.files_dir / relative
-        target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_bytes(resource.data)
-        extra["stored_path"] = relative
-        if old and old != relative:
-            (config.files_dir / old).unlink(missing_ok=True)
+        # Guarda a cópia capturada para auditoria.
+        with get_conn() as conn:
+            conn.execute(
+                "INSERT INTO document_blobs (document_id, data) VALUES (?, ?)"
+                " ON CONFLICT (document_id) DO UPDATE SET data = excluded.data",
+                (document["id"], Binary(resource.data)),
+            )
         return sections, extra
 
     async def _embed(self, texts: list[str]):
-        """Gera embeddings locais. Se indisponíveis, indexa só para busca lexical."""
+        """Gera embeddings. Se indisponíveis, indexa só para busca lexical."""
         settings = get_settings()
         model = settings["embed_model"]
-        provider = get_provider(settings)
+        provider = get_embed_provider(settings)
         prefix = embed_prefix(model, "document")
         vectors: list[list[float]] = []
         try:
@@ -399,8 +403,6 @@ class KnowledgeService:
         with get_conn() as conn:
             conn.execute("DELETE FROM documents WHERE id = ?", (document_id,))
             log_activity(conn, "document.deleted", {"name": document["name"]}, document["project_id"])
-        if document["stored_path"]:
-            remove_stored_files([document["stored_path"]])
 
     def reindex_stale(self) -> int:
         """Reprocessa documentos indexados com outro modelo de embeddings (ou sem embeddings)."""

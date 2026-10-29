@@ -1,5 +1,5 @@
 from app.db.database import get_conn, log_activity, new_id, now_iso, row_to_dict
-from app.services.project import NotFoundError, project_service, remove_stored_files
+from app.services.project import NotFoundError, project_service
 
 
 class ConversationService:
@@ -46,8 +46,8 @@ class ConversationService:
         if query:
             like = f"%{_escape_like(query.strip())}%"
             clauses.append(
-                "(c.title LIKE ? ESCAPE '\\' OR EXISTS (SELECT 1 FROM messages m"
-                " WHERE m.conversation_id = c.id AND m.content LIKE ? ESCAPE '\\'))"
+                "(c.title ILIKE ? ESCAPE '\\' OR EXISTS (SELECT 1 FROM messages m"
+                " WHERE m.conversation_id = c.id AND m.content ILIKE ? ESCAPE '\\'))"
             )
             params += [like, like]
         sql = (
@@ -78,18 +78,11 @@ class ConversationService:
     def delete_conversation(self, conversation_id: str) -> None:
         conversation = self.get_conversation(conversation_id)
         with get_conn() as conn:
-            paths = [
-                row["stored_path"]
-                for row in conn.execute(
-                    "SELECT stored_path FROM documents WHERE conversation_id = ?", (conversation_id,)
-                )
-                if row["stored_path"]
-            ]
+            # Mensagens, anexos, trechos e arquivos originais saem em cascata.
             conn.execute("DELETE FROM conversations WHERE id = ?", (conversation_id,))
             log_activity(
                 conn, "conversation.deleted", {"title": conversation["title"]}, conversation["project_id"]
             )
-        remove_stored_files(paths)
 
 
 def _escape_like(text: str) -> str:

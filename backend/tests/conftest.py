@@ -9,9 +9,11 @@ usa Ollama ou um servidor OpenAI-compatível local.
 import hashlib
 import io
 import math
+import os
 import re
 import time
 
+import psycopg
 import pytest
 from fastapi.testclient import TestClient
 
@@ -94,18 +96,39 @@ def provider():
     registry.set_provider_factory(None)
 
 
+TEST_DATABASE_URL = os.getenv("SAITE_TEST_DATABASE_URL", "postgresql://postgres@127.0.0.1:5433/postgres")
+
+
+def reset_database(url: str) -> None:
+    """Banco limpo a cada teste (o esquema é recriado pelas migrações na inicialização)."""
+    with psycopg.connect(url, autocommit=True) as conn:
+        conn.execute("DROP SCHEMA IF EXISTS public CASCADE")
+        conn.execute("CREATE SCHEMA public")
+
+
 @pytest.fixture()
-def client(tmp_path, provider, monkeypatch):
-    monkeypatch.setattr(config, "data_dir", tmp_path / "data")
-    monkeypatch.setattr(config, "api_token", "")
-    from app.core.security import chat_limiter, ingest_limiter
+def client(provider, monkeypatch):
+    reset_database(TEST_DATABASE_URL)
+    monkeypatch.setattr(config, "database_url", TEST_DATABASE_URL)
+    monkeypatch.setattr(config, "access_password", "")
+    from app.core.security import chat_limiter, ingest_limiter, login_limiter
     from app.main import app
 
     chat_limiter.hits.clear()
     ingest_limiter.hits.clear()
+    login_limiter.hits.clear()
 
     with TestClient(app) as test_client:
         yield test_client
+
+
+def blob_count(document_id: str) -> int:
+    from app.db.database import get_conn
+
+    with get_conn() as conn:
+        return conn.execute(
+            "SELECT COUNT(*) AS n FROM document_blobs WHERE document_id = ?", (document_id,)
+        ).fetchone()["n"]
 
 
 def wait_ready(client, document_id: str, timeout: float = 10.0) -> dict:

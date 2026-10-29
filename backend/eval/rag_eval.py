@@ -3,7 +3,8 @@
 Uso (com o Ollama ativo e os modelos instalados):
 
     cd backend
-    python -m eval.rag_eval --chat-model qwen2.5:7b --embed-model nomic-embed-text
+    SAITE_EVAL_DATABASE_URL=postgresql://postgres@127.0.0.1:5433/saite_eval \
+    python -m eval.rag_eval --chat-model qwen2.5:7b --embed-model bge-m3
 
 Indexa o corpus de ``eval/corpus`` num banco temporário, faz as perguntas de
 ``eval/questions.json`` pelo mesmo caminho do chat e mede:
@@ -19,10 +20,10 @@ Os resultados são gravados em ``docs/avaliacao/`` (JSON + Markdown).
 
 import argparse
 import json
+import os
 import re
 import statistics
 import sys
-import tempfile
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -40,9 +41,15 @@ ABSENCE = re.compile(
 
 
 def run(chat_model: str, embed_model: str, base_url: str) -> dict:
+    import psycopg
+
     from app.core.config import config
 
-    config.data_dir = Path(tempfile.mkdtemp(prefix="saite-eval-"))
+    # Banco descartável: NUNCA aponte para o banco de produção (o esquema é recriado).
+    config.database_url = os.environ["SAITE_EVAL_DATABASE_URL"]
+    with psycopg.connect(config.database_url, autocommit=True) as conn:
+        conn.execute("DROP SCHEMA IF EXISTS public CASCADE")
+        conn.execute("CREATE SCHEMA public")
     from app.main import app
 
     results = []

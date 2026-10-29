@@ -51,7 +51,15 @@ def import_data(payload: dict = Body(...)):
     inserted = {}
     with get_conn() as conn:
         for table in TABLES:
-            columns = [row["name"] for row in conn.execute(f"PRAGMA table_info({table})")]
+            columns = [
+                row["column_name"]
+                for row in conn.execute(
+                    "SELECT column_name FROM information_schema.columns"
+                    " WHERE table_name = ? AND table_schema = current_schema()",
+                    (table,),
+                )
+                if row["column_name"] != "seq"
+            ]
             rows = payload.get(table) or []
             if not isinstance(rows, list):
                 raise HTTPException(status_code=400, detail=f"Campo '{table}' inválido.")
@@ -61,7 +69,8 @@ def import_data(payload: dict = Body(...)):
                     continue
                 values = {key: row.get(key) for key in columns if key in row}
                 cursor = conn.execute(
-                    f"INSERT OR IGNORE INTO {table} ({', '.join(values)}) VALUES ({', '.join('?' * len(values))})",
+                    f"INSERT INTO {table} ({', '.join(values)}) VALUES ({', '.join('?' * len(values))})"
+                    " ON CONFLICT DO NOTHING",
                     list(values.values()),
                 )
                 count += cursor.rowcount

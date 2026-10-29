@@ -45,14 +45,14 @@ class MessageService:
         """Mensagens em ordem cronológica; com ``limit``, apenas as mais recentes."""
         with get_conn() as conn:
             rows = conn.execute(
-                "SELECT * FROM (SELECT *, rowid AS rid FROM messages WHERE conversation_id = ?"
-                " ORDER BY rowid DESC LIMIT ?) ORDER BY rid",
-                (conversation_id, -1 if limit is None else limit),
+                "SELECT * FROM (SELECT * FROM messages WHERE conversation_id = ?"
+                " ORDER BY seq DESC LIMIT ?) AS recent ORDER BY seq",
+                (conversation_id, limit),
             ).fetchall()
         messages = []
         for row in rows:
             data = row_to_dict(row, ("citations", "tool_calls"))
-            data.pop("rid", None)
+            data.pop("seq", None)
             messages.append(data)
         return messages
 

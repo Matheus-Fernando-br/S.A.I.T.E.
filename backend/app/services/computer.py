@@ -25,6 +25,11 @@ SETUP_HINT = (
     "exibido por `python -m saite_agent token` para SAITE_AGENT_TOKEN no .env do backend."
 )
 
+NOT_CONFIGURED = (
+    "O acesso ao computador ainda não está disponível nesta versão na nuvem: o servidor não alcança o seu PC. "
+    "Ele virá com o aplicativo para Windows (.exe), que conecta o agente local ao S.A.I.T.E."
+)
+
 TOOL_SCHEMAS: dict[str, dict[str, Any]] = {
     "system_info": {
         "description": "Informações atuais do sistema: sistema operacional, CPU, memória e tempo ligado.",
@@ -91,6 +96,8 @@ class ComputerService:
         )
 
     async def _request(self, method: str, path: str, **kwargs) -> Any:
+        if not get_settings()["agent_url"]:
+            raise ComputerAgentError(NOT_CONFIGURED, status=503)
         try:
             async with self._client() as client:
                 response = await client.request(method, path, **kwargs)
@@ -114,6 +121,8 @@ class ComputerService:
 
     async def status(self) -> dict:
         """Estado real do agente. Nunca levanta: devolve ``connected: False`` com o motivo."""
+        if not get_settings()["agent_url"]:
+            return {"connected": False, "configured": False, "error": NOT_CONFIGURED, "hint": SETUP_HINT}
         try:
             data = await self._request("GET", "/status")
             return {"connected": True, **data}

@@ -1,4 +1,4 @@
-"""Recuperação híbrida: lexical (FTS5/BM25) + vetorial (cosseno), fundidas por RRF.
+"""Recuperação híbrida: lexical (tsvector em português) + vetorial (cosseno), fundidas por RRF.
 
 O filtro de acesso é aplicado no SQL, antes de qualquer trecho chegar ao modelo:
 uma conversa só enxerga documentos globais, do seu projeto e dela própria.
@@ -11,7 +11,7 @@ import numpy as np
 
 from app.db.database import get_conn
 from app.llm.base import LLMError
-from app.llm.registry import get_provider
+from app.llm.registry import get_embed_provider
 from app.services.knowledge.service import embed_prefix, unpack_embedding
 
 
@@ -70,8 +70,8 @@ def fts_query(text: str) -> str | None:
             terms.append(word)
     if not terms:
         return None
-    # Cada termo entre aspas: evita que a entrada do usuário seja interpretada como sintaxe FTS.
-    return " OR ".join(f'"{term}"' for term in terms[:24])
+    # Só palavras (\w+) unidas por "|": a entrada do usuário nunca vira sintaxe de tsquery.
+    return " | ".join(terms[:24])
 
 
 def _lexical(conn, query: str, clause: str, params: list) -> list[int]:
@@ -79,9 +79,9 @@ def _lexical(conn, query: str, clause: str, params: list) -> list[int]:
     if not match:
         return []
     rows = conn.execute(
-        "SELECT c.id FROM chunks_fts f JOIN chunks c ON c.id = f.rowid"
-        " JOIN documents d ON d.id = c.document_id"
-        f" WHERE chunks_fts MATCH ? AND {clause} ORDER BY bm25(chunks_fts) LIMIT ?",
+        "SELECT c.id FROM chunks c JOIN documents d ON d.id = c.document_id,"
+        " to_tsquery('portuguese', ?) AS q"
+        f" WHERE c.tsv @@ q AND {clause} ORDER BY ts_rank_cd(c.tsv, q) DESC LIMIT ?",
         (match, *params, CANDIDATES),
     )
     return [row["id"] for row in rows]
@@ -95,7 +95,7 @@ def _vector_scores(conn, query_vector: list[float], model: str, clause: str, par
     ).fetchall()
     if not rows:
         return {}
-    matrix = np.array([unpack_embedding(row["embedding"], row["embed_dim"]) for row in rows], dtype=np.float32)
+    matrix = np.array([unpack_embedding(bytes(row["embedding"]), row["embed_dim"]) for row in rows], dtype=np.float32)
     query = np.array(query_vector, dtype=np.float32)
     norms = np.linalg.norm(matrix, axis=1) * (np.linalg.norm(query) or 1.0)
     similarities = matrix @ query / np.where(norms == 0, 1.0, norms)
@@ -130,7 +130,7 @@ async def retrieve(
     if has_embeddings:
         model = settings["embed_model"]
         try:
-            vectors = await get_provider(settings).embed([embed_prefix(model, "query") + query], model)
+            vectors = await get_embed_provider(settings).embed([embed_prefix(model, "query") + query], model)
             query_vector = vectors[0]
         except LLMError as exc:
             info["error"] = f"Busca vetorial indisponível: {exc}"

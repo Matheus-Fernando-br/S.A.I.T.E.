@@ -1,5 +1,5 @@
 from app.core.config import config
-from tests.conftest import stream_events, upload, wait_ready
+from tests.conftest import blob_count, stream_events, upload, wait_ready
 
 
 def new_conversation(client, project_id=None):
@@ -131,7 +131,6 @@ def test_project_crud_and_protected_delete(client):
     conversation = new_conversation(client, pid)
     doc = upload(client, "planta.txt", b"planta da cozinha", scope="project", project_id=pid)
     wait_ready(client, doc["document"]["id"])
-    stored = config.files_dir / doc["document"]["stored_path"]
 
     listed = client.get("/api/projects").json()["projects"][0]
     assert listed["conversation_count"] == 1 and listed["document_count"] == 1
@@ -146,7 +145,7 @@ def test_project_crud_and_protected_delete(client):
     assert removed == {"conversations": 1, "documents": 1}
     assert client.get(f"/api/conversations/{conversation['id']}").status_code == 404
     assert client.get(f"/api/knowledge/documents/{doc['document']['id']}").status_code == 404
-    assert not stored.exists()
+    assert blob_count(doc["document"]["id"]) == 0
 
 
 def test_project_context_does_not_leak(client, provider):

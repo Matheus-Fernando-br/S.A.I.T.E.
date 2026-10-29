@@ -1,21 +1,31 @@
-"""Acesso ao SQLite local e aplicação de migrações versionadas.
+"""Acesso ao PostgreSQL (Supabase em produção) e aplicação de migrações versionadas.
 
-Cada operação abre a sua própria conexão (barata em SQLite) para que rotas
-síncronas executadas no threadpool do FastAPI não compartilhem conexões.
+Os serviços escrevem SQL com marcadores ``?``; o adaptador abaixo converte para
+o formato do psycopg (``%s``) e devolve linhas como dicionários. Um pool de
+conexões é compartilhado pelo processo.
 """
 
 import json
-import sqlite3
+import threading
 import uuid
-from collections.abc import Iterator
+from collections.abc import Iterator, Sequence
 from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any
+
+import psycopg
+from psycopg.rows import dict_row
+from psycopg_pool import ConnectionPool
 
 from app.core.config import config
 
 
 MIGRATIONS_DIR = Path(__file__).parent / "migrations"
+
+_pool: ConnectionPool | None = None
+_pool_url: str | None = None
+_pool_lock = threading.Lock()
 
 
 def now_iso() -> str:
@@ -26,34 +36,67 @@ def new_id() -> str:
     return str(uuid.uuid4())
 
 
-def _connect() -> sqlite3.Connection:
-    config.data_dir.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(config.db_path, timeout=15)
-    conn.row_factory = sqlite3.Row
-    conn.execute("PRAGMA foreign_keys = ON")
-    conn.execute("PRAGMA journal_mode = WAL")
-    conn.execute("PRAGMA busy_timeout = 15000")
-    return conn
+def _translate(sql: str) -> str:
+    return sql.replace("%", "%%").replace("?", "%s")
+
+
+class Connection:
+    """Envoltório fino sobre ``psycopg.Connection`` com a interface usada pelos serviços."""
+
+    def __init__(self, raw: psycopg.Connection):
+        self.raw = raw
+
+    def execute(self, sql: str, params: Sequence[Any] = ()) -> psycopg.Cursor:
+        cursor = self.raw.cursor()
+        cursor.execute(_translate(sql), tuple(params))
+        return cursor
+
+    def executemany(self, sql: str, rows: Sequence[Sequence[Any]]) -> None:
+        with self.raw.cursor() as cursor:
+            cursor.executemany(_translate(sql), [tuple(row) for row in rows])
+
+
+def get_pool() -> ConnectionPool:
+    global _pool, _pool_url
+    if not config.database_url:
+        raise RuntimeError("DATABASE_URL não configurada.")
+    with _pool_lock:
+        if _pool is None or _pool_url != config.database_url:
+            if _pool is not None:
+                _pool.close()
+            _pool = ConnectionPool(
+                config.database_url,
+                min_size=1,
+                max_size=config.db_pool_size,
+                kwargs={"row_factory": dict_row, "autocommit": False, "prepare_threshold": None},
+                open=True,
+            )
+            _pool_url = config.database_url
+    return _pool
+
+
+def close_pool() -> None:
+    global _pool, _pool_url
+    with _pool_lock:
+        if _pool is not None:
+            _pool.close()
+        _pool, _pool_url = None, None
 
 
 @contextmanager
-def get_conn() -> Iterator[sqlite3.Connection]:
-    """Conexão com commit automático ao final e rollback em caso de erro."""
-    conn = _connect()
-    try:
-        yield conn
-        conn.commit()
-    except Exception:
-        conn.rollback()
-        raise
-    finally:
-        conn.close()
+def get_conn() -> Iterator[Connection]:
+    """Conexão do pool com commit automático ao final e rollback em caso de erro."""
+    with get_pool().connection() as raw:
+        # O pool faz commit ao devolver a conexão sem erro e rollback se houver exceção.
+        yield Connection(raw)
 
 
 def migrate() -> list[str]:
     """Aplica, em ordem, as migrações ainda não registradas. Retorna as aplicadas."""
     applied: list[str] = []
     with get_conn() as conn:
+        # Impede que duas instâncias apliquem migrações ao mesmo tempo.
+        conn.execute("SELECT pg_advisory_xact_lock(7426001)")
         conn.execute(
             "CREATE TABLE IF NOT EXISTS schema_migrations ("
             " name TEXT PRIMARY KEY, applied_at TEXT NOT NULL)"
@@ -62,18 +105,16 @@ def migrate() -> list[str]:
         for path in sorted(MIGRATIONS_DIR.glob("*.sql")):
             if path.name in done:
                 continue
-            # Migração e registro na mesma transação: ou aplica tudo ou nada.
-            conn.executescript(
-                "BEGIN;\n"
-                + path.read_text(encoding="utf-8")
-                + f"\nINSERT INTO schema_migrations (name, applied_at)"
-                f" VALUES ('{path.name}', '{now_iso()}');\nCOMMIT;"
+            # Sem parâmetros: o psycopg aceita várias instruções e mantém tudo na mesma transação.
+            conn.raw.execute(path.read_text(encoding="utf-8"))
+            conn.execute(
+                "INSERT INTO schema_migrations (name, applied_at) VALUES (?, ?)", (path.name, now_iso())
             )
             applied.append(path.name)
     return applied
 
 
-def row_to_dict(row: sqlite3.Row | None, json_fields: tuple[str, ...] = ()) -> dict | None:
+def row_to_dict(row: dict | None, json_fields: tuple[str, ...] = ()) -> dict | None:
     if row is None:
         return None
     data = dict(row)
@@ -84,7 +125,7 @@ def row_to_dict(row: sqlite3.Row | None, json_fields: tuple[str, ...] = ()) -> d
 
 
 def log_activity(
-    conn: sqlite3.Connection,
+    conn: Connection,
     action: str,
     detail: dict | None = None,
     project_id: str | None = None,
