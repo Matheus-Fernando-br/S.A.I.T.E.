@@ -270,7 +270,7 @@ export default function ChatInput({
 
         {/* AVISO */}
         <p className="mt-2 text-center text-[11px] text-[var(--foreground-muted)]">
-          IA local: pode cometer erros. Verifique informações importantes. Enter envia · Shift+Enter quebra linha.
+          A IA pode cometer erros. Verifique informações importantes.
         </p>
       </div>
     </div>

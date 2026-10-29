@@ -366,7 +366,7 @@ export default function Chat({ conversationId, projectId }: ChatProps) {
           <div className="mx-auto max-w-3xl">
             {backendOffline ? (
               <ErrorState
-                message="Backend local indisponível"
+                message="Servidor indisponível"
                 hint={connection.error.hint ?? connection.error.message}
                 action={
                   <Button size="sm" onClick={() => void refreshStatus()}>
@@ -382,7 +382,7 @@ export default function Chat({ conversationId, projectId }: ChatProps) {
                 <CircleAlert size={17} className="mt-0.5 shrink-0 text-[var(--warning)]" aria-hidden />
                 <div className="min-w-0 flex-1">
                   <p className="font-medium text-[var(--foreground)]">
-                    {runtimeIssue === "offline" ? "O runtime de IA local não está respondendo" : "Modelo de chat não instalado"}
+                    {runtimeIssue === "offline" ? "O provedor de IA não está respondendo" : "Modelo de chat não instalado"}
                   </p>
                   <p className="mt-0.5 text-[13px] leading-6 text-[var(--foreground-secondary)]">{ai?.hint ?? ai?.error}</p>
                 </div>
@@ -478,11 +478,19 @@ export default function Chat({ conversationId, projectId }: ChatProps) {
         attachments={attachments}
         isStreaming={isStreaming}
         disabled={backendOffline || Boolean(loadError)}
-        disabledReason={backendOffline ? "Backend local offline" : "Conversa indisponível"}
+        disabledReason={backendOffline ? "Servidor offline" : "Conversa indisponível"}
         useComputer={useComputer && computerAvailable}
         onUseComputerChange={setUseComputer}
         computerAvailable={computerAvailable}
-        computerHint={agent?.paused ? "Agente pausado nas permissões" : agent?.error ? "Agente local desconectado" : undefined}
+        computerHint={
+          agent?.configured === false
+            ? "Disponível no app para Windows (em breve)"
+            : agent?.paused
+              ? "Agente pausado nas permissões"
+              : agent?.error
+                ? "Agente local desconectado"
+                : undefined
+        }
       />
     </div>
   );

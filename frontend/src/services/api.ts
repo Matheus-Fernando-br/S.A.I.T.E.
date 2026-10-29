@@ -3,13 +3,21 @@
 /* ============================================================
 CONEXÃO
 
-O backend roda na máquina do usuário. O endereço padrão vem de
-NEXT_PUBLIC_API_URL e pode ser trocado em Configurações → Conexão
-(guardado só neste navegador, junto com o token opcional).
+O backend fica na nuvem (Render) e todos os dispositivos usam o mesmo
+banco. O endereço padrão vem de NEXT_PUBLIC_API_URL; sem ele, usa o
+backend local em desenvolvimento e o do Render no site publicado.
+A sessão de login fica guardada neste navegador.
 ============================================================ */
 
-const DEFAULT_API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const CLOUD_API_URL = "https://s-a-i-t-e.onrender.com";
+
+function defaultApiUrl(): string {
+  if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
+  if (typeof window !== "undefined" && ["localhost", "127.0.0.1"].includes(window.location.hostname)) {
+    return "http://localhost:8000";
+  }
+  return CLOUD_API_URL;
+}
 
 const CONNECTION_KEY = "saite-connection";
 
@@ -20,17 +28,24 @@ export interface ConnectionSettings {
 
 export function getConnection(): ConnectionSettings {
   if (typeof window === "undefined") {
-    return { apiUrl: DEFAULT_API_URL, token: "" };
+    return { apiUrl: defaultApiUrl(), token: "" };
   }
   try {
     const saved = JSON.parse(localStorage.getItem(CONNECTION_KEY) || "{}");
     return {
-      apiUrl: (saved.apiUrl || DEFAULT_API_URL).replace(/\/+$/, ""),
+      apiUrl: (saved.apiUrl || defaultApiUrl()).replace(/\/+$/, ""),
       token: saved.token || "",
     };
   } catch {
-    return { apiUrl: DEFAULT_API_URL, token: "" };
+    return { apiUrl: defaultApiUrl(), token: "" };
   }
+}
+
+/** Avisa o app (AppProvider) que a sessão expirou ou é inválida. */
+export const UNAUTHORIZED_EVENT = "saite:unauthorized";
+
+export function clearSession() {
+  saveConnection({ ...getConnection(), token: "" });
 }
 
 export function saveConnection(settings: ConnectionSettings) {
@@ -62,9 +77,9 @@ export class ApiError extends Error {
 
 function networkError(): ApiError {
   return new ApiError(
-    `Não foi possível conectar ao backend em ${getConnection().apiUrl}.`,
+    `Não foi possível conectar ao servidor (${getConnection().apiUrl}).`,
     0,
-    "Inicie o backend local (uvicorn app.main:app) ou ajuste o endereço em Configurações → Conexão.",
+    "Verifique sua internet. Se o servidor estava parado, ele pode levar até 1 minuto para iniciar — tente de novo.",
     "NetworkError",
   );
 }
@@ -110,6 +125,9 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
       code = data.code || undefined;
     } catch {
       /* resposta sem JSON */
+    }
+    if (response.status === 401 && !path.startsWith("/api/auth/")) {
+      window.dispatchEvent(new Event(UNAUTHORIZED_EVENT));
     }
     throw new ApiError(detail, response.status, hint, code);
   }
@@ -244,6 +262,7 @@ export interface AIStatus {
   chat_model: string;
   embed_model: string;
   online: boolean;
+  key_configured: boolean;
   version: string | null;
   error: string | null;
   hint: string | null;
@@ -256,6 +275,8 @@ export interface AISettings {
   llm_provider: "ollama" | "openai_compatible";
   llm_base_url: string;
   chat_model: string;
+  embed_provider: "" | "ollama" | "openai_compatible";
+  embed_base_url: string;
   embed_model: string;
   temperature: number;
   num_ctx: number;
@@ -268,6 +289,7 @@ export interface AISettings {
 
 export interface AgentStatus {
   connected: boolean;
+  configured?: boolean;
   error?: string;
   hint?: string;
   version?: string;
@@ -298,6 +320,19 @@ export interface ActivityEntry {
 /* ============================================================
 SAÚDE
 ============================================================ */
+
+export async function login(password: string) {
+  const data = await request<{ token: string; expires_at: number | null }>("/api/auth/login", {
+    method: "POST",
+    body: json({ password }),
+  });
+  saveConnection({ ...getConnection(), token: data.token });
+  return data;
+}
+
+export async function getAuthStatus() {
+  return request<{ auth_required: boolean }>("/api/auth/status");
+}
 
 export async function getHealth() {
   return request<{ status: string; version: string; auth_required: boolean }>(
@@ -443,6 +478,7 @@ export async function streamChat(
     } catch {
       /* sem JSON */
     }
+    if (response.status === 401) window.dispatchEvent(new Event(UNAUTHORIZED_EVENT));
     throw new ApiError(detail, response.status);
   }
 

@@ -225,16 +225,20 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
         ? connection.ai.chat_model_installed
           ? { state: "online" as const, label: connection.ai.chat_model }
           : { state: "warning" as const, label: "Modelo não instalado" }
-        : { state: "offline" as const, label: "Runtime offline" }
+        : { state: "offline" as const, label: "IA offline" }
       : connection.state === "loading"
         ? { state: "loading" as const, label: "Verificando…" }
-        : { state: "offline" as const, label: "Backend offline" };
+        : connection.state === "unauthorized"
+          ? { state: "offline" as const, label: "Sem sessão" }
+          : { state: "offline" as const, label: "Servidor offline" };
 
   const agentState = connection.state === "loading"
     ? { state: "loading" as const, label: "Verificando…" }
     : !agent
     ? { state: "offline" as const, label: "Indisponível" }
-    : !agent.connected
+    : agent.configured === false
+      ? { state: "offline" as const, label: "No app desktop" }
+      : !agent.connected
       ? { state: "offline" as const, label: "Desconectado" }
       : agent.paused
         ? { state: "warning" as const, label: "Pausado" }
@@ -364,7 +368,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
         <div className="shrink-0 px-3 pb-2">
           <Link
             href="/configuracoes"
-            title={`IA local: ${ai.label} · Agente: ${agentState.label}`}
+            title={`IA: ${ai.label} · Agente: ${agentState.label}`}
             className={cx(
               "flex flex-col gap-2 rounded-xl border border-[var(--sidebar-border)] bg-[var(--background-tertiary)] text-xs transition-colors hover:border-[var(--border-hover)]",
               expanded ? "p-3" : "items-center p-2.5",
@@ -374,7 +378,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
               <>
                 <span className="flex items-center gap-2">
                   <Bot size={14} className="shrink-0 text-[var(--foreground-secondary)]" aria-hidden />
-                  <span className="text-[var(--foreground-secondary)]">IA local</span>
+                  <span className="text-[var(--foreground-secondary)]">IA</span>
                   <span className="ml-auto flex min-w-0 items-center gap-1.5 font-medium text-[var(--foreground)]">
                     <StatusDot state={ai.state} />
                     <span className="truncate">{ai.label}</span>

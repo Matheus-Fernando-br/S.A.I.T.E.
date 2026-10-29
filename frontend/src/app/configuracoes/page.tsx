@@ -8,6 +8,7 @@ import {
   Download,
   FolderPlus,
   HardDrive,
+  LogOut,
   MemoryStick,
   Monitor,
   Pause,
@@ -29,6 +30,7 @@ import {
   ActivityEntry,
   AISettings,
   AuditEntry,
+  clearSession,
   createMemory,
   deleteMemory,
   DiskInfo,
@@ -53,7 +55,7 @@ import {
 
 const SECTIONS = [
   { id: "conexao", label: "Conexão", icon: PlugZap },
-  { id: "ia", label: "IA local", icon: Bot },
+  { id: "ia", label: "IA", icon: Bot },
   { id: "agente", label: "Agente local", icon: Monitor },
   { id: "memorias", label: "Memórias", icon: Brain },
   { id: "dados", label: "Dados", icon: Database },
@@ -110,11 +112,11 @@ function ConnectionSection() {
 
   async function submit(event: FormEvent) {
     event.preventDefault();
-    saveConnection(form);
+    saveConnection({ ...getConnection(), apiUrl: form.apiUrl });
     setTesting(true);
     try {
       const health = await getHealth();
-      notify("success", `Conectado ao backend ${health.version}.`, health.auth_required ? "Autenticação por token ativa." : undefined);
+      notify("success", `Conectado ao servidor ${health.version}.`);
     } catch (error) {
       notify("error", errorMessage(error));
     } finally {
@@ -125,8 +127,11 @@ function ConnectionSection() {
 
   return (
     <Card>
-      <form onSubmit={submit} className="grid gap-4 sm:grid-cols-2">
-        <Field label="Endereço do backend" hint="O backend roda no seu computador. Padrão: http://localhost:8000">
+      <form onSubmit={submit} className="flex flex-col gap-4">
+        <Field
+          label="Endereço do servidor"
+          hint="Todos os seus dispositivos usam o mesmo servidor e o mesmo banco de dados. Só altere se souber o que está fazendo."
+        >
           <input
             type="url"
             required
@@ -135,16 +140,16 @@ function ConnectionSection() {
             className={inputClass}
           />
         </Field>
-        <Field label="Token de acesso (opcional)" hint="Igual a SAITE_API_TOKEN no .env do backend. Guardado só neste navegador.">
-          <input
-            type="password"
-            autoComplete="off"
-            value={form.token}
-            onChange={(event) => setForm({ ...form, token: event.target.value })}
-            className={inputClass}
-          />
-        </Field>
-        <div className="sm:col-span-2 flex justify-end">
+        <div className="flex flex-wrap justify-end gap-2">
+          <Button
+            variant="ghost"
+            onClick={() => {
+              clearSession();
+              void refreshStatus();
+            }}
+          >
+            <LogOut size={14} /> Sair deste dispositivo
+          </Button>
           <Button type="submit" variant="primary" loading={testing}>
             Salvar e testar
           </Button>
@@ -155,7 +160,7 @@ function ConnectionSection() {
 }
 
 /* ============================================================
-   IA LOCAL
+   IA (PROVEDOR DE MODELOS)
 ============================================================ */
 
 function AISection() {
@@ -178,14 +183,15 @@ function AISection() {
   }, [connection.state]);
 
   if (connection.state === "backend-offline") {
-    return <ErrorState message="Backend offline" hint="Conecte-se ao backend para configurar a IA local." />;
+    return <ErrorState message="Servidor indisponível" hint="Conecte-se ao servidor para configurar a IA." />;
   }
-  if (connection.state === "loading" || !settings) {
+  if (connection.state !== "online" || !settings) {
     return <div className="skeleton h-48" role="status" aria-label="Carregando" />;
   }
 
   const ai = connection.ai;
-  const installed = ai.models.map((model) => model.name);
+  const installed = ai.models.map((model) => model.name.replace(/^models\//, ""));
+  const cloud = ai.provider !== "ollama";
 
   async function save(event: FormEvent) {
     event.preventDefault();
@@ -224,8 +230,8 @@ function AISection() {
           <StatusDot state={ai.online ? (ai.chat_model_installed ? "online" : "warning") : "offline"} />
           <p className="text-sm font-medium text-[var(--foreground)]">
             {ai.online
-              ? `${ai.provider === "ollama" ? "Ollama" : "Servidor OpenAI-compatível"} ${ai.version ?? ""} conectado`
-              : "Runtime de IA não está respondendo"}
+              ? `${cloud ? "Provedor de IA" : "Ollama"} ${ai.version ?? ""} conectado`
+              : "Provedor de IA não está respondendo"}
           </p>
           <span className="text-xs text-[var(--foreground-muted)]">{ai.base_url}</span>
           <Button size="sm" variant="ghost" className="ml-auto" onClick={() => void refreshStatus()}>
@@ -234,16 +240,25 @@ function AISection() {
         </div>
         {(ai.error || ai.hint) && <p className="mt-2 text-sm leading-6 text-[var(--foreground-secondary)]">{ai.hint ?? ai.error}</p>}
 
-        {!ai.online && (
+        {cloud && !ai.key_configured && (
+          <p className="mt-3 rounded-xl bg-[var(--warning)]/10 px-3 py-2 text-sm text-[var(--foreground)]">
+            A chave do provedor ainda não foi configurada: defina <code>SAITE_LLM_API_KEY</code> nas variáveis de
+            ambiente do servidor (Render → Environment).
+          </p>
+        )}
+
+        {!ai.online && !cloud && (
           <div className="mt-4 flex flex-col gap-2 text-sm text-[var(--foreground-secondary)]">
             <p>Para usar o Ollama (recomendado), instale em https://ollama.com/download e baixe os modelos:</p>
             <Code>{`ollama pull ${settings.chat_model}      # chat (~4,7 GB; requer ~8 GB de RAM)\nollama pull ${settings.embed_model}            # embeddings (~1,2 GB)`}</Code>
           </div>
         )}
 
-        {ai.models.length > 0 && (
+        {ai.models.length > 0 && ai.models.length <= 20 && (
           <div className="mt-4">
-            <p className="mb-2 text-xs font-medium uppercase tracking-wide text-[var(--foreground-muted)]">Modelos instalados</p>
+            <p className="mb-2 text-xs font-medium uppercase tracking-wide text-[var(--foreground-muted)]">
+              Modelos disponíveis
+            </p>
             <ul className="flex flex-wrap gap-1.5">
               {ai.models.map((model) => (
                 <li
@@ -273,18 +288,32 @@ function AISection() {
               onChange={(event) => update("llm_provider", event.target.value as AISettings["llm_provider"])}
               className={inputClass}
             >
+              <option value="openai_compatible">Compatível com OpenAI (Gemini, Groq, OpenRouter, llama.cpp)</option>
               <option value="ollama">Ollama</option>
-              <option value="openai_compatible">OpenAI-compatível local (llama.cpp, LM Studio)</option>
             </select>
           </Field>
-          <Field label="Endereço do runtime" hint="Ollama: http://127.0.0.1:11434 · llama-server: http://127.0.0.1:8080">
+          <Field
+            label="Endereço do provedor"
+            hint="Gemini: https://generativelanguage.googleapis.com/v1beta/openai · Groq: https://api.groq.com/openai/v1"
+          >
             <input value={settings.llm_base_url} onChange={(event) => update("llm_base_url", event.target.value)} className={inputClass} />
           </Field>
-          <Field label="Modelo de chat" hint={installed.length ? "Escolha um instalado ou digite outro nome." : undefined}>
+          <Field label="Modelo de chat" hint={installed.length ? "Escolha um disponível ou digite outro nome." : undefined}>
             <input list="installed-models" value={settings.chat_model} onChange={(event) => update("chat_model", event.target.value)} className={inputClass} />
           </Field>
           <Field label="Modelo de embeddings" hint="Trocar exige reindexar (aba Aprender).">
             <input list="installed-models" value={settings.embed_model} onChange={(event) => update("embed_model", event.target.value)} className={inputClass} />
+          </Field>
+          <Field
+            label="Endereço do provedor de embeddings"
+            hint="Vazio = o mesmo do chat. A chave é SAITE_EMBED_API_KEY (ou a do chat)."
+          >
+            <input
+              value={settings.embed_base_url}
+              placeholder="(mesmo do chat)"
+              onChange={(event) => update("embed_base_url", event.target.value)}
+              className={inputClass}
+            />
           </Field>
           <datalist id="installed-models">
             {installed.map((name) => (
@@ -311,7 +340,7 @@ function AISection() {
           <Field label="Trechos recuperados por pergunta">
             <input type="number" min={1} max={20} value={settings.rag_top_k} onChange={(event) => update("rag_top_k", Number(event.target.value))} className={inputClass} />
           </Field>
-          <Field label="Similaridade mínima" hint="Calibrada para bge-m3 (0,45). Outros modelos podem exigir outro valor.">
+          <Field label="Similaridade mínima" hint="Trechos menos parecidos que isto são ignorados. Ajuste com “Testar recuperação”.">
             <input type="number" min={0} max={1} step={0.01} value={settings.rag_min_similarity} onChange={(event) => update("rag_min_similarity", Number(event.target.value))} className={inputClass} />
           </Field>
           <Field label="Nome da assistente">
@@ -394,6 +423,18 @@ function AgentSection() {
 
   if (connection.state !== "online") {
     return <ErrorState message="Backend offline" hint="O estado do agente é consultado pelo backend." />;
+  }
+
+  if (agent && agent.configured === false) {
+    return (
+      <Card>
+        <div className="flex items-center gap-2">
+          <StatusDot state="offline" />
+          <p className="text-sm font-medium text-[var(--foreground)]">Acesso ao computador: em breve</p>
+        </div>
+        <p className="mt-2 text-sm leading-6 text-[var(--foreground-secondary)]">{agent.error}</p>
+      </Card>
+    );
   }
 
   if (!agent || !connected) {
@@ -759,8 +800,8 @@ function DataSection() {
   return (
     <Card>
       <p className="text-sm leading-6 text-[var(--foreground-secondary)]">
-        Tudo fica no seu computador (pasta <code>backend/data</code>). A exportação inclui projetos, conversas, mensagens,
-        memórias e o catálogo de documentos. Para um backup completo, copie também a pasta de dados com o backend parado.
+        Tudo fica no banco de dados na nuvem (Supabase) e aparece igual em todos os seus dispositivos. A exportação
+        inclui projetos, conversas, mensagens, memórias e o catálogo de documentos.
       </p>
       <div className="mt-3 flex flex-wrap gap-2">
         <Button onClick={() => void download()} loading={exporting}>
@@ -806,7 +847,7 @@ export default function SettingsPage() {
   return (
     <div className="h-full overflow-y-auto scroll-smooth">
       <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 py-6 sm:px-6 sm:py-8">
-        <PageHeader title="Configurações" description="Conexão, modelo local, agente do computador, memórias e dados." />
+        <PageHeader title="Configurações" description="Conexão, modelo de IA, agente do computador, memórias e dados." />
 
         <nav aria-label="Seções" className="flex flex-wrap gap-1.5">
           {SECTIONS.map((section) => (
@@ -823,7 +864,7 @@ export default function SettingsPage() {
         <Section id="conexao" title="Conexão" icon={PlugZap}>
           <ConnectionSection />
         </Section>
-        <Section id="ia" title="IA local" icon={Bot}>
+        <Section id="ia" title="IA" icon={Bot}>
           <AISection />
         </Section>
         <Section id="agente" title="Agente local do computador" icon={Monitor}>

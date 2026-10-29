@@ -1,10 +1,11 @@
 /**
  * Testes de interface ponta a ponta do S.A.I.T.E. (Playwright + axe-core).
  *
- * Pré-requisitos: backend em http://localhost:8000 (com Ollama e modelos),
- * agente local conectado e frontend em http://localhost:3000 (`npm run start`).
+ * Pré-requisitos: backend em http://localhost:8000 configurado como em produção
+ * (PostgreSQL, SAITE_ACCESS_PASSWORD, provedor de IA) e frontend em
+ * http://localhost:3000 (`npm run start`).
  *
- *   node e2e/run.mjs [--screens ../docs/screenshots]
+ *   SAITE_E2E_PASSWORD=... node e2e/run.mjs [--screens ../docs/screenshots]
  *
  * Usa o sistema real (sem mocks), exceto no cenário "backend offline", em que
  * as requisições ao backend são bloqueadas no navegador para exibir o estado de erro.
@@ -24,6 +25,19 @@ const screensArg = process.argv.indexOf("--screens");
 const SCREENS = screensArg > -1 ? path.resolve(process.argv[screensArg + 1]) : null;
 if (SCREENS) mkdirSync(SCREENS, { recursive: true });
 
+const PASSWORD = process.env.SAITE_E2E_PASSWORD || "";
+
+/** Faz login se a tela de entrada aparecer (cada contexto do navegador = um dispositivo). */
+async function loginIfNeeded(target) {
+  const field = target.getByPlaceholder("Senha");
+  const visible = await field.waitFor({ timeout: 8000 }).then(() => true, () => false);
+  if (!visible) return false;
+  await field.fill(PASSWORD);
+  await target.getByRole("button", { name: "Entrar", exact: true }).click();
+  await field.waitFor({ state: "detached", timeout: 15000 });
+  return true;
+}
+
 const results = [];
 async function step(name, fn) {
   const started = Date.now();
@@ -32,6 +46,8 @@ async function step(name, fn) {
     results.push({ name, ok: true, ms: Date.now() - started, note });
     console.log(`✓ ${name}${note ? ` — ${note}` : ""}`);
   } catch (error) {
+    // Captura da tela no momento da falha, para diagnóstico.
+    await page.screenshot({ path: path.join(SCREENS || here, `falha-${results.length + 1}.png`) }).catch(() => {});
     results.push({ name, ok: false, ms: Date.now() - started, note: error.message.split("\n")[0] });
     console.log(`✗ ${name} — ${error.message.split("\n")[0]}`);
   }
@@ -63,12 +79,21 @@ const page = await context.newPage();
 const consoleErrors = [];
 page.on("console", (message) => message.type() === "error" && consoleErrors.push(message.text()));
 
-await step("Tela inicial mostra estado real da IA e do agente", async () => {
+await step("Login: senha errada é recusada e a correta libera o app", async () => {
   await page.goto(BASE);
+  await page.getByPlaceholder("Senha").waitFor({ timeout: 60000 });
+  await shot(page, "00-login");
+  await page.getByPlaceholder("Senha").fill("senha-errada");
+  await page.getByRole("button", { name: "Entrar", exact: true }).click();
+  await page.getByRole("alert").filter({ hasText: "Senha incorreta" }).waitFor();
+  await loginIfNeeded(page);
+  return "sessão criada";
+});
+
+await step("Tela inicial mostra estado real da IA", async () => {
   await setTheme(page, "dark");
   await page.getByRole("heading", { name: "Como posso ajudar?" }).waitFor();
-  await page.locator("aside").getByText("Conectado").waitFor({ timeout: 15000 });
-  const model = await page.locator("aside").getByText(/qwen|llama|mistral|gemma|phi/i).first().textContent();
+  const model = await page.locator("aside").getByText(/qwen|llama|mistral|gemma|phi|gemini/i).first().textContent();
   await shot(page, "01-inicio-escuro");
   await setTheme(page, "light");
   await page.getByRole("heading", { name: "Como posso ajudar?" }).waitFor();
@@ -115,7 +140,7 @@ await step("Aprender: upload real é processado e indexado", async () => {
   await page.goto(`${BASE}/aprender`);
   const corpus = path.resolve(here, "../../backend/eval/corpus/robo_zeta.md");
   await page.locator('input[type="file"]').setInputFiles(corpus);
-  await page.getByText("Indexado").first().waitFor({ timeout: 120000 });
+  await page.getByText("Indexado", { exact: true }).first().waitFor({ timeout: 120000 });
   await page.getByLabel("Pergunta de teste").fill("quanto tempo dura a bateria?");
   await page.getByRole("button", { name: "Buscar" }).click();
   await page.locator("ol li").filter({ hasText: "Seção: Bateria" }).first().waitFor();
@@ -158,34 +183,43 @@ await step("Histórico: busca por conteúdo da mensagem", async () => {
   await shot(page, "07-historico");
 });
 
-await step("Configurações: Meu PC com dados reais do agente", async () => {
+await step("Computador: indisponibilidade na nuvem é informada (sem dados falsos)", async () => {
   await page.goto(`${BASE}/configuracoes#agente`);
-  await page.getByText("Meu PC agora").waitFor();
-  await page.getByText(/núcleos/).waitFor({ timeout: 15000 });
-  await page.getByRole("heading", { name: "Pastas autorizadas" }).scrollIntoViewIfNeeded();
-  await shot(page, "08-configuracoes-agente");
-  const violations = await axe(page);
-  if (violations.length) throw new Error(`axe: ${violations.map((v) => v.id).join(", ")}`);
-});
-
-await step("Chat com computador: ferramenta só é usada com a opção ativada", async () => {
+  await page.getByText("Acesso ao computador: em breve").waitFor();
   await page.goto(BASE);
   await page.getByRole("button", { name: "Anexar e ferramentas" }).click();
-  await page.getByRole("menuitemcheckbox", { name: /Usar computador/ }).click();
+  const disabled = await page.getByRole("menuitemcheckbox", { name: /Usar computador/ }).isDisabled();
   await page.keyboard.press("Escape");
-  await page.getByLabel("Mensagem para a IA").fill("Use a ferramenta search_files para procurar arquivos com 'curriculo' no nome.");
-  await page.keyboard.press("Enter");
-  await page.getByRole("button", { name: "Enviar mensagem" }).waitFor({ timeout: 180000 });
-  await shot(page, "09-chat-computador");
-  const chips = await page.getByRole("list", { name: "Consultas ao computador" }).count();
-  return chips ? "o modelo chamou a ferramenta e o resultado foi exibido" : "o modelo respondeu sem chamar ferramenta (depende do modelo)";
+  if (!disabled) throw new Error("'Usar computador' deveria estar desativado");
+});
+
+await step("Sincronização: outro dispositivo vê a mesma conversa", async () => {
+  const other = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+  const second = await other.newPage();
+  await second.goto(`${BASE}/historico`);
+  await loginIfNeeded(second);
+  await second.getByText(/bateria do robô Zeta/).first().waitFor({ timeout: 20000 });
+  await second.getByText(/bateria do robô Zeta/).first().click();
+  await second.getByText(/14 horas/).first().waitFor();
+  await other.close();
+  return "histórico e mensagens iguais no segundo dispositivo";
+});
+
+await step("Sessão: sair deste dispositivo volta para o login", async () => {
+  const other = await browser.newContext();
+  const temp = await other.newPage();
+  await temp.goto(`${BASE}/configuracoes`);
+  await loginIfNeeded(temp);
+  await temp.getByRole("button", { name: "Sair deste dispositivo" }).click();
+  await temp.getByPlaceholder("Senha").waitFor();
+  await other.close();
 });
 
 await step("Estado de erro: backend offline é informado (sem simular respostas)", async () => {
   const offline = await context.newPage();
   await offline.route("http://localhost:8000/**", (route) => route.abort());
   await offline.goto(BASE);
-  await offline.getByText("Backend local indisponível").waitFor({ timeout: 15000 });
+  await offline.getByText("Servidor indisponível").waitFor({ timeout: 30000 });
   const disabled = await offline.getByLabel("Mensagem para a IA").isDisabled();
   await offline.screenshot({ path: SCREENS ? path.join(SCREENS, "10-backend-offline.png") : undefined });
   await offline.close();
@@ -196,6 +230,7 @@ await step("Responsivo (390×844): gaveta de navegação e chat", async () => {
   const mobile = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
   const phone = await mobile.newPage();
   await phone.goto(conversationUrl);
+  await loginIfNeeded(phone);
   await phone.getByText("o que é um assistente pessoal?").last().waitFor();
   const overflow = await phone.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
   if (SCREENS) await phone.screenshot({ path: path.join(SCREENS, "11-mobile-chat.png") });
@@ -211,6 +246,7 @@ await step("Movimento reduzido: animações desativadas", async () => {
   const reduced = await browser.newContext({ reducedMotion: "reduce" });
   const calm = await reduced.newPage();
   await calm.goto(BASE);
+  await loginIfNeeded(calm);
   const duration = await calm.evaluate(() => {
     const element = document.querySelector(".animate-fade-up");
     return element ? getComputedStyle(element).animationDuration : "0s";

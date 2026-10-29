@@ -2,7 +2,7 @@
   "summary": {
     "chat_model": "qwen2.5:1.5b",
     "embed_model": "bge-m3",
-    "date": "2026-10-28T20:30:13+00:00",
+    "date": "2026-10-29T23:49:35+00:00",
     "questions": 11,
     "retrieval_hit_rate": 1.0,
     "top1_hit_rate": 1.0,
@@ -10,14 +10,14 @@
     "citation_rate": 0.125,
     "citation_precision": 1.0,
     "no_evidence_admitted_rate": 0.667,
-    "latency_p50_s": 3.02,
-    "latency_max_s": 4.26
+    "latency_p50_s": 2.75,
+    "latency_max_s": 3.9
   },
   "results": [
     {
       "question": "Quanto tempo dura a bateria do robô Zeta?",
       "answer": "A bateria do robô Zeta dura 14 horas em uso contínuo.",
-      "latency_s": 2.5,
+      "latency_s": 1.46,
       "retrieved": [
         "robo_zeta.md Seção: Bateria",
         "robo_zeta.md Seção: Garantia"
@@ -32,7 +32,7 @@
     {
       "question": "Quanto tempo leva para recarregar o Zeta e com qual carregador?",
       "answer": "Para recarregar o Zeta, leva 90 minutos usando o carregador ZX-9. Não use carregadores de outros modelos.",
-      "latency_s": 2.37,
+      "latency_s": 2.42,
       "retrieved": [
         "robo_zeta.md Seção: Bateria",
         "robo_zeta.md Seção: Garantia"
@@ -47,7 +47,7 @@
     {
       "question": "Posso limpar os sensores do robô com álcool?",
       "answer": "Não, nunca use álcool nos sensores do robô. Seguindo as instruções da fonte [1], é recomendado limpar os sensores ópticos com pano de microfibra seco.",
-      "latency_s": 3.98,
+      "latency_s": 3.9,
       "retrieved": [
         "robo_zeta.md Seção: Limpeza",
         "robo_zeta.md Seção: Bateria"
@@ -62,7 +62,7 @@
     {
       "question": "A garantia do Zeta cobre danos por água?",
       "answer": "Sim, a garantia do Zeta cobre defeitos de fabricação, mas não danos causados por água.",
-      "latency_s": 2.61,
+      "latency_s": 2.41,
       "retrieved": [
         "robo_zeta.md Seção: Garantia",
         "robo_zeta.md Seção: Bateria"
@@ -77,7 +77,7 @@
     {
       "question": "Quantos dias de férias por ano tenho na Empresa Aurora?",
       "answer": "Na Empresa Aurora, cada colaborador tem direito a 30 dias de férias por ano, que podem ser divididos em até três períodos.",
-      "latency_s": 3.11,
+      "latency_s": 2.75,
       "retrieved": [
         "politica_ferias.txt"
       ],
@@ -91,7 +91,7 @@
     {
       "question": "Com quanta antecedência devo pedir férias?",
       "answer": "De acordo com a política da Empresa Aurora, você deve fazer o pedido de férias com antecedência mínima de 45 dias pelo portal interno.",
-      "latency_s": 3.02,
+      "latency_s": 2.68,
       "retrieved": [
         "politica_ferias.txt",
         "receita.html Seção: Preparo"
@@ -106,7 +106,7 @@
     {
       "question": "Quanto de farinha vai no pão de fermentação natural?",
       "answer": "Para o pão de fermentação natural, geralmente é recomendado usar 500 gramas de farinha de trigo. Este é o número que você encontrou na receita.",
-      "latency_s": 3.05,
+      "latency_s": 2.88,
       "retrieved": [
         "receita.html Seção: Ingredientes"
       ],
@@ -120,7 +120,7 @@
     {
       "question": "Em que temperatura devo assar o pão?",
       "answer": "De acordo com a receita fornecida, você deve assar o pão por 40 minutos, sendo 20 minutos com tampa. Portanto, a temperatura ideal para assar o pão é de 250 graus.",
-      "latency_s": 4.26,
+      "latency_s": 3.9,
       "retrieved": [
         "receita.html Seção: Preparo",
         "receita.html Seção: Ingredientes"
@@ -135,7 +135,7 @@
     {
       "question": "Qual é a capital da Austrália segundo meus documentos?",
       "answer": "De acordo com os documentos que você me forneceu, a capital da Austrália é Canberra.",
-      "latency_s": 2.18,
+      "latency_s": 1.7,
       "retrieved": [],
       "kind": "no_evidence",
       "admits_absence": false,
@@ -143,8 +143,8 @@
     },
     {
       "question": "Qual o preço da ação da Petrobras hoje?",
-      "answer": "Desculpe, mas como assistente pessoal, não tenho acesso direto a informações financeiras atualizadas. Você pode verificar o preço da ação da Petrobras no site da B3 (Bolsa de Valores de São Paulo) ou em um serviço financeiro confiável.",
-      "latency_s": 3.91,
+      "answer": "Desculpe, mas como assistente, não tenho acesso direto a informações financeiras atualizadas. Você pode consultar um site financeiro ou aplicativo de notícias para obter a informação mais recente sobre o preço da ação da Petrobras.",
+      "latency_s": 3.3,
       "retrieved": [],
       "kind": "no_evidence",
       "admits_absence": true,
@@ -153,7 +153,7 @@
     {
       "question": "Qual o telefone do suporte técnico do robô Zeta?",
       "answer": "Desculpe, mas não tenho acesso a informações específicas sobre o telefone do suporte técnico do robô Zeta. Sugiro que você entre em contato com a empresa responsável pelo produto para obter essa informação.",
-      "latency_s": 2.95,
+      "latency_s": 2.99,
       "retrieved": [
         "robo_zeta.md Seção: Bateria",
         "robo_zeta.md Seção: Garantia"

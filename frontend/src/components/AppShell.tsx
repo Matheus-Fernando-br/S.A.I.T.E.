@@ -1,16 +1,44 @@
 "use client";
 
-import { Menu } from "lucide-react";
+import { LoaderCircle, Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ReactNode, Suspense, useState } from "react";
+import { ReactNode, Suspense, useEffect, useState } from "react";
 
 import { useApp } from "@/components/AppProvider";
+import LoginScreen from "@/components/LoginScreen";
 import Sidebar from "@/components/Sidebar";
+
+/** O plano gratuito do Render "dorme" sem uso; a primeira requisição pode levar ~1 minuto. */
+function WakeNotice() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setVisible(true), 4000);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  if (!visible) return null;
+  return (
+    <div
+      role="status"
+      className="animate-fade-up fixed bottom-24 left-1/2 z-[150] flex w-[min(92vw,420px)] -translate-x-1/2 items-center gap-3 rounded-xl border border-[var(--border)] bg-[var(--background-secondary)] px-4 py-3 text-sm shadow-[var(--shadow-md)]"
+    >
+      <LoaderCircle size={17} className="shrink-0 animate-spin text-[var(--accent)]" aria-hidden />
+      <span className="text-[var(--foreground-secondary)]">
+        Iniciando o servidor na nuvem… no plano gratuito isso pode levar até 1 minuto.
+      </span>
+    </div>
+  );
+}
 
 export default function AppShell({ children }: { children: ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const { setMobileNavOpen } = useApp();
+  const { setMobileNavOpen, connection } = useApp();
+
+  if (connection.state === "unauthorized") {
+    return <LoginScreen />;
+  }
 
   return (
     <div className="flex h-dvh w-full overflow-hidden bg-[var(--background)]">
@@ -45,6 +73,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
         <main id="conteudo" className="relative flex min-h-0 flex-1 flex-col">
           {children}
         </main>
+        {connection.state === "loading" && <WakeNotice />}
       </div>
     </div>
   );

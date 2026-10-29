@@ -2,12 +2,20 @@
 
 import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from "react";
 
-import { AgentStatus, AIStatus, ApiError, getAgentStatus, getAIStatus } from "@/services/api";
+import {
+  AgentStatus,
+  AIStatus,
+  ApiError,
+  getAgentStatus,
+  getAIStatus,
+  UNAUTHORIZED_EVENT,
+} from "@/services/api";
 
 export type Connection =
   | { state: "loading" }
   | { state: "online"; ai: AIStatus }
-  | { state: "backend-offline"; error: ApiError };
+  | { state: "backend-offline"; error: ApiError }
+  | { state: "unauthorized" };
 
 interface AppContextValue {
   connection: Connection;
@@ -24,7 +32,7 @@ const AppContext = createContext<AppContextValue | undefined>(undefined);
 const POLL_MS = 30_000;
 
 /**
- * Estado compartilhado: conectividade real do backend, da IA local e do agente
+ * Estado compartilhado: conectividade real do backend, da IA, do login e do agente
  * do computador (consultados periodicamente e ao voltar para a aba), além do
  * sinal para recarregar o histórico de conversas.
  */
@@ -40,6 +48,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
       setConnection({ state: "online", ai });
       setAgent(await getAgentStatus().catch(() => null));
     } catch (error) {
+      if (error instanceof ApiError && error.status === 401) {
+        setConnection({ state: "unauthorized" });
+        setAgent(null);
+        return;
+      }
       setConnection({
         state: "backend-offline",
         error: error instanceof ApiError ? error : new ApiError("Backend indisponível.", 0),
@@ -56,7 +69,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const first = window.setTimeout(run, 0);
     const timer = window.setInterval(run, POLL_MS);
     document.addEventListener("visibilitychange", run);
+    const onUnauthorized = () => setConnection({ state: "unauthorized" });
+    window.addEventListener(UNAUTHORIZED_EVENT, onUnauthorized);
     return () => {
+      window.removeEventListener(UNAUTHORIZED_EVENT, onUnauthorized);
       active = false;
       window.clearTimeout(first);
       window.clearInterval(timer);
